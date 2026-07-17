@@ -1,5 +1,7 @@
 @layer theme {
     [data-theme="dark"] {
-        --foo-bar: #f2f2f2;
+        /* Colors */
+        --color-primary: #E5DCC5;
+        --color-secondary: #161925;
     }
 }

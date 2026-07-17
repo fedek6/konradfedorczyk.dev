@@ -45,9 +45,18 @@
 }
 
 @layer base {
+    :root {
+        --size-horizontal-base: 32px;
+        /* Font size */
+        --font-size-base: 1.25rem;
+    }
+
     body {
         font-family: var(--hanken-grotesk);
         font-weight: 400;
-        font-size: 1.25rem;
+        font-size: var(--font-size-base);
+        line-height: var(--size-horizontal-base);
+        color: var(--color-primary);
+        background-color: var(--color-secondary);
     }
 }

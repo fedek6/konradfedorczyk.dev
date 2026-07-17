@@ -1,0 +1,5 @@
+@layer theme {
+    [data-theme="dark"] {
+        --foo-bar: #f2f2f2;
+    }
+}

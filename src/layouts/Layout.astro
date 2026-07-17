@@ -1,14 +1,16 @@
+---
+import Head from '../components/Head.astro';
+import "../styles/main.css";
+import "../styles/dark.css";
+import "../styles/light.css";
+import { metaConfig } from '../config/meta';
+---
 <!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<Head {...metaConfig} />
 	</head>
-	<body>
+	<body data-theme="dark">
 		<slot />
 	</body>
 </html>

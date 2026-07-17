@@ -1,0 +1,5 @@
+@layer theme {
+    [data-theme="light"] {
+        --foo-bar: #000000;
+    }
+}

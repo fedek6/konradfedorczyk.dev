@@ -4,6 +4,7 @@ import "../styles/main.css";
 import "../styles/dark.css";
 import "../styles/light.css";
 import { metaConfig } from '../config/meta';
+import Header from '../components/Header.astro';
 ---
 <!doctype html>
 <html lang="en">
@@ -11,6 +12,7 @@ import { metaConfig } from '../config/meta';
 		<Head {...metaConfig} />
 	</head>
 	<body data-theme="light">
+		<Header />
 		<slot />
 	</body>
 </html>

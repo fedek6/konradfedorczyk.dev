@@ -47,6 +47,7 @@
 @layer base {
     :root {
         --size-horizontal-base: 32px;
+        --size-vertical-base: 16px;
         /* Font size */
         --font-size-base: 1.25rem;
     }

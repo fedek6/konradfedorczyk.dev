@@ -1,0 +1,16 @@
+---
+const { ...props} = Astro.props;
+---
+<button class="icon-btn" {...props}><slot /></button>
+<style>
+  .icon-btn {
+    all: unset;
+    height: 48px;
+    width: 48px;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border-radius: 8px;
+    appearance: none;
+    text-align: center;
+  }
+</style>

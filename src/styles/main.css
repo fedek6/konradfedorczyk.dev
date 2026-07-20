@@ -48,7 +48,9 @@
     :root {
         --size-horizontal-base: 32px;
         --size-vertical-base: 16px;
+        --size-vertical-base-2x: 32px;
         /* Font size */
+        --font-size-sm: 1.041875rem;
         --font-size-base: 1.25rem;
     }
 

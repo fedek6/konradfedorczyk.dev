@@ -1,19 +1,90 @@
 ---
 import Logo from "./Logo.astro";
 import Container from "./Container.astro";
+import Grid from "./Grid.astro";
+import IconBtn from "./IconBtn.astro";
+import Menu from "./Menu.astro";
 ---
 
 <header>
   <Container>
-    <Logo />
+    <Grid>
+      <div class="left">
+        <a
+          href="/"
+          aria-label="Konrad Fedorczyk - Home"
+          rel="home"
+          class="logo"
+        >
+          <Logo aria-hidden="true" style="height: 24px" />
+        </a>
+      </div>
+      <div class="center">
+        <Menu />
+      </div>
+      <div class="right">
+        <IconBtn>=</IconBtn>
+      </div>
+    </Grid>
   </Container>
 </header>
-<style>
+<style lang="scss">
+  @use "sass:map";
+  @use "../styles/breakpoints";
+
   header {
     border-bottom: 1px solid var(--color-primary);
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
+    height: 64px;
+  }
+
+  .logo {
+    padding: 20px var(--size-vertical-base);
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    height: 64px;
+  }
+
+  .logo:hover {
+    border-left: 1px solid var(--color-primary);
+    border-right: 1px solid var(--color-primary);
+  }
+  // Responsive styling
+  .left {
+    grid-column: span 3;
+    display: flex;
+  }
+
+  .center {
+    grid-column: span 1;
+    display: none;
+  }
+
+  .right {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-content: stretch;
+    align-items: center;
+    grid-column: span 3;
+    padding-right: var(--size-vertical-base);
+  }
+
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .left {
+      grid-column: span 1;
+    }
+    .right {
+      grid-column: span 1;
+    }
+
+    .center {
+      display: initial;
+      grid-column: span 4;
+    }
   }
 </style>

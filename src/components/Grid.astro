@@ -1,0 +1,9 @@
+<div class="grid-6"><slot /></div>
+<style>
+  .grid-6 {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: var(--size-vertical-base-2x);
+  }
+</style>

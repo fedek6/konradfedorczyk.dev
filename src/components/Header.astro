@@ -2,8 +2,8 @@
 import Logo from "./Logo.astro";
 import Container from "./Container.astro";
 import Grid from "./Grid.astro";
-import IconBtn from "./IconBtn.astro";
 import Menu from "./Menu.astro";
+import HamburgerButton from "./HamburgerButton.astro";
 ---
 
 <header>
@@ -23,7 +23,10 @@ import Menu from "./Menu.astro";
         <Menu />
       </div>
       <div class="right">
-        <IconBtn>=</IconBtn>
+        <div class="mobile-navigation">
+          <HamburgerButton />
+        </div>
+
       </div>
     </Grid>
   </Container>
@@ -75,13 +78,19 @@ import Menu from "./Menu.astro";
   }
 
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .mobile-navigation {
+      display: none;
+    }
+
     .logo:hover {
       border-left: 1px solid var(--color-primary);
       border-right: 1px solid var(--color-primary);
     }
+
     .left {
       grid-column: span 1;
     }
+
     .right {
       grid-column: span 1;
     }

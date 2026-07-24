@@ -1,0 +1,27 @@
+---
+import IconBtn from "./IconBtn.astro";
+const { ...props } = Astro.props;
+---
+
+<IconBtn
+  data-menu-button
+  aria-label="Open menu"
+  aria-expanded="false"
+  aria-controls="overlay-menu"
+  {...props}>=</IconBtn
+>
+<script>
+  import { isMenuOpen } from "../stores/menuStore.js";
+  import { effect } from "nanostores";
+  const buttons = document.querySelectorAll("[data-menu-button]");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => isMenuOpen.set(!isMenuOpen.get()));
+  });
+
+  effect(isMenuOpen, (isOpen) => {
+    buttons.forEach((button) => {
+      button.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+  });
+</script>

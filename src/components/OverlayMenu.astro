@@ -1,0 +1,21 @@
+<nav
+  id="overlay-menu"
+  class="overlay-menu"
+  hidden
+></nav>
+<style>
+  #overlay-menu {
+    display: none;
+  }
+</style>
+<script>
+  import { effect } from 'nanostores';
+  import { isMenuOpen } from '../stores/menuStore.js';
+
+  const menu = document.getElementById('mobile-menu');
+
+  // Listen for changes to the store
+  effect(isMenuOpen, (isOpen) => {
+    console.log("menu state", isOpen);
+  });
+</script>

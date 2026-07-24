@@ -5,6 +5,7 @@ import "../styles/dark.css";
 import "../styles/light.css";
 import { metaConfig } from '../config/meta';
 import Header from '../components/Header.astro';
+import OverlayMenu from '../components/OverlayMenu.astro';
 ---
 <!doctype html>
 <html lang="en">
@@ -14,6 +15,7 @@ import Header from '../components/Header.astro';
 	<body data-theme="light">
 		<Header />
 		<slot />
+    <OverlayMenu />
 	</body>
 </html>
 

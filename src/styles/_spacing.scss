@@ -1,0 +1,17 @@
+@use "sass:math";
+
+// 1. Define your base variable
+ $base-spacing: 8px !default;
+
+/// 2. Multiply the base spacing by a unitless number
+/// @param {Number} $multiplier - A unitless number (e.g., 2, 3.5)
+@function space($multiplier: 1) {
+  // Validation: Ensure the user didn't pass a unit (like 2px instead of 2)
+  @if not math.is-unitless($multiplier) {
+    @error "spacing() function: The multiplier must be a unitless number (e.g., 2). " +
+           "You passed '#{$multiplier}'.";
+  }
+
+  // Multiply and return
+  @return $base-spacing * $multiplier;
+}

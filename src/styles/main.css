@@ -50,17 +50,40 @@
         --size-horizontal-base-2x: 64px;
         --size-vertical-base: 16px;
         --size-vertical-base-2x: 32px;
+
         /* Font size */
-        --font-size-sm: 1.041875rem;
+        --font-size-xs: 0.87rem;
+        --font-size-sm: 1.04rem;
         --font-size-base: 1.25rem;
+        --font-size-lg: 1.5rem;
+        --font-size-xl: 1.8rem;
         --font-size-2xl: 2.16rem;
+        --font-size-3xl: 2.59rem;
+        --font-size-4xl: 3.11rem;
+        --font-size-5xl: 3.73rem;
+        --font-size-6xl: 4.48rem;
+        --font-size-7xl: 5.37rem;
+        --font-size-8xl: 6.45rem;
+
+        /* Line height */
+        --line-height-xs: 1em;
+        --line-height-sm: 1.2em;
+        --line-height-lg: 1.3em;
+        --line-height-xl: 1.45em;
+        --line-height-2xl: 1.618em;
+        --line-height-3xl: 1.842em;
+        --line-height-base: 1.618em;
+
+        /* Font weight */
+        --font-weight-normal: 400;
+        --font-weight-bold: 600;
     }
 
     body {
         font-family: var(--hanken-grotesk);
         font-weight: 400;
         font-size: var(--font-size-base);
-        line-height: var(--size-horizontal-base);
+        line-height: var(--line-height-base);
         color: var(--color-primary);
         background-color: var(--color-secondary);
     }

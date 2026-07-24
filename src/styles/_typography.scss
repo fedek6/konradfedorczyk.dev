@@ -1,0 +1,38 @@
+@use "sass:list";
+@use "sass:meta";
+
+$valid-font-size: "xs", "sm", "lg", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl", "8xl", "base" !default;
+
+@mixin font-size($level: "base") {
+    @if not list.index($valid-font-size, $level) {
+        @error "Invalid font size level: '#{$level}'. Must be one of: #{$valid-levels}.";
+    }
+
+    font-size: var(--font-size-#{$level});
+}
+
+$valid-line-height: "xs", "sm", "lg", "2xl", "3xl", "base" !default;
+
+@mixin line-height($level: "base") {
+    @if not list.index($valid-line-height, $level) {
+        @error "Invalid line height size level: '#{$level}'. Must be one of: #{$valid-levels}.";
+    }
+
+    line-height: var(--line-height-#{$level});
+}
+
+$valid-font-weight: "bold", "normal" !default;
+
+@mixin font-weight($level: "normal") {
+    @if not list.index($valid-font-weight, $level) {
+        @error "Invalid font weight size level: '#{$level}'. Must be one of: #{$valid-levels}.";
+    }
+
+    font-weight: var(--font-weight-#{$level});
+}
+
+@mixin font($size: "base", $line-height: "base", $font-weight: "normal") {
+    @include font-size($size);
+    @include line-height($line-height);
+    @include font-weight($font-weight);
+}

@@ -19,7 +19,8 @@ import Grid from "./Grid.astro";
 </main>
 <style lang="scss">
   @use "sass:map";
-  @use "../styles/breakpoints";
+  @use "../styles/breakpoints" as breakpoints;
+  @use "../styles/typography" as typography;
 
   main {
     display: flex;
@@ -29,20 +30,23 @@ import Grid from "./Grid.astro";
   }
 
   .introduction {
+    margin: calc(64px + 32px) 0 0 0;
     grid-column: span 6;
+  }
+
+  .introduction h1 {
+    @include typography.font("lg");
   }
 
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
     .introduction {
-      margin: 64px 0 0 0;
+      margin: calc(64px + 64px) 0 0 0;
       grid-column-start: 2;
       grid-column-end: 7;
     }
 
     .introduction h1 {
-      font-size: var(--font-size-2xl);
-      font-weight: 400;
-      line-height: var(--size-horizontal-base-2x);
+      @include typography.font("2xl");
     }
   }
 </style>

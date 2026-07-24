@@ -50,10 +50,6 @@ import Menu from "./Menu.astro";
     height: 64px;
   }
 
-  .logo:hover {
-    border-left: 1px solid var(--color-primary);
-    border-right: 1px solid var(--color-primary);
-  }
   // Responsive styling
   .left {
     grid-column: span 3;
@@ -77,6 +73,10 @@ import Menu from "./Menu.astro";
   }
 
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .logo:hover {
+      border-left: 1px solid var(--color-primary);
+      border-right: 1px solid var(--color-primary);
+    }
     .left {
       grid-column: span 1;
     }

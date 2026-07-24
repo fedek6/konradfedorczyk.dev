@@ -18,10 +18,19 @@ import OverlayMenu from "../components/OverlayMenu.astro";
     <slot />
     <OverlayMenu />
     <script is:inline>
-      const currentTheme = localStorage.getItem("theme");
       document
         .querySelector("body")
-        .setAttribute("data-theme", currentTheme == "light" ? "light" : "dark");
+        .setAttribute(
+          "data-theme",
+          ((t) =>
+            t == "light"
+              ? "light"
+              : t === null
+                ? window.matchMedia("(prefers-color-scheme: dark)").matches
+                  ? "dark"
+                  : "light"
+                : "dark")(localStorage.getItem("theme")),
+        );
     </script>
   </body>
 </html>

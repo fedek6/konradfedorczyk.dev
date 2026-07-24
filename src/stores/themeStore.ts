@@ -2,6 +2,15 @@ import { atom } from "nanostores";
 
 export type Theme = "dark" | "light";
 
-const currentTheme = localStorage.getItem("theme");
+const preferredTheme = localStorage.getItem("theme");
+let dynamicTheme: Theme = "light";
 
-export const theme = atom<Theme>(currentTheme == "light" ? "light" : "dark");
+if (preferredTheme === null) {
+  dynamicTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+} else {
+  dynamicTheme = preferredTheme == "light" ? "light" : "dark";
+}
+
+export const theme = atom<Theme>(dynamicTheme);

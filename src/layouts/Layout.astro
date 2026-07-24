@@ -1,33 +1,51 @@
 ---
-import Head from '../components/Head.astro';
+import Head from "../components/Head.astro";
 import "../styles/main.css";
 import "../styles/dark.css";
 import "../styles/light.css";
-import { metaConfig } from '../config/meta';
-import Header from '../components/Header.astro';
-import OverlayMenu from '../components/OverlayMenu.astro';
+import { metaConfig } from "../config/meta";
+import Header from "../components/Header.astro";
+import OverlayMenu from "../components/OverlayMenu.astro";
 ---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<Head {...metaConfig} />
-	</head>
-	<body data-theme="light">
-		<Header />
-		<slot />
+  <head>
+    <Head {...metaConfig} />
+  </head>
+  <body data-theme="light">
+    <Header />
+    <slot />
     <OverlayMenu />
-	</body>
+    <script is:inline>
+      const currentTheme = localStorage.getItem("theme");
+      document
+        .querySelector("body")
+        .setAttribute("data-theme", currentTheme == "light" ? "light" : "dark");
+    </script>
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
 
   body {
     padding-top: 64px;
   }
 </style>
+
+<script>
+  import { theme } from "../stores/themeStore";
+  import { effect } from "nanostores";
+  const body = document.querySelector("body");
+
+  effect(theme, (theme) => {
+    body?.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  });
+</script>

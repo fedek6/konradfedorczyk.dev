@@ -1,0 +1,37 @@
+---
+import IconBtn from "./IconBtn.astro";
+const { ...props } = Astro.props;
+---
+
+<IconBtn
+  class="theme-button"
+  data-theme-button
+  aria-label="Change page theme"
+  {...props}
+/>
+<style>
+  .theme-button {
+    image-rendering: pixelated;
+    background-image: url("../assets/icon-moon.png");
+    background-color: var(--color-secondary);
+    background-size: 48px 48px;
+  }
+</style>
+<script>
+  import { theme } from "../stores/themeStore";
+  import { effect } from "nanostores";
+
+  const buttons = document.querySelectorAll("[data-theme-button]");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () =>
+      theme.set(theme.get() === "dark" ? "light" : "dark"),
+    );
+  });
+
+  effect(theme, (theme) => {
+    buttons.forEach((button) => {
+      button.setAttribute("data-theme", theme);
+    });
+  });
+</script>

@@ -1,0 +1,144 @@
+<div id="head-3d"></div>
+
+<script>
+  import * as THREE from "three";
+  import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+  const container = document.querySelector<HTMLElement>('#head-3d');
+
+  if (!container) {
+    throw new Error("Missing container");
+  }
+
+  const { offsetWidth: width } = container;
+  container.style.height = `${width}px`;
+
+  const height = width;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+
+  // --- PS1 CONFIG ---
+  const ps1Config = {
+    resolutionScale: 0.25,
+    vertexSnapping: 40,
+  };
+
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize(width * ps1Config.resolutionScale, height * ps1Config.resolutionScale, false);
+  renderer.domElement.style.width = '100%';
+  renderer.domElement.style.height = '100%';
+  renderer.domElement.style.imageRendering = 'pixelated';
+  renderer.setClearColor(0xffffff, 0);
+  container.appendChild(renderer.domElement);
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+  scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+  directionalLight.position.set(5, 10, 7.5);
+  scene.add(directionalLight);
+
+  camera.position.z = 5;
+
+  const modelWrapper = new THREE.Group();
+  scene.add(modelWrapper);
+
+  let model: THREE.Group;
+  const loader = new GLTFLoader();
+
+  loader.load(
+    '/head.glb',
+    (gltf) => {
+      model = gltf.scene;
+      model.scale.set(2.4, 2.4, 2.4);
+      model.rotation.y = -(Math.PI / 2);
+
+      const box = new THREE.Box3().setFromObject(model);
+      const center = box.getCenter(new THREE.Vector3());
+      model.position.x -= center.x;
+      model.position.y -= center.y;
+      model.position.z -= center.z;
+      model.position.y += 0.3;
+
+      // PS1 Shaders & Textures
+      model.traverse((node) => {
+        // 1. Tell TypeScript this is a Mesh
+        if (node instanceof THREE.Mesh) {
+          // 2. Safely handle materials (they can be arrays)
+          const materials = Array.isArray(node.material) ? node.material : [node.material];
+
+          materials.forEach((material) => {
+            // Make textures pixelated
+            if (material.map) {
+              material.map.minFilter = THREE.NearestFilter;
+              material.map.magFilter = THREE.NearestFilter;
+              material.map.needsUpdate = true;
+            }
+
+            // Inject Vertex Snapping
+            material.onBeforeCompile = (shader: any) => {
+              shader.vertexShader = 'uniform float uTime;\n' + shader.vertexShader;
+
+              shader.vertexShader = shader.vertexShader.replace(
+                '#include <project_vertex>',
+                `
+                #include <project_vertex>
+
+                vec4 snappedPosition = projectionMatrix * mvPosition;
+                snappedPosition.xyz = snappedPosition.xyz / snappedPosition.w;
+
+                snappedPosition.x = floor(snappedPosition.x * ${ps1Config.vertexSnapping}.0) / ${ps1Config.vertexSnapping}.0;
+                snappedPosition.y = floor(snappedPosition.y * ${ps1Config.vertexSnapping}.0) / ${ps1Config.vertexSnapping}.0;
+
+                snappedPosition.xyz *= snappedPosition.w;
+                gl_Position = snappedPosition;
+                `
+              );
+            };
+            material.needsUpdate = true;
+          });
+        }
+      });
+
+      modelWrapper.add(model);
+    },
+    (xhr) => { console.log(`Model loading: ${(xhr.loaded / xhr.total) * 100}% loaded`); },
+    (error) => { console.error("Error loading the GLB model:", error); }
+  );
+
+  // Mouse tracking
+  const mouse = { x: 0, y: 0 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = container.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    let dx = (event.clientX - centerX) / (window.innerWidth / 2);
+    let dy = (event.clientY - centerY) / (window.innerHeight / 2);
+    mouse.x = Math.max(-1, Math.min(1, dx));
+    mouse.y = Math.max(-1, Math.min(1, dy));
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    if (model) {
+      const targetRotY = mouse.x * (Math.PI / 4);
+      const targetRotX = mouse.y * (Math.PI / 4);
+
+      modelWrapper.rotation.y += (targetRotY - modelWrapper.rotation.y) * 0.1;
+      modelWrapper.rotation.x += (targetRotX - modelWrapper.rotation.x) * 0.1;
+    }
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+</script>
+
+<style>
+  #head-3d canvas {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+</style>

@@ -1,4 +1,7 @@
-<div class="grid-6"><slot /></div>
+---
+const { class: className, ...props} = Astro.props;
+---
+<div class:list={['grid-6', className]} {...props}><slot /></div>
 <style>
   .grid-6 {
     display: grid;

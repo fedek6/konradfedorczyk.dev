@@ -4,7 +4,7 @@
   import * as THREE from "three";
   import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-  const container = document.querySelector<HTMLElement>('#head-3d');
+  const container = document.querySelector<HTMLElement>("#head-3d");
 
   if (!container) {
     throw new Error("Missing container");
@@ -21,21 +21,25 @@
   // --- PS1 CONFIG ---
   const ps1Config = {
     resolutionScale: 0.25,
-    vertexSnapping: 40,
+    vertexSnapping: 20,
   };
 
   const renderer = new THREE.WebGLRenderer();
-  renderer.setSize(width * ps1Config.resolutionScale, height * ps1Config.resolutionScale, false);
-  renderer.domElement.style.width = '100%';
-  renderer.domElement.style.height = '100%';
-  renderer.domElement.style.imageRendering = 'pixelated';
+  renderer.setSize(
+    width * ps1Config.resolutionScale,
+    height * ps1Config.resolutionScale,
+    false,
+  );
+  renderer.domElement.style.width = "100%";
+  renderer.domElement.style.height = "100%";
+  renderer.domElement.style.imageRendering = "pixelated";
   renderer.setClearColor(0xffffff, 0);
   container.appendChild(renderer.domElement);
 
   const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
   scene.add(ambientLight);
 
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+  const directionalLight = new THREE.DirectionalLight(0xe3e4db, 3.0);
   directionalLight.position.set(5, 10, 7.5);
   scene.add(directionalLight);
 
@@ -48,7 +52,7 @@
   const loader = new GLTFLoader();
 
   loader.load(
-    '/head.glb',
+    "/head.glb",
     (gltf) => {
       model = gltf.scene;
       model.scale.set(2.4, 2.4, 2.4);
@@ -66,9 +70,12 @@
         // 1. Tell TypeScript this is a Mesh
         if (node instanceof THREE.Mesh) {
           // 2. Safely handle materials (they can be arrays)
-          const materials = Array.isArray(node.material) ? node.material : [node.material];
+          const materials = Array.isArray(node.material)
+            ? node.material
+            : [node.material];
 
           materials.forEach((material) => {
+
             // Make textures pixelated
             if (material.map) {
               material.map.minFilter = THREE.NearestFilter;
@@ -78,10 +85,11 @@
 
             // Inject Vertex Snapping
             material.onBeforeCompile = (shader: any) => {
-              shader.vertexShader = 'uniform float uTime;\n' + shader.vertexShader;
+              shader.vertexShader =
+                "uniform float uTime;\n" + shader.vertexShader;
 
               shader.vertexShader = shader.vertexShader.replace(
-                '#include <project_vertex>',
+                "#include <project_vertex>",
                 `
                 #include <project_vertex>
 
@@ -93,7 +101,7 @@
 
                 snappedPosition.xyz *= snappedPosition.w;
                 gl_Position = snappedPosition;
-                `
+                `,
               );
             };
             material.needsUpdate = true;
@@ -103,13 +111,17 @@
 
       modelWrapper.add(model);
     },
-    (xhr) => { console.log(`Model loading: ${(xhr.loaded / xhr.total) * 100}% loaded`); },
-    (error) => { console.error("Error loading the GLB model:", error); }
+    (xhr) => {
+      console.log(`Model loading: ${(xhr.loaded / xhr.total) * 100}% loaded`);
+    },
+    (error) => {
+      console.error("Error loading the GLB model:", error);
+    },
   );
 
   // Mouse tracking
   const mouse = { x: 0, y: 0 };
-  window.addEventListener('mousemove', (event) => {
+  window.addEventListener("mousemove", (event) => {
     const rect = container.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;

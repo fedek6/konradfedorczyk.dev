@@ -1,11 +1,15 @@
 ---
 import Container from "./Container.astro";
 import Grid from "./Grid.astro";
+import Head3D from "./Head3D.astro";
 ---
 
 <main>
   <Container hasPadding>
-    <Grid>
+    <Grid class="hero">
+      <div class="model-3d">
+        <Head3D />
+      </div>
       <div class="introduction">
         <h1>
           Hi! I'm Konrad, an ADHD-powered web developer from Warsaw passionate
@@ -40,8 +44,15 @@ import Grid from "./Grid.astro";
   }
 
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
-    .introduction {
+    .hero {
       margin: spacing.space(8) 0 0 0;
+    }
+
+    .model-3d {
+      place-content: center;
+    }
+
+    .introduction {
       grid-column-start: 2;
       grid-column-end: 7;
     }

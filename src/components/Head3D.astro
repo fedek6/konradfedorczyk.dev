@@ -4,7 +4,14 @@
   import * as THREE from "three";
   import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
+  const MODEL = "/model_with_hat.glb";
   const container = document.querySelector<HTMLElement>("#head-3d");
+
+  // --- PS1 CONFIG ---
+  const ps1Config = {
+    resolutionScale: 0.25,
+    vertexSnapping: 40,
+  };
 
   if (!container) {
     throw new Error("Missing container");
@@ -17,12 +24,6 @@
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-
-  // --- PS1 CONFIG ---
-  const ps1Config = {
-    resolutionScale: 0.25,
-    vertexSnapping: 20,
-  };
 
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(
@@ -52,7 +53,7 @@
   const loader = new GLTFLoader();
 
   loader.load(
-    "/head.glb",
+    MODEL,
     (gltf) => {
       model = gltf.scene;
       model.scale.set(2.4, 2.4, 2.4);
@@ -75,7 +76,6 @@
             : [node.material];
 
           materials.forEach((material) => {
-
             // Make textures pixelated
             if (material.map) {
               material.map.minFilter = THREE.NearestFilter;

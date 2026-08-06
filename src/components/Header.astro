@@ -40,6 +40,7 @@ import ThemeButton from "./ThemeButton.astro";
 
   header {
     border-bottom: 1px solid var(--color-primary);
+    background-color: var(--color-secondary);
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -80,9 +81,17 @@ import ThemeButton from "./ThemeButton.astro";
     padding-right: var(--size-vertical-base);
   }
 
+  .desktop-navigation {
+    display: none;
+  }
+
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
     .mobile-navigation {
       display: none;
+    }
+
+    .desktop-navigation {
+      display: initial;
     }
 
     .logo:hover {

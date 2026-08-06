@@ -20,6 +20,7 @@
   const { offsetWidth: width } = container;
   container.style.height = `${width}px`;
 
+  // because we are rendering a square
   const height = width;
 
   const scene = new THREE.Scene();
@@ -119,8 +120,15 @@
     },
   );
 
-  // Mouse tracking
+  /**
+   * Mouse tracking code
+   */
   const mouse = { x: 0, y: 0 };
+  const timer = new THREE.Timer();
+  timer.connect(document);
+  let totalElapsed = 0;
+  let breath = { value: 0 };
+
   window.addEventListener("mousemove", (event) => {
     const rect = container.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -131,21 +139,65 @@
     mouse.y = Math.max(-1, Math.min(1, dy));
   });
 
-  function animate() {
+  function animate(timestamp: number) {
     requestAnimationFrame(animate);
 
-    if (model) {
-      const targetRotY = mouse.x * (Math.PI / 4);
-      const targetRotX = mouse.y * (Math.PI / 4);
+    // Get time since last frame (used for breathing effect)
+    timer.update(timestamp);
+    const delta = timer.getDelta(); // Replaces clock.getDelta() [4, 9]
+    totalElapsed += delta; // Manual accumulation for your breathing effect
 
-      modelWrapper.rotation.y += (targetRotY - modelWrapper.rotation.y) * 0.1;
-      modelWrapper.rotation.x += (targetRotX - modelWrapper.rotation.x) * 0.1;
+    if (model) {
+      const windowWidth = window.innerWidth;
+
+      // Desktop
+      if (windowWidth > 500) {
+        const targetRotY = mouse.x * (Math.PI / 4);
+        const targetRotX = mouse.y * (Math.PI / 4);
+
+        modelWrapper.rotation.y += (targetRotY - modelWrapper.rotation.y) * 0.1;
+        modelWrapper.rotation.x += (targetRotX - modelWrapper.rotation.x) * 0.1;
+      } else {
+        // --- MOBILE: Breathing Effect ---
+
+        // 2. Smoothly lerp the rotation back to 0 so it doesn't snap if resized from desktop
+        modelWrapper.rotation.y += (0 - modelWrapper.rotation.y) * 0.05;
+        modelWrapper.rotation.x += (0 - modelWrapper.rotation.x) * 0.05;
+
+        // 3. Breathing logic
+        // elapsed * speed adjusts the breathing rate (tweak '2' to make it faster/slower)
+        // 0.5 + 0.5 * Math.sin shifts the wave to be entirely positive (0 to 1)
+        breath.value = 0.5 + 0.5 * Math.sin(totalElapsed * 2);
+
+        // Apply subtle rotation to make it feel alive (like looking around slowly)
+        // Using Math.cos here creates an organic offset from the scaling
+        modelWrapper.rotation.y = Math.sin(totalElapsed * 0.8) * 0.1;
+
+        // Scale the model: 1.0 (exhale) to 1.05 (inhale)
+        const scale = 1 + breath.value * 0.025;
+        modelWrapper.scale.set(scale, scale, scale);
+      }
     }
 
     renderer.render(scene, camera);
   }
 
-  animate();
+  animate(0);
+
+  // Responsiveness
+  window.addEventListener("resize", () => {
+    console.log("Window resized!");
+    console.log("New width:", window.innerWidth);
+    console.log("New height:", window.innerHeight);
+
+    const { offsetWidth: width } = container;
+    container.style.height = `${width}px`;
+    renderer.setSize(
+      width * ps1Config.resolutionScale,
+      width * ps1Config.resolutionScale,
+      false,
+    );
+  });
 </script>
 
 <style>

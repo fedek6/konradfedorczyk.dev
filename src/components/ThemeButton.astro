@@ -14,17 +14,39 @@ const { ...props } = Astro.props;
     image-rendering: pixelated;
     background-size: auto 100%;
     background-position: 48px 0px;
+    position: relative;
+    border-radius: 0;
+    border-radius: 8px;
+  }
+
+  .theme-button::after {
+    width: 100%;
+    height: 100%;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: yellow;
+    background-size: auto 100%;
+    background-position: 48px 0px;
+    border-radius: 8px;
   }
 
   .theme-button[data-theme="light"] {
+    background: var(--color-primary);
+  }
+
+  .theme-button[data-theme="light"]::after {
     background-image: url("../assets/dark-theme-btn.png");
     background-color: var(--color-secondary);
     animation: play-dark 6s steps(11) infinite;
-    transition: opacity .5s steps(5);
-    border: solid 1px var(--color-primary);
+    transition: all 0.25s steps(5);
+    opacity: 1;
   }
-  .theme-button[data-theme="light"]:hover {
-    opacity: .5;
+
+  .theme-button[data-theme="light"]:hover::after {
+    opacity: 0.6;
+    animation-play-state: paused; /* Pause the animation on hover */
   }
 
   .theme-button[data-theme="dark"] {
@@ -32,7 +54,7 @@ const { ...props } = Astro.props;
     background-color: var(--color-secondary);
     animation: play-light 4s steps(7) infinite;
     border: solid 1px var(--color-secondary);
-    transition: border .5s steps(5);
+    transition: border 0.5s steps(5);
   }
 
   .theme-button[data-theme="dark"]:hover {

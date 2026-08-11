@@ -4,7 +4,6 @@ import Container from "./Container.astro";
 import Grid from "./Grid.astro";
 import Menu from "./Menu.astro";
 import HamburgerButton from "./HamburgerButton.astro";
-import ThemeButton from "./ThemeButton.astro";
 import ThemeButtonClassic from "./ThemeButtonClassic.astro";
 ---
 
@@ -56,6 +55,7 @@ import ThemeButtonClassic from "./ThemeButtonClassic.astro";
     top: 0;
     left: 0;
     width: 100%;
+    z-index: 10;
   }
 
   .logo {
@@ -77,7 +77,7 @@ import ThemeButtonClassic from "./ThemeButtonClassic.astro";
   }
 
   .center {
-    grid-column: span 1;
+    grid-column: span 0;
     display: none;
   }
 
@@ -89,7 +89,6 @@ import ThemeButtonClassic from "./ThemeButtonClassic.astro";
     align-content: stretch;
     align-items: center;
     grid-column: span 2;
-    // padding-right: var(--size-vertical-base);
     height: 64px;
   }
 

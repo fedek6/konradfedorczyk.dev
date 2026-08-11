@@ -1,21 +1,53 @@
-<nav
-  id="overlay-menu"
-  class="overlay-menu"
-  hidden
-></nav>
-<style>
+---
+import Menu from "./Menu.astro";
+---
+
+<nav id="overlay-menu" class="overlay-menu" hidden>
+  <Menu />
+</nav>
+<style lang="scss">
+  @use "sass:map";
+  @use "../styles/breakpoints";
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
   #overlay-menu {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-secondary);
+    z-index: 3;
+  }
+
+  #overlay-menu[hidden] {
     display: none;
+  }
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    #overlay-menu {
+      display: none;
+    }
   }
 </style>
 <script>
-  import { effect } from 'nanostores';
-  import { isMenuOpen } from '../stores/menuStore.js';
+  import { effect } from "nanostores";
+  import { isMenuOpen } from "../stores/menuStore.js";
 
-  const menu = document.getElementById('mobile-menu');
+  const menu = document.getElementById("overlay-menu");
 
   // Listen for changes to the store
   effect(isMenuOpen, (isOpen) => {
     console.log("menu state", isOpen);
+    if (isOpen) {
+      menu?.removeAttribute("hidden");
+    } else {
+      menu?.setAttribute("hidden", "true");
+    }
   });
 </script>

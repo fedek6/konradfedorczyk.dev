@@ -1,0 +1,57 @@
+---
+import IconMoon from "./IconMoon.astro";
+const { ...props } = Astro.props;
+---
+
+<button
+  class="theme-button"
+  data-theme-button
+  aria-label="Change page theme"
+  {...props}
+>
+</button>
+<style>
+  .theme-button {
+    all: unset;
+    image-rendering: pixelated;
+    background-size: auto 48px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border-left: solid 1px transparent;
+    border-right: solid 1px transparent;
+    box-sizing: border-box;
+    width: 64px;
+    height: 64px;
+    cursor: pointer;
+  }
+  .theme-button:hover {
+    border-left: solid 1px var(--color-primary);
+    border-right: solid 1px var(--color-primary);
+  }
+
+  .theme-button[data-theme="light"] {
+    background-image: url("../assets/icon-moon-static.png");
+  }
+  .theme-button[data-theme="dark"] {
+    background-image: url("../assets/icon-sun-static.png");
+  }
+</style>
+<script>
+  import { theme } from "../stores/themeStore";
+  import { effect } from "nanostores";
+
+  const buttons = document.querySelectorAll("[data-theme-button]");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () =>
+      theme.set(theme.get() === "dark" ? "light" : "dark"),
+    );
+  });
+
+  effect(theme, (theme) => {
+    buttons.forEach((button) => {
+      button.setAttribute("data-theme", theme);
+    });
+  });
+</script>

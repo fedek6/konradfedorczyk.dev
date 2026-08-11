@@ -1,15 +1,30 @@
 ---
 import IconBtn from "./IconBtn.astro";
 const { ...props } = Astro.props;
+import IconHamburger from "./IconHamburger.astro";
 ---
 
-<IconBtn
+<button
   data-menu-button
+  class="menu-button"
   aria-label="Open menu"
   aria-expanded="false"
   aria-controls="overlay-menu"
-  {...props}>=</IconBtn>
+  {...props}><IconHamburger /></button
+>
+<style>
+  .menu-button {
+    all: unset;
+    height: 64px;
+    width: 64px;
+    background-color: transparent;
 
+    border-right: solid 1px var(--color-primary);
+    border-left: solid 1px var(--color-primary);
+    padding: 20px;
+    box-sizing: border-box;
+  }
+</style>
 <script>
   import { isMenuOpen } from "../stores/menuStore.js";
   import { effect } from "nanostores";

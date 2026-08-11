@@ -18,7 +18,7 @@ import ThemeButtonClassic from "./ThemeButtonClassic.astro";
           rel="home"
           class="logo"
         >
-          <Logo aria-hidden="true" style="height: 24px" />
+          <Logo aria-hidden="true"  />
         </a>
       </div>
       <div class="center">
@@ -39,8 +39,13 @@ import ThemeButtonClassic from "./ThemeButtonClassic.astro";
   @use "sass:map";
   @use "../styles/breakpoints";
 
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
   header {
+    border-top: 1px solid var(--color-primary);
     border-bottom: 1px solid var(--color-primary);
+    border-left: 1px solid var(--color-primary);
     background-color: var(--color-secondary);
     display: flex;
     flex-direction: row;
@@ -54,16 +59,21 @@ import ThemeButtonClassic from "./ThemeButtonClassic.astro";
   }
 
   .logo {
-    padding: 20px var(--size-vertical-base);
+    padding: 0 0 0 16px;
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
     height: 64px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
   }
 
   // Responsive styling
   .left {
-    grid-column: span 3;
+    grid-column: span 4;
     display: flex;
+    height: 64px;
   }
 
   .center {
@@ -78,21 +88,41 @@ import ThemeButtonClassic from "./ThemeButtonClassic.astro";
     justify-content: flex-end;
     align-content: stretch;
     align-items: center;
-    grid-column: span 3;
-    padding-right: var(--size-vertical-base);
+    grid-column: span 2;
+    // padding-right: var(--size-vertical-base);
+    height: 64px;
   }
 
   .desktop-navigation {
     display: none;
   }
 
+  /* ==========================================
+   Desktop
+  =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    header {
+      border-left: none;
+      border-right: none;
+      border-top: none;
+
+      > :global(div) {
+        padding: 0 var(--size-vertical-base);
+      }
+    }
+
     .mobile-navigation {
       display: none;
     }
 
     .desktop-navigation {
       display: initial;
+      height: 64px;
+
+    }
+
+    .logo {
+      padding: 0 var(--size-vertical-base);
     }
 
     .logo:hover {
@@ -111,6 +141,7 @@ import ThemeButtonClassic from "./ThemeButtonClassic.astro";
     .center {
       display: initial;
       grid-column: span 4;
+      height: 64px;
     }
   }
 </style>

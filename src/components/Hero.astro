@@ -8,7 +8,9 @@ import Head3D from "./Head3D.astro";
   <Container hasPadding>
     <Grid class="hero">
       <div class="model-3d">
-        <Head3D />
+        <div>
+          <Head3D />
+        </div>
       </div>
       <div class="introduction">
         <h1>
@@ -27,6 +29,9 @@ import Head3D from "./Head3D.astro";
   @use "../styles/typography" as typography;
   @use "../styles/spacing" as spacing;
 
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
   main {
     display: flex;
     flex-direction: row;
@@ -35,7 +40,17 @@ import Head3D from "./Head3D.astro";
   }
 
   .model-3d {
+    margin: spacing.space(4) 0 0 0;
     grid-column: span 6;
+
+    > div {
+      display: flex;
+      justify-content: center;
+
+      :global(#head-3d) {
+        max-width: 66%;
+      }
+    }
   }
 
   .introduction {
@@ -47,6 +62,9 @@ import Head3D from "./Head3D.astro";
     @include typography.font("lg");
   }
 
+  /* ==========================================
+   Desktop
+  =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
     .hero {
       margin: spacing.space(8) 0 0 0;
@@ -56,6 +74,15 @@ import Head3D from "./Head3D.astro";
       place-content: center;
       grid-column-start: 1;
       grid-column-end: 2;
+      margin: 0;
+
+      > div {
+        display: initial;
+
+        :global(#head-3d) {
+          max-width: 100%;
+        }
+      }
     }
 
     .introduction {

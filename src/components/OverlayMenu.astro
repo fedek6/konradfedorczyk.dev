@@ -1,8 +1,9 @@
 ---
 import Menu from "./Menu.astro";
+const { ...props } = Astro.props;
 ---
 
-<nav id="overlay-menu" class="overlay-menu" aria-hidden="true">
+<nav id="overlay-menu" class="overlay-menu" aria-hidden="true" {...props}>
   <Menu />
 </nav>
 <style lang="scss">
@@ -47,7 +48,6 @@ import Menu from "./Menu.astro";
 
   // Listen for changes to the store
   effect(isMenuOpen, (isOpen) => {
-    console.log("menu state", isOpen);
     if (isOpen) {
       menu?.setAttribute("aria-hidden", "false");
     } else {

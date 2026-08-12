@@ -5,9 +5,11 @@ import Grid from "./Grid.astro";
 import Menu from "./Menu.astro";
 import HamburgerButton from "./HamburgerButton.astro";
 import ThemeButtonClassic from "./ThemeButtonClassic.astro";
----
+import OverlayMenu from "../components/OverlayMenu.astro";
 
-<header>
+const { ...props } = Astro.props;
+---
+<header {...props}>
   <Container>
     <Grid>
       <div class="left">

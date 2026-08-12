@@ -14,9 +14,9 @@ import OverlayMenu from "../components/OverlayMenu.astro";
     <Head {...metaConfig} />
   </head>
   <body data-theme="light">
-    <Header />
+    <Header transition:persist="main-header" />
+    <OverlayMenu transition:persist="overlay-menu" />
     <slot />
-    <OverlayMenu />
     <script is:inline>
       document
         .querySelector("body")
@@ -51,10 +51,13 @@ import OverlayMenu from "../components/OverlayMenu.astro";
 <script>
   import { theme } from "../stores/themeStore";
   import { effect } from "nanostores";
-  const body = document.querySelector("body");
+
+  document.addEventListener("astro:page-load", () => {
+    document.body.setAttribute("data-theme", theme.get());
+  });
 
   effect(theme, (theme) => {
-    body?.setAttribute("data-theme", theme);
+    document.body.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   });
 </script>

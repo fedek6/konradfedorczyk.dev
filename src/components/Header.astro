@@ -17,7 +17,7 @@ import ThemeButtonClassic from "./ThemeButtonClassic.astro";
           rel="home"
           class="logo"
         >
-          <Logo aria-hidden="true"  />
+          <Logo aria-hidden="true" />
         </a>
       </div>
       <div class="center">
@@ -117,7 +117,6 @@ import ThemeButtonClassic from "./ThemeButtonClassic.astro";
     .desktop-navigation {
       display: initial;
       height: 64px;
-
     }
 
     .logo {
@@ -141,6 +140,37 @@ import ThemeButtonClassic from "./ThemeButtonClassic.astro";
       display: initial;
       grid-column: span 4;
       height: 64px;
+
+      // Menu on desktop
+      :global(menu) {
+        all: unset;
+        display: flex;
+        list-style: none;
+      }
+
+      :global(menu > li > a) {
+        text-decoration: none;
+        color: var(--color-primary);
+        font-weight: 600;
+
+        height: 64px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-content: stretch;
+        align-items: center;
+        padding: 0 var(--size-vertical-base);
+        border-left: 1px solid transparent;
+        border-right: 1px solid transparent;
+
+        font-size: var(--font-size-sm);
+      }
+
+      :global(menu > li > a:hover) {
+        border-left: 1px solid var(--color-primary);
+        border-right: 1px solid var(--color-primary);
+      }
     }
   }
 </style>

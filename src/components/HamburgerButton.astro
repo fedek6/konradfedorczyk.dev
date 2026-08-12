@@ -1,7 +1,7 @@
 ---
-import IconBtn from "./IconBtn.astro";
 const { ...props } = Astro.props;
 import IconHamburger from "./IconHamburger.astro";
+import IconClose from "./IconClose.astro";
 ---
 
 <button
@@ -10,8 +10,12 @@ import IconHamburger from "./IconHamburger.astro";
   aria-label="Open menu"
   aria-expanded="false"
   aria-controls="overlay-menu"
-  {...props}><IconHamburger /></button
+  aria-haspopup="true"
+  {...props}
 >
+  <IconHamburger class="menu-closed" />
+  <IconClose class="menu-opened" />
+</button>
 <style>
   .menu-button {
     all: unset;
@@ -21,8 +25,23 @@ import IconHamburger from "./IconHamburger.astro";
 
     border-right: solid 1px var(--color-primary);
     border-left: solid 1px var(--color-primary);
-    padding: 20px;
+
     box-sizing: border-box;
+  }
+
+  .menu-button[aria-expanded="true"] {
+    padding: 16px;
+
+    .menu-closed {
+      display: none;
+    }
+  }
+  .menu-button[aria-expanded="false"] {
+    padding: 20px;
+
+    .menu-opened {
+      display: none;
+    }
   }
 </style>
 <script>

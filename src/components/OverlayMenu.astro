@@ -2,7 +2,7 @@
 import Menu from "./Menu.astro";
 ---
 
-<nav id="overlay-menu" class="overlay-menu" hidden>
+<nav id="overlay-menu" class="overlay-menu" aria-hidden="true">
   <Menu />
 </nav>
 <style lang="scss">
@@ -18,13 +18,17 @@ import Menu from "./Menu.astro";
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: auto;
     background-color: var(--color-secondary);
     z-index: 3;
+    position: fixed;
+    top: 63px;
+    border: solid 1px var(--color-primary);
+    transition: transform 0.5s ease-out;
   }
 
-  #overlay-menu[hidden] {
-    display: none;
+  #overlay-menu[aria-hidden="true"] {
+    transform: translateY(-100%);
   }
   /* ==========================================
    Desktop
@@ -45,9 +49,9 @@ import Menu from "./Menu.astro";
   effect(isMenuOpen, (isOpen) => {
     console.log("menu state", isOpen);
     if (isOpen) {
-      menu?.removeAttribute("hidden");
+      menu?.setAttribute("aria-hidden", "false");
     } else {
-      menu?.setAttribute("hidden", "true");
+      menu?.setAttribute("aria-hidden", "true");
     }
   });
 </script>

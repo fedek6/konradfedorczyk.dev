@@ -5,9 +5,11 @@ import Grid from "./Grid.astro";
 import Menu from "./Menu.astro";
 import HamburgerButton from "./HamburgerButton.astro";
 import ThemeButtonClassic from "./ThemeButtonClassic.astro";
----
+import OverlayMenu from "../components/OverlayMenu.astro";
 
-<header>
+const { ...props } = Astro.props;
+---
+<header {...props}>
   <Container>
     <Grid>
       <div class="left">
@@ -141,7 +143,7 @@ import ThemeButtonClassic from "./ThemeButtonClassic.astro";
       grid-column: span 4;
       height: 64px;
 
-      // Menu on desktop
+      // Inject menu on desktop style
       :global(menu) {
         all: unset;
         display: flex;

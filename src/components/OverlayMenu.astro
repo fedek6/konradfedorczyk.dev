@@ -1,9 +1,12 @@
 ---
 import Menu from "./Menu.astro";
+import ThemeButtonClassic from "./ThemeButtonClassic.astro";
+const { ...props } = Astro.props;
 ---
 
-<nav id="overlay-menu" class="overlay-menu" aria-hidden="true">
+<nav id="overlay-menu" class="overlay-menu" aria-hidden="true" {...props}>
   <Menu />
+  <ThemeButtonClassic />
 </nav>
 <style lang="scss">
   @use "sass:map";
@@ -25,11 +28,36 @@ import Menu from "./Menu.astro";
     top: 63px;
     border: solid 1px var(--color-primary);
     transition: transform 0.5s ease-out;
+    padding-left: var(--size-horizontal-base);
+
+    // Inject menu on mobile
+    :global(menu) {
+      all: unset;
+
+      box-sizing: border-box;
+      display: block;
+      list-style: none;
+    }
+
+    :global(menu > li > a) {
+        text-decoration: none;
+        color: var(--color-primary);
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+
+
+        height: 48px;
+        display: block;
+        line-height: 48px;
+
+        // border-bottom: 1px solid var(--color-primary);
+    }
   }
 
   #overlay-menu[aria-hidden="true"] {
     transform: translateY(-100%);
   }
+
   /* ==========================================
    Desktop
   =========================================== */
@@ -47,7 +75,6 @@ import Menu from "./Menu.astro";
 
   // Listen for changes to the store
   effect(isMenuOpen, (isOpen) => {
-    console.log("menu state", isOpen);
     if (isOpen) {
       menu?.setAttribute("aria-hidden", "false");
     } else {

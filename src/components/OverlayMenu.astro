@@ -55,6 +55,8 @@ const { ...props } = Astro.props;
   }
 
   #overlay-menu[aria-hidden="true"] {
+    visibility: hidden;
+    pointer-events: none;
     transform: translateY(-100%);
   }
 
@@ -73,12 +75,26 @@ const { ...props } = Astro.props;
 
   const menu = document.getElementById("overlay-menu");
 
+  if (!menu) {
+    throw new Error("Menu element not found");
+  };
+
+  menu.addEventListener("transitionend", (e) => {
+    const target = e.target as HTMLElement;
+    const isHidden = target.getAttribute("aria-hidden");
+
+    if (isHidden === "true") {
+      menu.style.visibility = "hidden";
+    }
+  });
+
   // Listen for changes to the store
   effect(isMenuOpen, (isOpen) => {
     if (isOpen) {
-      menu?.setAttribute("aria-hidden", "false");
+      menu.style.visibility = "visible";
+      menu.setAttribute("aria-hidden", "false");
     } else {
-      menu?.setAttribute("aria-hidden", "true");
+      menu.setAttribute("aria-hidden", "true");
     }
   });
 </script>

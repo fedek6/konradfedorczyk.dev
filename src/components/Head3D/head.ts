@@ -28,6 +28,9 @@ const CONFIG = {
     resolutionScale: 0.25,
     vertexSnapping: 40,
   },
+  breathStrength: 0.6,
+  rotationXStrength: 0.05,
+  rotationYStrength: 0.15,
 };
 
 /**
@@ -106,10 +109,9 @@ function animate(timestamp: number) {
       // Reset scale if resizing from mobile to desktop
       modelWrapper.scale.set(1, 1, 1);
     } else {
-      modelWrapper.rotation.y += (0 - modelWrapper.rotation.y) * 0.05;
-      modelWrapper.rotation.x += (0 - modelWrapper.rotation.x) * 0.05;
-      breath.value = 0.5 + 0.5 * Math.sin(totalElapsed * 2);
-      modelWrapper.rotation.y = Math.sin(totalElapsed * 0.8) * 0.1;
+      breath.value = 0.5 + CONFIG.breathStrength * Math.sin(totalElapsed * 2);
+      modelWrapper.rotation.y = Math.sin(totalElapsed * 0.8) * CONFIG.rotationYStrength;
+      modelWrapper.rotation.x = Math.sin(totalElapsed * 0.8) * CONFIG.rotationXStrength;
       const scale = 1 + breath.value * 0.025;
       modelWrapper.scale.set(scale, scale, scale);
     }

@@ -8,6 +8,7 @@ import ThemeButtonClassic from "./ThemeButtonClassic.astro";
 
 const { ...props } = Astro.props;
 ---
+
 <header {...props}>
   <Container>
     <Grid>
@@ -17,6 +18,7 @@ const { ...props } = Astro.props;
           aria-label="Konrad Fedorczyk - Home"
           rel="home"
           class="logo"
+          data-hide-overlay-menu
         >
           <Logo aria-hidden="true" />
         </a>
@@ -51,7 +53,7 @@ const { ...props } = Astro.props;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
-    height: 64px;
+    height: 65px;
     position: fixed;
     top: 0;
     left: 0;
@@ -68,6 +70,10 @@ const { ...props } = Astro.props;
     flex-direction: row;
     align-items: center;
     align-content: center;
+
+    :global(> div) {
+      max-width: 250px;
+    }
   }
 
   // Responsive styling
@@ -118,15 +124,31 @@ const { ...props } = Astro.props;
     .desktop-navigation {
       display: initial;
       height: 64px;
+
+      :global(button) {
+        border-left: solid 1px transparent;
+        border-right: solid 1px transparent;
+      }
+
+      :global(button:hover), :global(button:focus) {
+        border-left: solid 1px var(--color-primary);
+        border-right: solid 1px var(--color-primary);
+        outline: none;
+      }
     }
 
     .logo {
       padding: 0 var(--size-vertical-base);
+      :global(> div) {
+        max-width: initial;
+      }
     }
 
-    .logo:hover {
+    .logo:hover,
+    .logo:focus {
       border-left: 1px solid var(--color-primary);
       border-right: 1px solid var(--color-primary);
+      outline: none;
     }
 
     .left {
@@ -168,9 +190,11 @@ const { ...props } = Astro.props;
         font-size: var(--font-size-sm);
       }
 
-      :global(menu > li > a:hover) {
+      :global(menu > li > a:hover),
+      :global(menu > li > a:focus) {
         border-left: 1px solid var(--color-primary);
         border-right: 1px solid var(--color-primary);
+        outline: none;
       }
     }
   }

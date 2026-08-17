@@ -9,14 +9,16 @@ import OverlayMenu from "../components/OverlayMenu.astro";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" transition:animate="none">
   <head>
     <Head {...metaConfig} />
   </head>
   <body data-theme="light">
-    <Header transition:persist="main-header" />
-    <OverlayMenu transition:persist="overlay-menu" />
-    <slot />
+    <Header transition:persist="main-header" transition:animate="none" />
+    <OverlayMenu transition:persist="overlay-menu" transition:animate="none" />
+    <main transition:animate="slide">
+      <slot />
+    </main>
     <script is:inline>
       document
         .querySelector("body")
@@ -51,6 +53,29 @@ import OverlayMenu from "../components/OverlayMenu.astro";
 <script>
   import { theme } from "../stores/themeStore";
   import { effect } from "nanostores";
+  import { navigate } from "astro:transitions/client";
+  import { isMenuOpen } from "../stores/menuStore.js";
+
+  document.addEventListener("click", function (e) {
+    const target = e.target;
+    const el = (target as HTMLElement).closest("[data-hide-overlay-menu]");
+
+    if (el && el instanceof HTMLAnchorElement) {
+      if (isMenuOpen.get() === false) return;
+      document.querySelector<HTMLElement>('[data-menu-button]')?.focus();
+
+      e.preventDefault();
+      e.stopPropagation(); // Stops the event from reaching Astro's listener entirely
+
+      // Trigger the menu close animation
+      isMenuOpen.set(false);
+
+      // Wait for your CSS animation to finish
+      setTimeout(() => {
+        navigate(el.getAttribute("href") || window.location.href);
+      }, 250);
+    }
+  }, true);
 
   document.addEventListener("astro:page-load", () => {
     document.body.setAttribute("data-theme", theme.get());

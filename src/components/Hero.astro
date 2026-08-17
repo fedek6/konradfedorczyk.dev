@@ -4,7 +4,7 @@ import Grid from "./Grid.astro";
 import Head3D from "./Head3D/Head3D.astro";
 ---
 
-<main>
+<div class="hero-container">
   <Container hasPadding>
     <Grid class="hero">
       <div class="model-3d">
@@ -22,7 +22,7 @@ import Head3D from "./Head3D/Head3D.astro";
       </div>
     </Grid>
   </Container>
-</main>
+</div>
 <style lang="scss">
   @use "sass:map";
   @use "../styles/breakpoints" as breakpoints;
@@ -32,7 +32,7 @@ import Head3D from "./Head3D/Head3D.astro";
   /* ==========================================
    Global/Mobile
   =========================================== */
-  main {
+  .hero-container {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;

@@ -45,12 +45,14 @@ timer.connect(document);
 let totalElapsed = 0;
 let breath = { value: 0 };
 let animationEnabled = true;
+let isMouse = false;
 
 /**
  * Initialize the scene
  */
 export function initScene() {
   container = document.querySelector<HTMLElement>("#head-3d");
+  isMouse = !window.matchMedia("(hover: none)").matches;
 
   if (!container) {
     return;
@@ -95,8 +97,7 @@ function animate(timestamp: number) {
   totalElapsed += delta;
 
   if (model) {
-    const windowWidth = window.innerWidth;
-    if (windowWidth > 500) {
+    if (isMouse) {
       const targetRotY = mouse.x * (Math.PI / 4);
       const targetRotX = mouse.y * (Math.PI / 4);
       modelWrapper.rotation.y += (targetRotY - modelWrapper.rotation.y) * 0.1;
@@ -234,6 +235,7 @@ function handleResize() {
   container.style.height = `auto`;
   const { offsetWidth: width } = container;
   container.style.height = `${width}px`;
+  isMouse = !window.matchMedia("(hover: none)").matches;
 
   renderer.setSize(
     width * CONFIG.ps1Config.resolutionScale,

@@ -14,6 +14,12 @@ import {
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 /**
+ * 3D rendering code for head model including mouse tracking
+ * Some parts of this code could be refactored (now it is working, so I'm leaving it as it is).
+ * Shader was written by GLB 5.2 model (thanks to Chinese engineers 谢谢！)
+ */
+
+/**
  * Configuration
  */
 const CONFIG = {

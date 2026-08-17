@@ -1,0 +1,43 @@
+---
+import head3DPreview from "../../assets/head3d-preview.png";
+---
+
+<div id="head-3d">
+  <img
+    src={head3DPreview.src}
+    width={head3DPreview.width}
+    height={head3DPreview.height}
+    alt=""
+  />
+</div>
+<style>
+  #head-3d {
+    width: 100%;
+    aspect-ratio: 1;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+  #head-3d img {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<script>
+  // Runs each page load
+  document.addEventListener("astro:page-load", async () => {
+    const container = document.querySelector("#head-3d");
+
+    if (container) {
+      requestIdleCallback(async () => {
+        const { initScene } = await import("./head");
+        initScene();
+      });
+    }
+  });
+
+  // Cleanup code
+  document.addEventListener("astro:before-swap", async () => {
+    const { destroyScene } = await import("./head");
+    destroyScene();
+  });
+</script>

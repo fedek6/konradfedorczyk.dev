@@ -5,6 +5,9 @@ import { defineConfig, fontProviders } from "astro/config";
 export default defineConfig({
   site: "https://konradfedorczyk.dev",
   output: "static",
+  build: {
+    inlineStylesheets: 'always'
+  },
   fonts: [
     {
       name: "Hanken Grotesk",

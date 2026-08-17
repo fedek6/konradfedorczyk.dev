@@ -1,5 +1,5 @@
 ---
-import { Font } from 'astro:assets';
+import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 
 interface Props {
@@ -38,10 +38,7 @@ const pageTitle = `${pageName} – ${title}`;
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:description" content={description} />
-<meta
-  property="og:image"
-  content={ogImage}
-/>
+<meta property="og:image" content={ogImage} />
 <meta property="og:image:alt" content={ogImageAlt} />
 <Font cssVariable="--hanken-grotesk" preload />
 <ClientRouter />

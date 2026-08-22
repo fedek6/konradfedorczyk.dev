@@ -30,7 +30,7 @@ const { ...props } = Astro.props;
   }
 </style>
 <script>
-  import { theme } from "../stores/themeStore";
+  import { theme } from "../../stores/themeStore";
   import { effect } from "nanostores";
 
   const buttons = document.querySelectorAll("[data-theme-button]");

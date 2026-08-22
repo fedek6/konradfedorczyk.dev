@@ -1,7 +1,7 @@
 ---
 const { ...props } = Astro.props;
-import IconHamburger from "./IconHamburger.astro";
-import IconClose from "./IconClose.astro";
+import IconHamburger from "../icons/IconHamburger.astro";
+import IconClose from "../icons/IconClose.astro";
 ---
 
 <button
@@ -45,7 +45,7 @@ import IconClose from "./IconClose.astro";
   }
 </style>
 <script>
-  import { isMenuOpen } from "../stores/menuStore.js";
+  import { isMenuOpen } from "../../stores/menuStore.js";
   import { effect } from "nanostores";
   const buttons = document.querySelectorAll("[data-menu-button]");
 

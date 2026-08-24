@@ -1,0 +1,37 @@
+---
+const { ...props } = Astro.props;
+---
+
+<div {...props}>
+  <h2><slot /></h2>
+</div>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints";
+  @use "../../styles/typography";
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+
+  div {
+    border-top: solid 1px var(--color-primary);
+  }
+
+  h2 {
+
+    @include typography.font("lg", "base", "bold");
+    padding: spacing.space(1) 0 0 0;
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    h2 {
+      padding: spacing.space(1) 0 0 0;
+      @include typography.font("xl", "base", "bold");
+    }
+  }
+</style>

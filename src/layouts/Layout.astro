@@ -1,17 +1,29 @@
 ---
-import Head from "../components/Head.astro";
+import Head from "../components/utility/Head.astro";
+import type  { Props as HeadProps } from "../components/utility/Head.astro";
 import "../styles/main.css";
 import "../styles/dark.css";
 import "../styles/light.css";
 import { metaConfig } from "../config/meta";
 import Header from "../components/Header.astro";
 import OverlayMenu from "../components/OverlayMenu.astro";
+
+interface Props extends Omit<HeadProps, 'pageName'> {}
+
+const {
+  ...headProps
+} = Astro.props;
+
+const meta =  {
+  ...metaConfig,
+  ...headProps
+}
 ---
 
 <!doctype html>
 <html lang="en" transition:animate="none">
   <head>
-    <Head {...metaConfig} />
+    <Head {...meta} />
   </head>
   <body data-theme="light">
     <Header transition:persist="main-header" transition:animate="none" />

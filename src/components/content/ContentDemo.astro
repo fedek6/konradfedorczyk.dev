@@ -1,0 +1,57 @@
+---
+import Container from "../layout/Container.astro";
+import Grid from "../layout/Grid.astro";
+import DividedHeader from "../typography/DividedHeader.astro";
+import CenterContent from "../layout/CenterContent.astro";
+import { getCollection } from 'astro:content';
+import ContentList from "./ContentList.astro";
+
+// Fetch all entries from the 'blog' collection
+const notes = await getCollection('notes');
+
+// Optional: Sort posts by pubDate (newest first)
+notes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<CenterContent>
+  <Container hasPadding>
+    <Grid class="content-demo">
+      <div class="content-list">
+        <DividedHeader>Notes</DividedHeader>
+        <ContentList entries={notes.map((note) => ({ title:  note.data.title, id: note.id }))} slug="notes" />
+      </div>
+      <div class="content-list">
+        <DividedHeader>Articles</DividedHeader>
+      </div>
+      <div class="content-list">
+        <DividedHeader>Projects</DividedHeader>
+      </div>
+    </Grid>
+  </Container>
+</CenterContent>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  .content-demo {
+    margin: spacing.space(8) 0 0 0;
+  }
+
+  .content-list {
+    grid-column: span 6;
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .content-list {
+      grid-column: span 2;
+    }
+  }
+</style>

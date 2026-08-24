@@ -1,13 +1,17 @@
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
 
+import mdx from "@astrojs/mdx";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://konradfedorczyk.dev",
   output: "static",
+
   build: {
     inlineStylesheets: 'always'
   },
+
   fonts: [
     {
       name: "Hanken Grotesk",
@@ -20,4 +24,6 @@ export default defineConfig({
       formats: ["woff2"],
     },
   ],
+
+  integrations: [mdx()],
 });

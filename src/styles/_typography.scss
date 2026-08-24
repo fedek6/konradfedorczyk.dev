@@ -1,7 +1,7 @@
 @use "sass:list";
 @use "sass:meta";
 
-$valid-font-size: "xs", "sm", "lg", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl", "8xl", "base" !default;
+$valid-font-size: "xs", "sm", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl", "8xl", "base" !default;
 
 @mixin font-size($level: "base") {
     @if not list.index($valid-font-size, $level) {

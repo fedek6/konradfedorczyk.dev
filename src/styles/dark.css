@@ -3,5 +3,8 @@
         /* Colors */
         --color-primary: #E5DCC5;
         --color-secondary: #161925;
+
+        /* Icons */
+        --icon-arrow-right: url("../assets/icon-arrow-right-dark.png");
     }
 }

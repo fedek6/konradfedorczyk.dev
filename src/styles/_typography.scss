@@ -36,3 +36,12 @@ $valid-font-weight: "bold", "normal" !default;
     @include line-height($line-height);
     @include font-weight($font-weight);
 }
+
+@mixin link {
+    text-decoration: none;
+    color: var(--color-primary);
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

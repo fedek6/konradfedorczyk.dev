@@ -45,3 +45,10 @@ $valid-font-weight: "bold", "normal" !default;
         text-decoration: underline;
     }
 }
+
+@mixin hyphenation {
+    hyphens: auto; /* allow hyphenation */
+    orphans: 3; /* require at least 3 lines at start of new column/page */
+    widows: 3; /* require at least 3 lines at end of column/page */
+    text-wrap: pretty; /* better line breaks, avoids single letters on a line */
+}

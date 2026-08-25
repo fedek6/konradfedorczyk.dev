@@ -6,34 +6,70 @@ import CenterContent from "../layout/CenterContent.astro";
 import { getCollection } from "astro:content";
 import ContentList from "../navigation/ContentList.astro";
 import { renderingConfig } from "../../config/rendering";
+import { metaConfig } from "../../config/meta";
 
-// Notes collection
-const notes = await getCollection("notes");
+const contentMapper = <T extends { data: { pubDate: Date } }>(
+  content: T[],
+): T[] => {
+  return [...content]
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .slice(0, renderingConfig.numItemsOnContentList);
+};
 
-notes
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, renderingConfig.numItemsOnContentList);
+// Collections
+const notes = contentMapper(await getCollection("notes"));
+const articles = contentMapper(await getCollection("notes"));
+const projects = contentMapper(await getCollection("notes"));
 ---
 
 <CenterContent>
   <Container hasPadding>
     <Grid class="content-demo">
-      <div class="content-list">
-        <DividedHeader class="content-header">Notes</DividedHeader>
+      <section class="content-list">
+        <header class="content-header">
+          <DividedHeader>{metaConfig.categories.notes.title}</DividedHeader>
+          <p>
+            {metaConfig.categories.notes.description}
+          </p>
+        </header>
         <ContentList
           entries={notes.map((note) => ({
             title: note.data.title,
             id: note.id,
           }))}
-          slug="notes"
+          slug={metaConfig.categories.notes.slug}
         />
-      </div>
-      <div class="content-list">
-        <DividedHeader>Articles</DividedHeader>
-      </div>
-      <div class="content-list">
-        <DividedHeader>Projects</DividedHeader>
-      </div>
+      </section>
+      <section class="content-list">
+        <header class="content-header">
+          <DividedHeader>{metaConfig.categories.articles.title}</DividedHeader>
+          <p>
+            {metaConfig.categories.articles.description}
+          </p>
+        </header>
+        <ContentList
+          entries={notes.map((note) => ({
+            title: note.data.title,
+            id: note.id,
+          }))}
+          slug={metaConfig.categories.articles.slug}
+        />
+      </section>
+      <section class="content-list">
+        <header class="content-header">
+          <DividedHeader>{metaConfig.categories.projects.title}</DividedHeader>
+          <p>
+            {metaConfig.categories.projects.description}
+          </p>
+        </header>
+        <ContentList
+          entries={notes.map((note) => ({
+            title: note.data.title,
+            id: note.id,
+          }))}
+          slug={metaConfig.categories.projects.slug}
+        />
+      </section>
     </Grid>
   </Container>
 </CenterContent>
@@ -55,19 +91,40 @@ notes
   }
 
   .content-header {
-    margin-bottom: spacing.space(2);
+    margin-bottom: spacing.space(3);
+
+    :global(> div:first-child) {
+      margin-bottom: spacing.space();
+    }
+
+    :global(p) {
+      @include typography.font("sm", "base");
+      @include typography.hyphenation;
+    }
   }
 
   /* ==========================================
    Desktop
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .content-demo {
+      margin: spacing.space(9) 0 0 0;
+    }
+
     .content-list {
       grid-column: span 2;
     }
 
     .content-header {
-      margin-bottom: spacing.space(2);
+      margin-bottom: spacing.space(4);
+
+      :global(> div:first-child) {
+        margin-bottom: spacing.space(2);
+      }
+
+      :global(p) {
+        @include typography.font("base");
+      }
     }
   }
 </style>

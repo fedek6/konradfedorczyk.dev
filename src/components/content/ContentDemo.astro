@@ -18,8 +18,8 @@ const contentMapper = <T extends { data: { pubDate: Date } }>(
 
 // Collections
 const notes = contentMapper(await getCollection("notes"));
-const articles = contentMapper(await getCollection("notes"));
-const projects = contentMapper(await getCollection("notes"));
+const articles = contentMapper(await getCollection("articles"));
+const projects = contentMapper(await getCollection("projects"));
 ---
 
 <CenterContent>
@@ -48,7 +48,7 @@ const projects = contentMapper(await getCollection("notes"));
           </p>
         </header>
         <ContentList
-          entries={notes.map((note) => ({
+          entries={articles.map((note) => ({
             title: note.data.title,
             id: note.id,
           }))}
@@ -63,7 +63,7 @@ const projects = contentMapper(await getCollection("notes"));
           </p>
         </header>
         <ContentList
-          entries={notes.map((note) => ({
+          entries={projects.map((note) => ({
             title: note.data.title,
             id: note.id,
           }))}

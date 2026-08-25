@@ -1,0 +1,19 @@
+---
+title: Markdown Notes CLI — Node.js Command Line Tool
+description: A terminal utility for creating, organizing, and searching markdown notes from the command line
+pubDate: 2024-06-28
+---
+
+A lightweight CLI tool that lets developers manage personal knowledge base entries directly from the terminal. Written in JavaScript with no external dependencies beyond Node standard library.
+
+## Features
+
+Create new note files with frontmatter dates, grep notes by keyword or date range, export all notes to a single markdown file, and list notes grouped by month.
+
+## Usage
+
+```bash
+notes-cli create "Meeting notes" -d "Project planning"
+notes-cli search "Astro"
+notes-cli list --sort pubDate
+```

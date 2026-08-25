@@ -35,7 +35,7 @@ const { entries, slug } = Astro.props;
   ul {
     list-style: none;
     margin: 0;
-    padding: 0 0 0 spacing.space(4);
+    padding: 0 0 0 spacing.space();
 
     li {
       display: flex;
@@ -69,7 +69,7 @@ const { entries, slug } = Astro.props;
         flex-grow: 1;
       }
       h2 {
-        @include typography.font("base", "xs");
+        @include typography.font("base", "base");
       }
     }
   }
@@ -79,6 +79,12 @@ const { entries, slug } = Astro.props;
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
     ul {
+      padding: 0 0 0 spacing.space(4);
+
+      li {
+        gap: spacing.space(2);
+      }
+
       li h2 {
         @include typography.font("base", "base");
       }

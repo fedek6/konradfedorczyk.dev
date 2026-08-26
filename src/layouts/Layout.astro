@@ -5,8 +5,8 @@ import "../styles/main.css";
 import "../styles/dark.css";
 import "../styles/light.css";
 import { metaConfig } from "../config/meta";
-import Header from "../components/Header.astro";
-import OverlayMenu from "../components/OverlayMenu.astro";
+import Header from "../components/common/Header.astro";
+import OverlayMenu from "../components/layout/OverlayMenu.astro";
 
 interface Props extends Omit<HeadProps, 'pageName'> {}
 

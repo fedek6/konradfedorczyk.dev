@@ -7,6 +7,7 @@ import { getCollection } from "astro:content";
 import ContentList from "../navigation/ContentList.astro";
 import { renderingConfig } from "../../config/rendering";
 import { metaConfig } from "../../config/meta";
+import LinkButton from "../buttons/LinkButton.astro";
 
 const contentMapper = <T extends { data: { pubDate: Date } }>(
   content: T[],
@@ -17,9 +18,19 @@ const contentMapper = <T extends { data: { pubDate: Date } }>(
 };
 
 // Collections
-const notes = contentMapper(await getCollection("notes"));
-const articles = contentMapper(await getCollection("articles"));
-const projects = contentMapper(await getCollection("projects"));
+const notesCollection = await getCollection("notes");
+const articlesCollection = await getCollection("articles");
+const projectsCollection = await getCollection("projects");
+
+const notes = contentMapper(notesCollection);
+const isNotesCategoryExpendable =
+  notesCollection.length > renderingConfig.numItemsOnContentList;
+const articles = contentMapper(articlesCollection);
+const isArticlesCategoryExpendable =
+  articlesCollection.length > renderingConfig.numItemsOnContentList;
+const projects = contentMapper(projectsCollection);
+const isProjectsCategoryExpendable =
+  projectsCollection.length > renderingConfig.numItemsOnContentList;
 ---
 
 <CenterContent>
@@ -39,6 +50,15 @@ const projects = contentMapper(await getCollection("projects"));
           }))}
           slug={metaConfig.categories.notes.slug}
         />
+        {
+          isNotesCategoryExpendable && (
+            <footer class="content-footer">
+              <LinkButton href={metaConfig.categories.notes.slug}>
+                Show More
+              </LinkButton>
+            </footer>
+          )
+        }
       </section>
       <section class="content-list">
         <header class="content-header">
@@ -54,6 +74,15 @@ const projects = contentMapper(await getCollection("projects"));
           }))}
           slug={metaConfig.categories.articles.slug}
         />
+        {
+          isArticlesCategoryExpendable && (
+            <footer class="content-footer">
+              <LinkButton href={metaConfig.categories.notes.slug}>
+                Show More
+              </LinkButton>
+            </footer>
+          )
+        }
       </section>
       <section class="content-list">
         <header class="content-header">
@@ -69,7 +98,39 @@ const projects = contentMapper(await getCollection("projects"));
           }))}
           slug={metaConfig.categories.projects.slug}
         />
+        {
+          isProjectsCategoryExpendable && (
+            <footer class="content-footer">
+              <LinkButton href={metaConfig.categories.notes.slug}>
+                Show More
+              </LinkButton>
+            </footer>
+          )
+        }
       </section>
+      <div class="content-link">
+        {
+          isNotesCategoryExpendable && (
+            <LinkButton href={metaConfig.categories.notes.slug}>
+              Show More
+            </LinkButton>
+          )
+        }
+      </div>
+      <div class="content-link">        {
+          isArticlesCategoryExpendable && (
+            <LinkButton href={metaConfig.categories.articles.slug}>
+              Show More
+            </LinkButton>
+          )
+        }</div>
+      <div class="content-link">        {
+          isProjectsCategoryExpendable && (
+            <LinkButton href={metaConfig.categories.projects.slug} aria-label="Show more from category articles">
+              Show More
+            </LinkButton>
+          )
+        }</div>
     </Grid>
   </Container>
 </CenterContent>
@@ -88,6 +149,7 @@ const projects = contentMapper(await getCollection("projects"));
 
   .content-list {
     grid-column: span 6;
+    margin-bottom: spacing.space(4);
   }
 
   .content-header {
@@ -103,16 +165,26 @@ const projects = contentMapper(await getCollection("projects"));
     }
   }
 
+  .content-footer {
+    margin-top: spacing.space(4);
+  }
+
+  .content-link {
+    display: none;
+  }
+
   /* ==========================================
    Desktop
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
     .content-demo {
       margin: spacing.space(9) 0 0 0;
+      row-gap: spacing.space(2);
     }
 
     .content-list {
       grid-column: span 2;
+      margin-bottom: 0;
     }
 
     .content-header {
@@ -125,6 +197,16 @@ const projects = contentMapper(await getCollection("projects"));
       :global(p) {
         @include typography.font("base");
       }
+    }
+
+    .content-footer {
+      display: none;
+    }
+
+    .content-link {
+      display: initial;
+      grid-column: span 2;
+      margin-bottom: spacing.space(8);
     }
   }
 </style>

@@ -11,7 +11,7 @@ $valid-font-size: "xs", "sm", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7x
     font-size: var(--font-size-#{$level});
 }
 
-$valid-line-height: "xs", "sm", "lg", "2xl", "3xl", "base" !default;
+$valid-line-height: "xs", "sm", "lg", "2xl", "3xl", "special-32", "base" !default;
 
 @mixin line-height($level: "base") {
     @if not list.index($valid-line-height, $level) {

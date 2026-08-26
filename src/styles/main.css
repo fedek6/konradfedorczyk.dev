@@ -73,6 +73,7 @@
         --line-height-2xl: 1.618em;
         --line-height-3xl: 1.842em;
         --line-height-base: 1.618em;
+        --line-height-special-32: 32px;
 
         /* Font weight */
         --font-weight-normal: 400;

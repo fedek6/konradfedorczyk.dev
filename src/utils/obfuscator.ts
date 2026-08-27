@@ -1,4 +1,4 @@
-const PRIMES = [7, 11, 13, 17];
+const PRIMES = [3, 5, 11, 13, 23];
 
 export function obfuscate(str: string) {
   let out = "";

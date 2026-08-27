@@ -3,6 +3,7 @@ import Container from "../layout/Container.astro";
 import Grid from "../layout/Grid.astro";
 import CenterContent from "../layout/CenterContent.astro";
 import ContactMenu from "../navigation/ContactMenu.astro";
+import MiscMenu from "../navigation/MiscMenu.astro";
 ---
 
 <footer>
@@ -10,12 +11,17 @@ import ContactMenu from "../navigation/ContactMenu.astro";
     <Container hasPadding>
       <Grid class="footer-grid">
         <div class="info">
-          <p>Handcrafted with <span class="icon-heart" aria-hidden="true"></span> using
-          &nbsp;<a href="https://astro.build/blog/astro-720/" target="_blank"
-            >Astro</a></p>
+          <p>
+            <span class="icon-heart" aria-hidden="true"></span> Handcrafted using&nbsp;
+            <a href="https://astro.build/blog/astro-720/" target="_blank"
+              >Astro</a>
+          </p>
         </div>
-        <div class="contact">
+        <div class="contact footer-menu">
           <ContactMenu />
+        </div>
+        <div class="misc footer-menu">
+          <MiscMenu />
         </div>
       </Grid>
     </Container>
@@ -31,10 +37,10 @@ import ContactMenu from "../navigation/ContactMenu.astro";
    Global/Mobile
   =========================================== */
   footer {
-    padding-top: spacing.space(4);
+    padding-top: spacing.space(5);
     background-color: var(--color-primary);
     color: var(--color-secondary);
-    @include typography.font("sm", "base");
+
     height: spacing.$footer-height-mobile;
   }
 
@@ -48,6 +54,10 @@ import ContactMenu from "../navigation/ContactMenu.astro";
     flex-direction: column;
     align-items: center;
     align-self: center;
+    order: 3;
+
+    @include typography.font("xs", "base");
+    // margin-bottom: spacing.space(6);
 
     a {
       text-decoration: none;
@@ -74,8 +84,24 @@ import ContactMenu from "../navigation/ContactMenu.astro";
   .contact {
     grid-column: span 6;
 
+    margin-bottom: spacing.space(2);
+    border-bottom: 1px solid var(--color-secondary);
 
+    order: 1;
+  }
 
+  .misc {
+    grid-column: span 6;
+
+    // border-top: 1px solid var(--color-secondary);
+    border-bottom: 1px solid var(--color-secondary);
+
+    order: 2;
+
+    margin-bottom: spacing.space(3);
+  }
+
+  .footer-menu {
     :global(menu) {
       list-style: none;
       padding: 0 0;
@@ -83,7 +109,7 @@ import ContactMenu from "../navigation/ContactMenu.astro";
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: center;
+      justify-content: end;
       width: 100%;
     }
 
@@ -94,10 +120,9 @@ import ContactMenu from "../navigation/ContactMenu.astro";
 
     :global(menu a) {
       @include typography.link("--color-secondary");
-      @include typography.font("sm", "base");
+      @include typography.font("xs", "base");
       display: block;
       padding: spacing.space(1) spacing.space(2);
-
     }
   }
 
@@ -107,14 +132,30 @@ import ContactMenu from "../navigation/ContactMenu.astro";
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
     footer {
       height: spacing.$footer-height-desktop;
+      padding-top: spacing.space(6);
     }
 
     .info {
-      grid-column: span 3;
+      grid-column: span 2;
+      margin: 0 0;
+      @include typography.font("sm", "base");
+      order: 0;
+      align-items: start;
     }
 
     .contact {
-      grid-column: span 3;
+      grid-column: span 4;
+      order: 1;
+    }
+
+    .misc {
+      order: 2;
+    }
+
+    .footer-menu {
+      :global(menu a) {
+        @include typography.font("sm", "base");
+      }
     }
   }
 </style>

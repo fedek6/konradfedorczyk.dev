@@ -37,9 +37,9 @@ $valid-font-weight: "bold", "normal" !default;
     @include font-weight($font-weight);
 }
 
-@mixin link {
+@mixin link($color-var: '--color-primary') {
     text-decoration: none;
-    color: var(--color-primary);
+    color: var(#{$color-var});
 
     &:hover {
         text-decoration: underline;

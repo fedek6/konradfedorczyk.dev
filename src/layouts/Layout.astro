@@ -1,23 +1,22 @@
 ---
 import Head from "../components/utility/Head.astro";
-import type  { Props as HeadProps } from "../components/utility/Head.astro";
+import type { Props as HeadProps } from "../components/utility/Head.astro";
 import "../styles/main.css";
 import "../styles/dark.css";
 import "../styles/light.css";
 import { metaConfig } from "../config/meta";
 import Header from "../components/common/Header.astro";
 import OverlayMenu from "../components/layout/OverlayMenu.astro";
+import Footer from "../components/common/Footer.astro";
 
-interface Props extends Omit<HeadProps, 'pageName'> {}
+interface Props extends Omit<HeadProps, "pageName"> {}
 
-const {
-  ...headProps
-} = Astro.props;
+const { ...headProps } = Astro.props;
 
-const meta =  {
+const meta = {
   ...metaConfig,
-  ...headProps
-}
+  ...headProps,
+};
 ---
 
 <!doctype html>
@@ -31,6 +30,7 @@ const meta =  {
     <main transition:animate="slide">
       <slot />
     </main>
+    <Footer />
     <script is:inline>
       document
         .querySelector("body")
@@ -49,7 +49,15 @@ const meta =  {
   </body>
 </html>
 
-<style>
+<style lang="scss">
+  @use "sass:map";
+  @use "../styles/breakpoints" as breakpoints;
+  @use "../styles/typography" as typography;
+  @use "../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
   html,
   body {
     margin: 0;
@@ -60,6 +68,19 @@ const meta =  {
   body {
     padding-top: 64px;
   }
+
+  main {
+    min-height: calc(100vh - #{spacing.$footer-height-mobile});
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    main {
+      min-height: calc(100vh - #{spacing.$footer-height-desktop});
+    }
+  }
 </style>
 
 <script>
@@ -68,26 +89,30 @@ const meta =  {
   import { navigate } from "astro:transitions/client";
   import { isMenuOpen } from "../stores/menuStore.js";
 
-  document.addEventListener("click", function (e) {
-    const target = e.target;
-    const el = (target as HTMLElement).closest("[data-hide-overlay-menu]");
+  document.addEventListener(
+    "click",
+    function (e) {
+      const target = e.target;
+      const el = (target as HTMLElement).closest("[data-hide-overlay-menu]");
 
-    if (el && el instanceof HTMLAnchorElement) {
-      if (isMenuOpen.get() === false) return;
-      document.querySelector<HTMLElement>('[data-menu-button]')?.focus();
+      if (el && el instanceof HTMLAnchorElement) {
+        if (isMenuOpen.get() === false) return;
+        document.querySelector<HTMLElement>("[data-menu-button]")?.focus();
 
-      e.preventDefault();
-      e.stopPropagation(); // Stops the event from reaching Astro's listener entirely
+        e.preventDefault();
+        e.stopPropagation(); // Stops the event from reaching Astro's listener entirely
 
-      // Trigger the menu close animation
-      isMenuOpen.set(false);
+        // Trigger the menu close animation
+        isMenuOpen.set(false);
 
-      // Wait for your CSS animation to finish
-      setTimeout(() => {
-        navigate(el.getAttribute("href") || window.location.href);
-      }, 250);
-    }
-  }, true);
+        // Wait for your CSS animation to finish
+        setTimeout(() => {
+          navigate(el.getAttribute("href") || window.location.href);
+        }, 250);
+      }
+    },
+    true,
+  );
 
   document.addEventListener("astro:page-load", () => {
     document.body.setAttribute("data-theme", theme.get());

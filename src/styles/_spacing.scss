@@ -1,9 +1,10 @@
 @use "sass:math";
 
-// 1. Define your base variable
- $base-spacing: 8px !default;
+$base-spacing: 8px !default;
+$footer-height-desktop: 256px !default;
+$footer-height-mobile: 256px !default;
 
-/// 2. Multiply the base spacing by a unitless number
+/// Multiply the base spacing by a unitless number
 /// @param {Number} $multiplier - A unitless number (e.g., 2, 3.5)
 @function space($multiplier: 1) {
   // Validation: Ensure the user didn't pass a unit (like 2px instead of 2)

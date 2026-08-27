@@ -17,7 +17,7 @@ const { entries, slug } = Astro.props;
     entries.map((entry) => (
       <li>
         <a href={`/${slug}/${entry.id}/`}>
-          <h2>{entry.title}</h2>
+          <span>{entry.title}</span>
         </a>
       </li>
     ))
@@ -68,7 +68,7 @@ const { entries, slug } = Astro.props;
         width: auto;
         flex-grow: 1;
       }
-      h2 {
+      span {
         @include typography.font("base", "base");
         @include typography.hyphenation;
       }
@@ -86,7 +86,7 @@ const { entries, slug } = Astro.props;
         gap: spacing.space(2);
       }
 
-      li h2 {
+      li span {
         @include typography.font("base", "special-32");
       }
     }

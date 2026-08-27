@@ -37,7 +37,7 @@ import MiscMenu from "../navigation/MiscMenu.astro";
    Global/Mobile
   =========================================== */
   footer {
-    padding-top: spacing.space(5);
+    padding-top: spacing.space(4);
     background-color: var(--color-primary);
     color: var(--color-secondary);
 
@@ -56,7 +56,7 @@ import MiscMenu from "../navigation/MiscMenu.astro";
     align-self: center;
     order: 3;
 
-    @include typography.font("xs", "base");
+    @include typography.font("sm", "base");
     // margin-bottom: spacing.space(6);
 
     a {
@@ -120,7 +120,7 @@ import MiscMenu from "../navigation/MiscMenu.astro";
 
     :global(menu a) {
       @include typography.link("--color-secondary");
-      @include typography.font("xs", "base");
+      @include typography.font("sm", "base");
       display: block;
       padding: spacing.space(1) spacing.space(2);
     }
@@ -136,7 +136,7 @@ import MiscMenu from "../navigation/MiscMenu.astro";
     }
 
     .info {
-      grid-column: span 2;
+      grid-column: span 3;
       margin: 0 0;
       @include typography.font("sm", "base");
       order: 0;
@@ -144,7 +144,7 @@ import MiscMenu from "../navigation/MiscMenu.astro";
     }
 
     .contact {
-      grid-column: span 4;
+      grid-column: span 3;
       order: 1;
     }
 

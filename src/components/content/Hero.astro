@@ -35,7 +35,7 @@ import CenterContent from "../layout/CenterContent.astro";
   =========================================== */
   .model-3d {
     margin: spacing.space(4) 0 0 0;
-    grid-column: span 6;
+    grid-column: span 12;
 
     > div {
       display: flex;
@@ -49,7 +49,7 @@ import CenterContent from "../layout/CenterContent.astro";
 
   .introduction {
     margin: 0 0 0 0;
-    grid-column: span 6;
+    grid-column: span 12;
   }
 
   .introduction h1 {
@@ -70,8 +70,7 @@ import CenterContent from "../layout/CenterContent.astro";
 
     .model-3d {
       place-content: center;
-      grid-column-start: 1;
-      grid-column-end: 2;
+      grid-column: span 2;
       margin: 0;
 
       > div {
@@ -84,8 +83,7 @@ import CenterContent from "../layout/CenterContent.astro";
     }
 
     .introduction {
-      grid-column-start: 2;
-      grid-column-end: 7;
+      grid-column: span 10
     }
 
     .introduction h1 {

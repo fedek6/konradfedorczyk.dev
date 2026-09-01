@@ -53,7 +53,7 @@ const isProjectsCategoryExpendable =
         {
           isNotesCategoryExpendable && (
             <footer class="content-footer">
-              <LinkButton href={metaConfig.categories.notes.slug}>
+              <LinkButton href={metaConfig.categories.notes.slug} isReversed>
                 Show More
               </LinkButton>
             </footer>
@@ -77,7 +77,7 @@ const isProjectsCategoryExpendable =
         {
           isArticlesCategoryExpendable && (
             <footer class="content-footer">
-              <LinkButton href={metaConfig.categories.notes.slug}>
+              <LinkButton href={metaConfig.categories.notes.slug} isReversed>
                 Show More
               </LinkButton>
             </footer>
@@ -101,7 +101,7 @@ const isProjectsCategoryExpendable =
         {
           isProjectsCategoryExpendable && (
             <footer class="content-footer">
-              <LinkButton href={metaConfig.categories.notes.slug}>
+              <LinkButton href={metaConfig.categories.notes.slug} isReversed>
                 Show More
               </LinkButton>
             </footer>
@@ -111,7 +111,7 @@ const isProjectsCategoryExpendable =
       <div class="content-link">
         {
           isNotesCategoryExpendable && (
-            <LinkButton href={metaConfig.categories.notes.slug}>
+            <LinkButton href={metaConfig.categories.notes.slug} isReversed>
               Show More
             </LinkButton>
           )
@@ -119,14 +119,14 @@ const isProjectsCategoryExpendable =
       </div>
       <div class="content-link">        {
           isArticlesCategoryExpendable && (
-            <LinkButton href={metaConfig.categories.articles.slug}>
+            <LinkButton href={metaConfig.categories.articles.slug} isReversed>
               Show More
             </LinkButton>
           )
         }</div>
       <div class="content-link">        {
           isProjectsCategoryExpendable && (
-            <LinkButton href={metaConfig.categories.projects.slug} aria-label="Show more from category articles">
+            <LinkButton href={metaConfig.categories.projects.slug} aria-label="Show more from category articles" isReversed>
               Show More
             </LinkButton>
           )

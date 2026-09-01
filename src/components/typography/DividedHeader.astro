@@ -1,9 +1,8 @@
 ---
-const { ...props } = Astro.props;
+const { as: Tag = 'h2', ...props } = Astro.props;
 ---
-
 <div {...props}>
-  <h2><slot /></h2>
+  <Tag><slot /></Tag>
 </div>
 <style lang="scss">
   @use "sass:map";
@@ -19,9 +18,18 @@ const { ...props } = Astro.props;
     border-top: solid 1px var(--color-primary);
   }
 
-  h2 {
+  h1 {
+    @include typography.font("3xl", "base", "bold");
+    padding: spacing.space(1) 0 0 0;
+  }
 
+  h2 {
     @include typography.font("xl", "base", "bold");
+    padding: spacing.space(1) 0 0 0;
+  }
+
+  h3 {
+    @include typography.font("lg", "base", "bold");
     padding: spacing.space(1) 0 0 0;
   }
 
@@ -29,9 +37,9 @@ const { ...props } = Astro.props;
    Desktop
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
-    h2 {
+    h3 {
       padding: spacing.space(1) 0 0 0;
-      @include typography.font("xl", "base", "bold");
+      @include typography.font("lg", "base", "bold");
     }
   }
 </style>

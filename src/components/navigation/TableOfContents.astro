@@ -1,0 +1,40 @@
+---
+import DividedHeader from "../typography/DividedHeader.astro";
+
+export type TocEntry = {
+  title: string;
+  href: string;
+};
+
+interface Props {
+  toc: TocEntry[];
+}
+
+const { toc } = Astro.props;
+---
+
+<nav aria-label="Table of contents">
+  <DividedHeader as="h3">Table of contents</DividedHeader>
+  <ul>
+    {
+      toc.map((entry) => (
+        <li>
+          <a href={entry.href} data-toc-scroll-to-content>
+            {entry.title}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+<script>
+  document.addEventListener("click", (e) => {
+    const el = e.target as HTMLElement | null;
+    const link = el?.closest("[data-toc-scroll-to-content]");
+    if (!link) return;
+
+    e.preventDefault();
+    const href = link.getAttribute("href");
+    console.log(href);
+  });
+</script>

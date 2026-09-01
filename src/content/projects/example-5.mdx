@@ -1,0 +1,15 @@
+---
+title: Interactive SVG Map — Data Visualization Project
+description: An accessible, interactive world map visualization with hover states, tooltips, and filtering by region using only SVG and CSS
+pubDate: 2024-12-01
+---
+
+A standalone data visualization project that renders an interactive world map without mapping libraries. Each country is an SVG path with hover effects, click-to-zoom behavior, and tooltip overlays showing key data points.
+
+## Approach
+
+The SVG paths were sourced from a public geojson dataset converted to SVG using d3-geo, then hand-tuned for accessibility with semantic grouping and keyboard navigation support.
+
+## Accessibility
+
+All interactive regions are reachable via keyboard, tooltip content is exposed through ARIA attributes, and color contrast meets WCAG AA standards across both light and dark themes.

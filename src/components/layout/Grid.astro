@@ -1,11 +1,17 @@
 ---
 const { class: className, ...props} = Astro.props;
 ---
-<div class:list={['grid-6', className]} {...props}><slot /></div>
+<div class:list={['grid-12', className]} {...props}><slot /></div>
 <style>
   .grid-6 {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: var(--size-vertical-base-2x);
+  }
+  .grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(1, 1fr);
     gap: var(--size-vertical-base-2x);
   }

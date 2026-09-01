@@ -1,10 +1,11 @@
 ---
-import Container from "./Container.astro";
-import Grid from "./Grid.astro";
-import Head3D from "./Head3D/Head3D.astro";
+import Container from "../layout/Container.astro";
+import Grid from "../layout/Grid.astro";
+import Head3D from "../3d/Head3D/Head3D.astro";
+import CenterContent from "../layout/CenterContent.astro";
 ---
 
-<div class="hero-container">
+<CenterContent>
   <Container hasPadding>
     <Grid class="hero">
       <div class="model-3d">
@@ -22,26 +23,19 @@ import Head3D from "./Head3D/Head3D.astro";
       </div>
     </Grid>
   </Container>
-</div>
+</CenterContent>
 <style lang="scss">
   @use "sass:map";
-  @use "../styles/breakpoints" as breakpoints;
-  @use "../styles/typography" as typography;
-  @use "../styles/spacing" as spacing;
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
 
   /* ==========================================
    Global/Mobile
   =========================================== */
-  .hero-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
-  }
-
   .model-3d {
     margin: spacing.space(4) 0 0 0;
-    grid-column: span 6;
+    grid-column: span 12;
 
     > div {
       display: flex;
@@ -55,11 +49,15 @@ import Head3D from "./Head3D/Head3D.astro";
 
   .introduction {
     margin: 0 0 0 0;
-    grid-column: span 6;
+    grid-column: span 12;
   }
 
   .introduction h1 {
     @include typography.font("lg");
+  }
+
+  .content-list {
+    grid-column: span 6;
   }
 
   /* ==========================================
@@ -72,8 +70,7 @@ import Head3D from "./Head3D/Head3D.astro";
 
     .model-3d {
       place-content: center;
-      grid-column-start: 1;
-      grid-column-end: 2;
+      grid-column: span 2;
       margin: 0;
 
       > div {
@@ -86,8 +83,7 @@ import Head3D from "./Head3D/Head3D.astro";
     }
 
     .introduction {
-      grid-column-start: 2;
-      grid-column-end: 7;
+      grid-column: span 10
     }
 
     .introduction h1 {

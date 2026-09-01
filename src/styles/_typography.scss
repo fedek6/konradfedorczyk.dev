@@ -1,7 +1,7 @@
 @use "sass:list";
 @use "sass:meta";
 
-$valid-font-size: "xs", "sm", "lg", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl", "8xl", "base" !default;
+$valid-font-size: "xs", "sm", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl", "8xl", "base" !default;
 
 @mixin font-size($level: "base") {
     @if not list.index($valid-font-size, $level) {
@@ -11,7 +11,7 @@ $valid-font-size: "xs", "sm", "lg", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl", "8
     font-size: var(--font-size-#{$level});
 }
 
-$valid-line-height: "xs", "sm", "lg", "2xl", "3xl", "base" !default;
+$valid-line-height: "xs", "sm", "lg", "2xl", "3xl", "special-32", "base" !default;
 
 @mixin line-height($level: "base") {
     @if not list.index($valid-line-height, $level) {
@@ -35,4 +35,20 @@ $valid-font-weight: "bold", "normal" !default;
     @include font-size($size);
     @include line-height($line-height);
     @include font-weight($font-weight);
+}
+
+@mixin link($color-var: '--color-primary') {
+    text-decoration: none;
+    color: var(#{$color-var});
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+@mixin hyphenation {
+    hyphens: auto; /* allow hyphenation */
+    orphans: 3; /* require at least 3 lines at start of new column/page */
+    widows: 3; /* require at least 3 lines at end of column/page */
+    text-wrap: pretty; /* better line breaks, avoids single letters on a line */
 }

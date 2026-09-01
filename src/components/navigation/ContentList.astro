@@ -1,0 +1,94 @@
+---
+interface Entry {
+  title: string;
+  id: string;
+}
+
+interface Props {
+  entries: Entry[];
+  slug: string;
+}
+
+const { entries, slug } = Astro.props;
+---
+
+<ul>
+  {
+    entries.map((entry) => (
+      <li>
+        <a href={`/${slug}/${entry.id}/`}>
+          <span>{entry.title}</span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 spacing.space();
+
+    li {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      align-content: stretch;
+      align-items: flex-start;
+      gap: spacing.space(2);
+      margin-bottom: spacing.space(2);
+
+      &::before {
+        content: "";
+        display: block;
+        width: 32px;
+        height: 28px;
+        flex-shrink: 0;
+        flex-grow: 0;
+        // border: solid 1px Yellow;
+        background-image: var(--icon-arrow-right);
+        image-rendering: pixelated;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% auto;
+      }
+
+      a {
+        @include typography.link();
+        display: block;
+        width: auto;
+        flex-grow: 1;
+      }
+      span {
+        @include typography.font("base", "base");
+        @include typography.hyphenation;
+      }
+    }
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    ul {
+      padding: 0 0 0 spacing.space(4);
+
+      li {
+        gap: spacing.space(2);
+      }
+
+      li span {
+        @include typography.font("base", "special-32");
+      }
+    }
+  }
+</style>

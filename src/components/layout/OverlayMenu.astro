@@ -1,6 +1,6 @@
 ---
-import Menu from "./Menu.astro";
-import ThemeButtonClassic from "./ThemeButtonClassic.astro";
+import Menu from "../navigation/Menu.astro";
+import ThemeButtonClassic from "../buttons/ThemeButtonClassic.astro";
 const { ...props } = Astro.props;
 ---
 
@@ -12,9 +12,9 @@ const { ...props } = Astro.props;
 </nav>
 <style lang="scss">
   @use "sass:map";
-  @use "../styles/breakpoints";
-  @use "../styles/spacing";
-  @use "../styles/typography";
+  @use "../../styles/breakpoints";
+  @use "../../styles/spacing";
+  @use "../../styles/typography";
 
   /* ==========================================
    Global/Mobile
@@ -91,7 +91,7 @@ const { ...props } = Astro.props;
 </style>
 <script>
   import { effect } from "nanostores";
-  import { isMenuOpen } from "../stores/menuStore.js";
+  import { isMenuOpen } from "../../stores/menuStore.js";
 
   const menu = document.getElementById("overlay-menu");
 

@@ -1,0 +1,36 @@
+---
+type Props = {
+  isReversed?: boolean;
+} & astroHTML.JSX.AnchorHTMLAttributes;
+
+const { isReversed, ...props } = Astro.props;
+---
+
+<a class:list={[ { 'reversed': isReversed }]} {...props}><slot /></a>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  a {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    @include typography.link;
+    border: solid 1px var(--color-primary);
+    height: spacing.space(6);
+
+    @include typography.font("sm", "base", "bold");
+  }
+
+  .reversed {
+    border: solid 1px var(--color-primary);
+    background-color: var(--color-primary);
+    @include typography.link('--color-secondary');
+  }
+</style>

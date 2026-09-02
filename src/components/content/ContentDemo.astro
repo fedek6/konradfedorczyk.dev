@@ -8,14 +8,11 @@ import ContentList from "../navigation/ContentList.astro";
 import { renderingConfig } from "../../config/rendering";
 import { metaConfig } from "../../config/meta";
 import LinkButton from "../buttons/LinkButton.astro";
+import { createCollectionHeadMapper } from "../../utils/content";
 
-const contentMapper = <T extends { data: { pubDate: Date } }>(
-  content: T[],
-): T[] => {
-  return [...content]
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-    .slice(0, renderingConfig.numItemsOnContentList);
-};
+const contentMapper = createCollectionHeadMapper(
+  renderingConfig.numItemsOnContentList,
+);
 
 // Collections
 const notesCollection = await getCollection("notes");
@@ -32,6 +29,7 @@ const projects = contentMapper(projectsCollection);
 const isProjectsCategoryExpendable =
   projectsCollection.length > renderingConfig.numItemsOnContentList;
 ---
+
 <CenterContent>
   <Container hasPadding>
     <Grid class="content-demo">
@@ -116,20 +114,28 @@ const isProjectsCategoryExpendable =
           )
         }
       </div>
-      <div class="content-link">        {
+      <div class="content-link">
+        {
           isArticlesCategoryExpendable && (
             <LinkButton href={metaConfig.categories.articles.slug} isReversed>
               Show More
             </LinkButton>
           )
-        }</div>
-      <div class="content-link">        {
+        }
+      </div>
+      <div class="content-link">
+        {
           isProjectsCategoryExpendable && (
-            <LinkButton href={metaConfig.categories.projects.slug} aria-label="Show more from category articles" isReversed>
+            <LinkButton
+              href={metaConfig.categories.projects.slug}
+              aria-label="Show more from category articles"
+              isReversed
+            >
               Show More
             </LinkButton>
           )
-        }</div>
+        }
+      </div>
     </Grid>
   </Container>
 </CenterContent>

@@ -1,0 +1,48 @@
+<div class="masonry">
+  <slot name="items" />
+</div>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  .masonry {
+    /* Creates the 2 equal-width columns */
+    column-count: 2;
+    column-gap: spacing.space(4); /* Space between columns */
+
+    :global(> *) {
+      /* Prevents a card from breaking in half across columns */
+      break-inside: avoid;
+
+      /* Space below each card */
+      // margin-bottom: 16px;
+
+      /* Optional: Basic styling to make it look like a card */
+      background: #ffffff;
+      border: 1px solid #eaeaea;
+      border-radius: 8px;
+      // padding: 16px;
+      box-sizing: border-box;
+    }
+
+    :global(> div:nth-child(1)) {
+      height: 100vh;
+    }
+
+    /*
+
+    :global(> div:nth-child(3n+2)) {s
+      order: 2;
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      flex-basis: 100%;
+      width: 0;
+      order: 2;
+    } */
+  }
+</style>

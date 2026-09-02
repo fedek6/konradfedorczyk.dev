@@ -2,17 +2,22 @@
 const { class: className, ...props} = Astro.props;
 ---
 <div class:list={['grid-12', className]} {...props}><slot /></div>
-<style>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
   .grid-6 {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(1, 1fr);
-    gap: var(--size-vertical-base-2x);
+    gap: spacing.space(4);
   }
   .grid-12 {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(1, 1fr);
-    gap: var(--size-vertical-base-2x);
+    gap: spacing.space(4);
   }
 </style>

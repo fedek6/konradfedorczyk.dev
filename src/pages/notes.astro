@@ -6,8 +6,13 @@ import CenterContent from "../components/layout/CenterContent.astro";
 import DividedHeader from "../components/typography/DividedHeader.astro";
 import TableOfContents from "../components/navigation/TableOfContents.astro";
 import { metaConfig } from "../config/meta";
+import { getCollection } from "astro:content";
+import Masonry from "../components/layout/Masonry.astro";
 
 const config = metaConfig.categories.notes;
+
+const notesCollection = await getCollection("notes");
+const items = ['One', 'Two', 'Three', 'Four', 'Five'];
 ---
 
 <Layout title="notes">
@@ -28,14 +33,22 @@ const config = metaConfig.categories.notes;
         </div>
         <div class="content">
           <div class="group-container">
-            <DividedHeader as="h2" id="2026">2026</DividedHeader>
-            <div>aaa</div>
-            <div>bsssbaaab</div>
+            <DividedHeader as="h2" id="2026" data-toc-observe>2026</DividedHeader>
+            <div>
+              <Masonry>
+                <Fragment slot="items">
+                   {items.map(item => <div>{item}</div>)}
+                </Fragment>
+              </Masonry>
+            </div>
           </div>
           <div class="group-container">
-            <DividedHeader as="h2" id="2025">2025</DividedHeader>
-            <div>aaa</div>
-            <div>bsssbaaab</div>
+            <DividedHeader as="h2" id="2025" data-toc-observe>2025</DividedHeader>
+              <Masonry>
+                <Fragment slot="items">
+                   {items.map(item => <div>{item}</div>)}
+                </Fragment>
+              </Masonry>
           </div>
         </div>
       </Grid>
@@ -93,10 +106,15 @@ const config = metaConfig.categories.notes;
       grid-template-columns: subgrid;
 
       background-color: rgba(255, 0, 0, 0.2);
-      height: 100vh;
+      // height: 50vh;
 
       :global(> div:first-child) {
         scroll-margin-top: calc(65px + spacing.space(8));
+        grid-column: span 2;
+      }
+
+      :global(> div:nth-child(2)) {
+        grid-column: span 10;
       }
     }
   }

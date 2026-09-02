@@ -28,13 +28,28 @@ const { toc } = Astro.props;
   </ul>
 </nav>
 <script>
-  document.addEventListener("click", (e) => {
-    const el = e.target as HTMLElement | null;
-    const link = el?.closest("[data-toc-scroll-to-content]");
+  document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const link = event.target.closest<HTMLAnchorElement>("[data-toc-scroll-to-content]");
     if (!link) return;
 
-    e.preventDefault();
-    const href = link.getAttribute("href");
-    console.log(href);
+    const url = new URL(link.href, document.baseURI);
+    if (!url.hash || url.origin !== window.location.origin) return;
+
+    event.preventDefault();
+
+    const id = url.hash.slice(1);
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
+
+    history.pushState(null, "", url.hash);
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
   });
 </script>

@@ -80,6 +80,10 @@
         --font-weight-bold: 600;
     }
 
+    html {
+        scroll-behavior: smooth;
+    }
+
     body {
         font-family: var(--hanken-grotesk);
         font-weight: 400;

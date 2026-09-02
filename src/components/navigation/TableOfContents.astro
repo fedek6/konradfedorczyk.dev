@@ -49,7 +49,6 @@ const { toc } = Astro.props;
       inline: "nearest",
     });
 
-    history.pushState(null, "", url.hash);
     window.dispatchEvent(new HashChangeEvent("hashchange"));
   });
 </script>

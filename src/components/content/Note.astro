@@ -1,22 +1,28 @@
 ---
-// Note.astro
 import { render, type CollectionEntry } from "astro:content";
+import { noteComponents } from "./ComponentMap";
+import ContentStyle from "./ContentStyle.astro";
 
 interface Props {
   entry: CollectionEntry<"notes">;
 }
 
+const a = {
+  p: Fragment,
+};
+
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
+
 <article>
   <header>
     <h1>{entry.data.title}</h1>
-    <p>
+    <ContentStyle>
       <time datetime="2025-07-14">{entry.data.pubDate}</time>
-    </p>
+    </ContentStyle>
   </header>
   <section>
-    <Content components={{ p: Fragment }} />
+    <Content components={noteComponents} />
   </section>
 </article>

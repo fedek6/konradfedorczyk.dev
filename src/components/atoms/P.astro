@@ -1,0 +1,15 @@
+---
+const { ...props } = Astro.props;
+---
+<p><slot {...props} /></p>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  p {
+    @include typography.font("base", "2xl", "normal");
+    margin-bottom: spacing.space(4);
+  }
+</style>

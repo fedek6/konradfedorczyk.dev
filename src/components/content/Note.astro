@@ -1,0 +1,22 @@
+---
+// Note.astro
+import { render, type CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"notes">;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<article>
+  <header>
+    <h1>{entry.data.title}</h1>
+    <p>
+      <time datetime="2025-07-14">{entry.data.pubDate}</time>
+    </p>
+  </header>
+  <section>
+    <Content components={{ p: Fragment }} />
+  </section>
+</article>

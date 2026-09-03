@@ -8,11 +8,23 @@ import TableOfContents from "../components/navigation/TableOfContents.astro";
 import { metaConfig } from "../config/meta";
 import { getCollection } from "astro:content";
 import Masonry from "../components/layout/Masonry.astro";
+import Note from "../components/content/Note.astro";
+import { groupByYear } from "../utils/content";
+import { render } from "astro:content";
 
 const config = metaConfig.categories.notes;
 
-const notesCollection = await getCollection("notes");
-const items = ['One', 'Two', 'Three', 'Four', 'Five'];
+const collection = await getCollection("notes");
+//const rendered = await Promise.all(collection.map((note) => render(note)));
+
+const notesGrouped = groupByYear(collection);
+const toc = notesGrouped.map(([year]) => ({
+  title: year,
+  href: `#${year}`,
+}));
+
+// console.log(notesGrouped[0][1]);
+const items = ["One", "Two", "Three", "Four", "Five"];
 ---
 
 <Layout title="notes">
@@ -20,35 +32,55 @@ const items = ['One', 'Two', 'Three', 'Four', 'Five'];
     <Container hasPadding>
       <Grid class="notes-list">
         <div class="toc">
-          <TableOfContents
-            toc={[
-              { title: "2026", href: "#2026" },
-              { title: "2025", href: "#2025" },
-            ]}
-          />
+          <TableOfContents toc={toc} />
         </div>
         <div class="content-header">
           <DividedHeader as="h1">{config.title}</DividedHeader>
           <p>{config.description}</p>
         </div>
         <div class="content">
+          {
+            notesGrouped.map(([year, notes]) => (
+              <div class="group-container">
+                <DividedHeader as="h2" id={year} data-toc-observe>
+                  {year}
+                </DividedHeader>
+                <div>
+                  <Masonry>
+                    <Fragment slot="items">
+                      {notes?.map((note) => (
+                        <>
+                          <Note entry={note} />
+                        </>
+                      ))}
+                    </Fragment>
+                  </Masonry>
+                </div>
+              </div>
+            ))
+          }
+
           <div class="group-container">
-            <DividedHeader as="h2" id="2026" data-toc-observe>2026</DividedHeader>
+            <DividedHeader as="h2" id="2026" data-toc-observe
+              >2026</DividedHeader
+            >
             <div>
               <Masonry>
                 <Fragment slot="items">
-                   {items.map(item => <div>{item}</div>)}
+
                 </Fragment>
               </Masonry>
             </div>
           </div>
           <div class="group-container">
-            <DividedHeader as="h2" id="2025" data-toc-observe>2025</DividedHeader>
-              <Masonry>
-                <Fragment slot="items">
-                   {items.map(item => <div>{item}</div>)}
-                </Fragment>
-              </Masonry>
+            <DividedHeader as="h2" id="2025" data-toc-observe
+              >2025</DividedHeader
+            >
+            <Masonry>
+              <Fragment slot="items">
+                {items.map((item) => <div>{item}</div>)}
+              </Fragment>
+            </Masonry>
           </div>
         </div>
       </Grid>

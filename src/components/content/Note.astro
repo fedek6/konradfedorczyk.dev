@@ -2,14 +2,12 @@
 import { render, type CollectionEntry } from "astro:content";
 import { noteComponents } from "./ComponentMap";
 import ContentStyle from "./ContentStyle.astro";
+import H1 from "../atoms/H1.astro";
+import H2 from "../atoms/H2.astro";
 
 interface Props {
   entry: CollectionEntry<"notes">;
 }
-
-const a = {
-  p: Fragment,
-};
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
@@ -17,7 +15,7 @@ const { Content } = await render(entry);
 
 <article>
   <header>
-    <h1>{entry.data.title}</h1>
+    <H2 as="h1">{entry.data.title}</H2>
     <ContentStyle>
       <time datetime="2025-07-14">{entry.data.pubDate}</time>
     </ContentStyle>
@@ -26,3 +24,16 @@ const { Content } = await render(entry);
     <Content components={noteComponents} />
   </section>
 </article>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  article {
+    border-radius: 8px;
+    border: solid 1px var(--color-primary);
+    padding: spacing.space(4);
+    // margin: spacing.space(4) 0;
+  }
+</style>

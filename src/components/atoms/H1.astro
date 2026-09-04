@@ -1,5 +1,5 @@
 ---
-const { as: Tag = "p", ...props } = Astro.props;
+const { as: Tag = "h1", ...props } = Astro.props;
 ---
 
 <Tag {...props}><slot /></Tag>
@@ -10,7 +10,7 @@ const { as: Tag = "p", ...props } = Astro.props;
   @use "../../styles/spacing" as spacing;
 
   * {
-    @include typography.font("base", "2xl", "normal");
+    @include typography.font("3xl", "sm", "bold");
     margin-bottom: spacing.space(4);
   }
 </style>

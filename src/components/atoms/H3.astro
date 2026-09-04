@@ -1,0 +1,16 @@
+---
+const { as: Tag = "h3", ...props } = Astro.props;
+---
+
+<Tag {...props}><slot /></Tag>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  * {
+    @include typography.font("xl", "sm", "bold");
+    margin-bottom: spacing.space(4);
+  }
+</style>

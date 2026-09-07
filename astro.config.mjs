@@ -9,7 +9,7 @@ export default defineConfig({
   output: "static",
 
   build: {
-    inlineStylesheets: 'always'
+    inlineStylesheets: "always",
   },
 
   fonts: [
@@ -17,7 +17,7 @@ export default defineConfig({
       name: "Hanken Grotesk",
       cssVariable: "--hanken-grotesk",
       provider: fontProviders.google(),
-      weights: [400, 600] ,
+      weights: [400, 600],
       styles: ["normal", "italic"],
       subsets: ["latin"],
       fallbacks: ["sans-serif"],
@@ -25,5 +25,5 @@ export default defineConfig({
     },
   ],
 
-  integrations: [mdx()],
+  integrations: [mdx({ optimize: false })],
 });

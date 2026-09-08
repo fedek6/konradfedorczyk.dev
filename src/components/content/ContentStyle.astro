@@ -1,4 +1,4 @@
-<div>
+<div class="content-style">
   <slot />
 </div>
 <style lang="scss">
@@ -7,11 +7,67 @@
   @use "../../styles/typography" as typography;
   @use "../../styles/spacing" as spacing;
 
-  :global(pre) {
-    @include typography.font("xs", "base", "bold");
-    padding: spacing.space(2) spacing.space(2);
-    border: solid 1px var(--color-primary);
-    border-radius: 8px;
-    margin-bottom: spacing.space(2);
+  .content-style {
+    :global(pre) {
+      @include typography.font("xs", "base", "bold");
+      padding: spacing.space(2) spacing.space(2);
+      border: solid 1px var(--color-primary);
+      border-radius: 8px;
+      margin-bottom: spacing.space(2);
+    }
+
+    :global(p) {
+      @include typography.font("base", "2xl", "normal");
+      margin-bottom: spacing.space(2);
+    }
+
+    :global(h2) {
+      @include typography.font("xl", "sm", "bold");
+      margin-bottom: spacing.space(2);
+    }
+
+    :global(h3) {
+      @include typography.font("lg", "sm", "bold");
+      margin-bottom: spacing.space();
+    }
+
+    :global(h4) {
+      @include typography.font("base", "sm", "bold");
+      margin-bottom: spacing.space(1);
+      text-transform: uppercase;
+    }
+
+    :global(* + h1,h2,h3,h4) {
+      margin-top: spacing.space(4);
+    }
+
+    :global(a) {
+      text-decoration: none;
+      color: var(--color-accent);
+
+      display: inline-block;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &::before {
+        content: "";
+        text-decoration: none;
+        width: 18px;
+        height: 18px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 6px;
+
+        background-image: var(--icon-link);
+        image-rendering: pixelated;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% auto;
+        // margin-right: spacing.space(1);
+        // margin-right: spacing.space(1);
+      }
+    }
   }
 </style>

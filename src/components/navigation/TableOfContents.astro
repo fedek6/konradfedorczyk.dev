@@ -33,8 +33,26 @@ const { toc } = Astro.props;
   @use "../../styles/typography" as typography;
   @use "../../styles/spacing" as spacing;
 
+  nav {
+    :global(> div) {
+      margin-bottom: spacing.space(2);
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0 0 0 spacing.space(3);
+    margin: 0 0;
+  }
+
+  a {
+    @include typography.link();
+    display: inline-block;
+  }
+
   a[aria-current="true"] {
-    border: solid 1px #000;
+    // border: solid 1px #000;
+    text-decoration: underline;
   }
 </style>
 <script>

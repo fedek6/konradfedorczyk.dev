@@ -5,5 +5,5 @@ import H3 from "../atoms/H3.astro";
 
 export const noteComponents = {
   p: P,
-  h2: H3
+  h2: H2
 };

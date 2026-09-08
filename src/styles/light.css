@@ -2,10 +2,12 @@
     [data-theme="light"] {
         /* Colors */
         --color-primary: #161925;
-        --color-secondary: #e3e4db ;
+        --color-secondary: #e3e4db;
+        --color-accent: #A0031D;
 
         /* Icons */
         --icon-arrow-right: url("../assets/icon-arrow-right.png");
         --icon-heart: url("../assets/icon-heart-light.png");
+        --icon-link: url("../assets/icon-link-light.png");
     }
 }

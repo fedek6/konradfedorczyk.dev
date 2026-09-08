@@ -7,9 +7,11 @@
   @use "../../styles/typography" as typography;
   @use "../../styles/spacing" as spacing;
 
-  div {
-    :global(p) {
-      background-color: yellow;
-    }
+  :global(pre) {
+    @include typography.font("xs", "base", "bold");
+    padding: spacing.space(2) spacing.space(2);
+    border: solid 1px var(--color-primary);
+    border-radius: 8px;
+    margin-bottom: spacing.space(2);
   }
 </style>

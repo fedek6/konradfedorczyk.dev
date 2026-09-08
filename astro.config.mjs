@@ -12,6 +12,15 @@ export default defineConfig({
     inlineStylesheets: "always",
   },
 
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: 'nord',
+        dark: 'vitesse-dark',
+      },
+    },
+  },
+
   fonts: [
     {
       name: "Hanken Grotesk",

@@ -4,6 +4,7 @@ import { noteComponents } from "./ComponentMap";
 import H3 from "../atoms/H3.astro";
 import H2 from "../atoms/H2.astro";
 import Time from "../atoms/Time.astro";
+import ContentStyle from "../content/ContentStyle.astro";
 
 interface Props {
   entry: CollectionEntry<"notes">;
@@ -19,7 +20,9 @@ const { Content } = await render(entry);
     <H2 as="h1">{entry.data.title}</H2>
   </header>
   <section>
-    <Content components={noteComponents} />
+    <ContentStyle>
+      <Content components={noteComponents} />
+    </ContentStyle>
   </section>
 </article>
 <style lang="scss">

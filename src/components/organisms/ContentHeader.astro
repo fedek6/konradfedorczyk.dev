@@ -1,0 +1,46 @@
+---
+import Time from "../atoms/Time.astro";
+
+interface Props {
+  title: string;
+  date: Date;
+}
+
+const { title, date } = Astro.props;
+---
+
+<header>
+  <Time date={date} />
+  <h1>{title}</h1>
+</header>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  header {
+    margin-bottom: spacing.space(3);
+
+    :global(time) {
+      @include typography.font("sm", "base", "bold");
+      display: block;
+    }
+
+    h1 {
+      @include typography.font("xl", "sm", "bold");
+    }
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    header {
+    h1 {
+      @include typography.font("xl", "sm", "bold");
+    }
+    }
+
+  }
+</style>

@@ -7,6 +7,9 @@
   @use "../../styles/typography" as typography;
   @use "../../styles/spacing" as spacing;
 
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
   .content-style {
     :global(pre) {
       @include typography.font("xs", "base", "bold");
@@ -37,7 +40,7 @@
       text-transform: uppercase;
     }
 
-    :global(* + h1,h2,h3,h4) {
+    :global(* + h1, h2, h3, h4) {
       margin-top: spacing.space(4);
     }
 
@@ -65,9 +68,14 @@
         background-repeat: no-repeat;
         background-position: center;
         background-size: 100% auto;
-        // margin-right: spacing.space(1);
-        // margin-right: spacing.space(1);
       }
+    }
+  }
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .content-style {
     }
   }
 </style>

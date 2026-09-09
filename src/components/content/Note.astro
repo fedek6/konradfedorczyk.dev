@@ -1,9 +1,9 @@
 ---
 import { render, type CollectionEntry } from "astro:content";
-import { noteComponents } from "./ComponentMap";
 import H2 from "../atoms/H2.astro";
 import Time from "../atoms/Time.astro";
 import ContentStyle from "../content/ContentStyle.astro";
+import ContentHeader from "../organisms/ContentHeader.astro";
 
 interface Props {
   entry: CollectionEntry<"notes">;
@@ -14,10 +14,7 @@ const { Content } = await render(entry);
 ---
 
 <article>
-  <header>
-    <Time date={new Date(entry.data.pubDate)} />
-    <H2 as="h1">{entry.data.title}</H2>
-  </header>
+  <ContentHeader title={entry.data.title} date={new Date(entry.data.pubDate)} />
   <section>
     <ContentStyle>
       <Content />
@@ -36,7 +33,7 @@ const { Content } = await render(entry);
   article {
     border-radius: 8px;
     border: solid 1px var(--color-primary);
-    padding: spacing.space(2) spacing.space(2);
+    padding: spacing.space(2) spacing.space(2) spacing.space(4)  spacing.space(2);
 
     // transition: all 0.5s ease-in-out;
   }

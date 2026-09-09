@@ -7,14 +7,23 @@
   @use "../../styles/typography" as typography;
   @use "../../styles/spacing" as spacing;
 
-  .masonry {
-    /* Creates the 2 equal-width columns */
-    column-count: 2;
-    column-gap: spacing.space(4); /* Space between columns */
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
 
-    :global(> *) {
-      break-inside: avoid;
-      box-sizing: border-box;
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .masonry {
+      /* Creates the 2 equal-width columns */
+      column-count: 2;
+      column-gap: spacing.space(4); /* Space between columns */
+
+      :global(> *) {
+        break-inside: avoid;
+        box-sizing: border-box;
+      }
     }
   }
 </style>

@@ -30,7 +30,7 @@ const meta = {
     <main transition:animate="slide">
       <slot />
     </main>
-    <Footer />
+    <Footer transition:persist="main-footer" transition:animate="none" />
     <script is:inline>
       document
         .querySelector("body")

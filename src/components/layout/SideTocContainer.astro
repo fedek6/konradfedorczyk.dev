@@ -1,6 +1,11 @@
 ---
 import TocButton from "../buttons/TocButton.astro";
-const { ...props } = Astro.props;
+
+type Props = {
+  variant: "left" | "right";
+} & astroHTML.JSX.HTMLAttributes;
+
+const { variant, ...props } = Astro.props;
 ---
 
 <div
@@ -10,6 +15,7 @@ const { ...props } = Astro.props;
   id="side-toc"
   data-side-toc-container
   data-expanded="false"
+  data-variant={variant}
   {...props}
 >
   <slot /><TocButton
@@ -32,22 +38,48 @@ const { ...props } = Astro.props;
   div[data-side-toc-container] {
     // border: solid 1px Yellow;
     position: fixed;
-    left: 0px;
     transition: transform 0.25s ease-in-out;
     background-color: var(--color-secondary);
     border: solid 1px var(--color-primary);
     padding: spacing.space(1);
+    z-index: 100;
+    max-width: 66vw;
   }
 
-  div[data-side-toc-container][data-expanded="false"] {
+  div[data-variant="left"] {
+    left: 0px;
+  }
+
+  div[data-variant="right"] {
+    right: 0;
+    // bottom: 32px;
+  }
+
+  div[data-side-toc-container][data-expanded="false"][data-variant="left"] {
     transform: translateX(-100%);
+  }
+
+  div[data-side-toc-container][data-expanded="false"][data-variant="right"] {
+    transform: translateX(100%);
   }
 
   :global(.toc-button[data-toc-button]) {
     position: absolute;
-    right: -64px;
-    bottom: -1px;
+    top: -1px;
   }
+
+  div[data-side-toc-container][data-variant="left"] {
+    :global(.toc-button[data-toc-button]) {
+      right: -64px;
+    }
+  }
+
+  div[data-side-toc-container][data-variant="right"] {
+    :global(.toc-button[data-toc-button]) {
+      left: -64px;
+    }
+  }
+
 
   /* ==========================================
    Desktop
@@ -107,7 +139,7 @@ const { ...props } = Astro.props;
   document.addEventListener("transitionend", (event) => {
     if (!(event.target instanceof Element)) return;
 
-    if(event.target.getAttribute("data-side-toc-container")) {
+    if (event.target.getAttribute("data-side-toc-container")) {
       console.log(event.target);
     }
   });

@@ -45,7 +45,8 @@ const { toc, ...props } = Astro.props;
   } */
 
   h3 {
-    @include typography.font("lg", "base", "bold");
+    @include typography.font("base", "sm", "bold");
+    margin-bottom: spacing.space(2);
   }
 
   ul {
@@ -57,6 +58,7 @@ const { toc, ...props } = Astro.props;
   a {
     @include typography.link();
     display: inline-block;
+    margin-bottom: spacing.space(1);
   }
 
   a[aria-current="true"] {

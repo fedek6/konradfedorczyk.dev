@@ -26,7 +26,7 @@ const toc = notesGrouped.map(([year]) => ({
   <CenterContent>
     <Container hasPadding>
       <Grid class="notes-list">
-        <SideTocContainer class="toc">
+        <SideTocContainer class="toc" variant="right">
           <TableOfContents toc={toc} />
         </SideTocContainer>
         <div class="content-header">
@@ -70,18 +70,6 @@ const toc = notesGrouped.map(([year]) => ({
   =========================================== */
   .notes-list {
     margin: spacing.space(8) 0 0 0;
-  }
-
-  .toc {
-    //grid-column: span 0;
-    // grid-row: 1;
-    // visibility: hidden;
-    // display: none;
-    // position: fixed;
-    // border: solid 1px Red;
-    // left: -90%;
-    // background-color: var(--color-secondary);
-    //display: none;
   }
 
   .content-header {

@@ -1,6 +1,7 @@
 ---
-const { as: Tag = 'h2', ...props } = Astro.props;
+const { as: Tag = "h2", ...props } = Astro.props;
 ---
+
 <div {...props}>
   <Tag><slot /></Tag>
 </div>
@@ -37,9 +38,20 @@ const { as: Tag = 'h2', ...props } = Astro.props;
    Desktop
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
-    h3 {
+    h1 {
+      @include typography.font("4xl", "base", "bold");
       padding: spacing.space(1) 0 0 0;
+    }
+
+    h2 {
+      @include typography.font("xl", "base", "bold");
+      padding: spacing.space(1) 0 0 0;
+    }
+
+    h3 {
       @include typography.font("lg", "base", "bold");
+      padding: spacing.space(1) 0 0 0;
     }
   }
 </style>
+

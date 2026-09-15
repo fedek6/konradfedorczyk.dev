@@ -19,6 +19,9 @@ const { title, date } = Astro.props;
   @use "../../styles/typography" as typography;
   @use "../../styles/spacing" as spacing;
 
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
   header {
     margin-bottom: spacing.space(3);
 
@@ -28,7 +31,7 @@ const { title, date } = Astro.props;
     }
 
     h1 {
-      @include typography.font("xl", "sm", "bold");
+      @include typography.font("2xl", "sm", "bold");
     }
   }
 
@@ -37,10 +40,9 @@ const { title, date } = Astro.props;
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
     header {
-    h1 {
-      @include typography.font("xl", "sm", "bold");
+      h1 {
+        @include typography.font("2xl", "sm", "bold");
+      }
     }
-    }
-
   }
 </style>

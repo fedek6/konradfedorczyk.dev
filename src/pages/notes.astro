@@ -10,6 +10,7 @@ import { getCollection } from "astro:content";
 import Masonry from "../components/layout/Masonry.astro";
 import Note from "../components/content/Note.astro";
 import { groupByYear } from "../utils/content";
+import SideTocContainer from "../components/layout/SideTocContainer.astro";
 
 const config = metaConfig.categories.notes;
 const collection = await getCollection("notes");
@@ -25,9 +26,9 @@ const toc = notesGrouped.map(([year]) => ({
   <CenterContent>
     <Container hasPadding>
       <Grid class="notes-list">
-        <div class="toc">
+        <SideTocContainer class="toc">
           <TableOfContents toc={toc} />
-        </div>
+        </SideTocContainer>
         <div class="content-header">
           <DividedHeader as="h1">{config.title}</DividedHeader>
           <p>{config.description}</p>
@@ -72,17 +73,21 @@ const toc = notesGrouped.map(([year]) => ({
   }
 
   .toc {
-    grid-column: span 0;
-    grid-row: 1;
+    //grid-column: span 0;
+    // grid-row: 1;
     // visibility: hidden;
     // display: none;
-    position: fixed;
-    left: -90%;
+    // position: fixed;
+    // border: solid 1px Red;
+    // left: -90%;
+    // background-color: var(--color-secondary);
+    //display: none;
   }
 
   .content-header {
     grid-column: span 12;
     margin-bottom: spacing.space(2);
+
   }
 
   .content {
@@ -102,7 +107,7 @@ const toc = notesGrouped.map(([year]) => ({
 
     // Note card
     :global(> div:nth-child(2) > div > article) {
-      margin-bottom: spacing.space(4);
+      margin-bottom: spacing.space(10);
     }
   }
 
@@ -114,7 +119,6 @@ const toc = notesGrouped.map(([year]) => ({
       grid-column: span 2;
       grid-row: 1 / 3;
       position: static;
-      visibility: visible;
 
       :global(> nav) {
         position: sticky;

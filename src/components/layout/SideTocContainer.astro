@@ -1,0 +1,119 @@
+---
+import TocButton from "../buttons/TocButton.astro";
+const { ...props } = Astro.props;
+---
+
+<div
+  role="dialog"
+  aria-labelledby="menu-title"
+  aria-modal="true"
+  id="side-toc"
+  data-side-toc-container
+  data-expanded="false"
+  {...props}
+>
+  <slot /><TocButton
+    aria-label="Open menu"
+    aria-expanded="false"
+    aria-controls="side-toc"
+    aria-haspopup="true"
+    data-toc-button
+  />
+</div>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints";
+  @use "../../styles/typography";
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  div[data-side-toc-container] {
+    // border: solid 1px Yellow;
+    position: fixed;
+    left: 0px;
+    transition: transform 0.25s ease-in-out;
+    background-color: var(--color-secondary);
+  }
+
+  div[data-side-toc-container][data-expanded="false"] {
+    transform: translateX(-100%);
+  }
+
+  :global(.toc-button[data-toc-button]) {
+    position: absolute;
+    right: -64px;
+    bottom: 0px;
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    div[data-side-toc-container] {
+      position: static;
+      transition: none;
+    }
+
+    div[data-side-toc-container][data-expanded="false"] {
+      transform: translateX(0);
+    }
+
+    :global(.toc-button[data-toc-button]) {
+      display: none;
+    }
+  }
+</style>
+<script>
+  import { renderingConfig } from "../../config/rendering";
+  const { breakpoints } = renderingConfig;
+
+  const toggleState = (
+    btn: HTMLButtonElement,
+    toc: Element,
+    target: Element,
+    isVisible: boolean,
+  ) => {
+    toc.setAttribute("aria-hidden", `${!isVisible}`);
+    btn.setAttribute("aria-expanded", `${isVisible}`);
+    target.setAttribute("data-expanded", `${isVisible}`);
+  };
+
+  document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const btn = event.target.closest<HTMLButtonElement>("[data-toc-button]");
+    if (!btn) return;
+
+    // Grab target
+    const target = document.querySelector(
+      `#${btn.getAttribute("aria-controls")}`,
+    );
+    if (!target) return;
+
+    const btnState = btn.getAttribute("aria-expanded") === "true";
+
+    const toc = target.querySelector("[data-toc]");
+    if (!toc) return;
+
+    toggleState(btn, toc, target, !btnState);
+  });
+
+  document.addEventListener("astro:page-load", () => {
+    const isDesktop = window.matchMedia(`(min-width: ${breakpoints.lg}px)`);
+
+    if (isDesktop.matches) {
+      const btns = document.querySelectorAll("[data-toc-button]");
+      const sideContainers = document.querySelectorAll(
+        "[data-side-toc-container]",
+      );
+      const tocs = document.querySelectorAll("[data-toc]");
+      btns.forEach((btn) => btn.setAttribute("aria-expanded", "true"));
+      sideContainers.forEach((toc) =>
+        toc.setAttribute("data-expanded", "true"),
+      );
+      tocs.forEach((toc) => toc.setAttribute("aria-hidden", "false"));
+    }
+  });
+</script>

@@ -1,0 +1,66 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Container from "../../components/layout/Container.astro";
+import CenterContent from "../../components/layout/CenterContent.astro";
+import ContentStyle from "../../components/content/ContentStyle.astro";
+import ContentHeader from "../../components/organisms/ContentHeader.astro";
+import { getCollection, render } from "astro:content";
+import { getEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const collection = await getCollection("notes");
+  return collection.map((note) => ({
+    params: { id: note.id },
+  }));
+}
+
+const { id } = Astro.params;
+const entry = await getEntry("notes", id);
+if (!entry) throw new Error(`Note "${id}" not found`);
+// const entry = collection.find((note) => note.id === id)!;
+
+const { Content } = await render(entry);
+---
+
+<Layout
+  title={entry.data.title}
+  description={entry.data.description}
+  seoTitle={entry.data.title}
+>
+  <CenterContent>
+    <Container hasPadding>
+      <div class="note-single">
+        <ContentHeader
+          title={entry.data.title}
+          date={new Date(entry.data.pubDate)}
+        />
+        <section>
+          <ContentStyle>
+            <Content />
+          </ContentStyle>
+        </section>
+        <a class="back-link" href="/notes">&larr; back to notes</a>
+      </div>
+    </Container>
+  </CenterContent>
+</Layout>
+<style lang="scss">
+  @use "../../styles/spacing" as spacing;
+
+  .note-single {
+    max-width: 72ch;
+    margin: 0 auto;
+
+    article,
+    header {
+      margin-bottom: spacing.space(4);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: spacing.space(6);
+      text-decoration: none;
+      color: var(--color-accent);
+    }
+  }
+</style>

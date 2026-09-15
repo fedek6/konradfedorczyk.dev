@@ -40,13 +40,10 @@ const { toc, ...props } = Astro.props;
     }
   }
 
-  /* nav[aria-hidden="true"] {
-    visibility: hidden;
-  } */
-
   h3 {
-    @include typography.font("base", "sm", "bold");
+    @include typography.font("sm", "sm", "bold");
     margin-bottom: spacing.space(2);
+    text-transform: uppercase;
   }
 
   ul {
@@ -70,8 +67,10 @@ const { toc, ...props } = Astro.props;
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
     h3 {
-      border-top: solid 1px var(--color-primary);      @include typography.font("lg", "base", "bold");
+      border-top: solid 1px var(--color-primary);
+      @include typography.font("lg", "sm", "bold");
       padding: spacing.space(1) 0 0 0;
+      text-transform: unset;
     }
   }
 </style>

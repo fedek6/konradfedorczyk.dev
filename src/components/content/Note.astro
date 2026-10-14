@@ -4,6 +4,7 @@ import H2 from "../atoms/H2.astro";
 import Time from "../atoms/Time.astro";
 import ContentStyle from "../content/ContentStyle.astro";
 import ContentHeader from "../organisms/ContentHeader.astro";
+import CopyButton from "../buttons/CopyButton.astro";
 
 interface Props {
   entry: CollectionEntry<"notes">;
@@ -11,6 +12,7 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const permalink = new URL(`/notes/${entry.id}`, Astro.site?.href).href;
 ---
 
 <article>
@@ -20,6 +22,9 @@ const { Content } = await render(entry);
       <Content />
     </ContentStyle>
   </section>
+  <footer>
+    <CopyButton label="Copy permalink" textToCopy={permalink} />
+  </footer>
 </article>
 <style lang="scss">
   @use "sass:map";
@@ -50,6 +55,10 @@ const { Content } = await render(entry);
       @include typography.font("sm", "base", "bold");
       display: block;
     }
+  }
+
+  footer {
+    margin-top: spacing.space(2);
   }
 
   /* ==========================================

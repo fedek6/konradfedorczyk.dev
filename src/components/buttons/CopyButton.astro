@@ -1,0 +1,78 @@
+---
+import CopyIcon from "../icons/IconCopy.astro";
+import IconCheckmark from "../icons/IconCheckmark.astro";
+
+interface Props {
+  label: string;
+  textToCopy: string;
+}
+
+const { label, textToCopy } = Astro.props;
+---
+
+<button
+  type="button"
+  data-copy-text
+  data-text={textToCopy}
+  aria-label={label}
+  title={label}
+>
+  <CopyIcon />
+  <IconCheckmark />
+  <span>{label}</span>
+</button>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  button {
+    all: unset;
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+    border: solid 1px var(--color-primary);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+    cursor: pointer;
+
+    @include typography.font("sm", "base", "bold");
+    padding: spacing.space(1) spacing.space(2);
+    border-radius: 8px;
+
+    &:hover {
+      background-color: var(--color-primary);
+      color: var(--color-secondary);
+    }
+  }
+</style>
+<script>
+  import { copyToClipboard } from "../../utils/browser";
+
+  document.addEventListener("click", async (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const button = target.closest<HTMLButtonElement>("[data-copy-text]");
+    if (!button) return;
+
+    const permalink = button.dataset.text;
+    if (!permalink) return;
+
+    await copyToClipboard(permalink);
+    const label = button.querySelector("span");
+    button.dataset.copied = "true";
+    if (label) label.textContent = "Copied!";
+
+    setTimeout(() => {
+      button.dataset.copied = "false";
+      if (label) label.textContent = button.getAttribute("aria-label");
+    }, 2000);
+  });
+</script>

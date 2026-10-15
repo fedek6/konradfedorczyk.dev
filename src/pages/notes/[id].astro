@@ -6,6 +6,7 @@ import ContentStyle from "../../components/content/ContentStyle.astro";
 import ContentHeader from "../../components/organisms/ContentHeader.astro";
 import { getCollection, render } from "astro:content";
 import { getEntry } from "astro:content";
+import Grid from "../../components/layout/Grid.astro";
 
 export async function getStaticPaths() {
   const collection = await getCollection("notes");
@@ -29,26 +30,43 @@ const { Content } = await render(entry);
 >
   <CenterContent>
     <Container hasPadding>
-      <div class="note-single">
-        <ContentHeader
-          title={entry.data.title}
-          date={new Date(entry.data.pubDate)}
-        />
-        <section>
-          <ContentStyle>
-            <Content />
-          </ContentStyle>
-        </section>
-        <a class="back-link" href="/notes">&larr; back to notes</a>
-      </div>
+      <Grid class="note">
+        <article>
+          <ContentHeader
+            title={entry.data.title}
+            date={new Date(entry.data.pubDate)}
+          />
+          <section>
+            <ContentStyle>
+              <Content />
+            </ContentStyle>
+          </section>
+          <footer>
+            <a class="back-link" href="/notes">&larr; back to notes</a>
+          </footer>
+        </article>
+      </Grid>
     </Container>
   </CenterContent>
 </Layout>
 <style lang="scss">
   @use "../../styles/spacing" as spacing;
 
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  .note {
+    margin: spacing.space(8) 0 0 0;
+  }
+
+  article {
+    grid-column: span 12;
+    border-top: solid 1px var(--color-primary);
+    padding-top: spacing.space(2);
+  }
+
   .note-single {
-    max-width: 72ch;
+    // max-width: 72ch;
     margin: 0 auto;
 
     article,

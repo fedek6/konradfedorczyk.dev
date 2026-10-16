@@ -108,7 +108,7 @@ const isProjectsCategoryExpendable =
       <div class="content-link">
         {
           isNotesCategoryExpendable && (
-            <LinkButton href={metaConfig.categories.notes.slug} isReversed>
+            <LinkButton href={metaConfig.categories.notes.slug}>
               Show More
             </LinkButton>
           )
@@ -117,7 +117,7 @@ const isProjectsCategoryExpendable =
       <div class="content-link">
         {
           isArticlesCategoryExpendable && (
-            <LinkButton href={metaConfig.categories.articles.slug} isReversed>
+            <LinkButton href={metaConfig.categories.articles.slug}>
               Show More
             </LinkButton>
           )
@@ -129,7 +129,6 @@ const isProjectsCategoryExpendable =
             <LinkButton
               href={metaConfig.categories.projects.slug}
               aria-label="Show more from category articles"
-              isReversed
             >
               Show More
             </LinkButton>

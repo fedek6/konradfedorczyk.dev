@@ -5,14 +5,16 @@ interface Props {
   title: string;
   date: Date;
   href?: string;
+  size?: "sm" | "md" | "lg";
+  template?: "simple" | "full";
 }
 
-const { title, date, href } = Astro.props;
+const { title, date, href, size = "sm", template = "simple" } = Astro.props;
 ---
 
-<header>
+<header class={template}>
   <Time date={date} />
-  <h1>
+  <h1 class={size}>
     {href ? <a href={href}>{title}</a> : title}
   </h1>
 </header>
@@ -44,7 +46,9 @@ const { title, date, href } = Astro.props;
     }
 
     h1 {
-      @include typography.font("2xl", "sm", "bold");
+      &.sm {
+        @include typography.font("2xl", "sm", "bold");
+      }
     }
   }
 
@@ -54,7 +58,22 @@ const { title, date, href } = Astro.props;
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
     header {
       h1 {
-        @include typography.font("2xl", "sm", "bold");
+        &.sm {
+          @include typography.font("2xl", "sm", "bold");
+        }
+        &.lg {
+          @include typography.font("4xl", "xs", "bold");
+        }
+      }
+    }
+
+    header.full {
+      margin-bottom: spacing.space(4);
+
+      :global(time) {
+        border-top: solid 1px var(--color-primary);
+        display: inline-block;
+        margin-bottom: spacing.space(2);
       }
     }
   }

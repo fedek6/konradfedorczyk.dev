@@ -1,4 +1,12 @@
-<div class="content-style">
+---
+interface Props {
+  template?: "simple" | "full";
+}
+
+const { template = "simple" } = Astro.props;
+---
+
+<div class:list={["content-style", template]}>
   <slot />
 </div>
 <style lang="scss">
@@ -72,11 +80,28 @@
       }
     }
   }
+
+  .content-style.full {
+    :global(p:first-of-type) {
+      font-style: italic;
+      @include typography.font("lg", "2xl", "normal");
+      margin-bottom: spacing.space(6);
+      // border-bottom: solid 1px var(--color-primary);
+      // padding-bottom: spacing.space(2);
+      // border-top: solid 1px var(--color-primary);
+      // padding-top: spacing.space(2)
+    }
+  }
   /* ==========================================
    Desktop
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
-    .content-style {
+    .content-style.full {
+
+
+      :global(* + h1, h2, h3, h4)  {
+        margin-top: spacing.space(6);
+      }
     }
   }
 </style>

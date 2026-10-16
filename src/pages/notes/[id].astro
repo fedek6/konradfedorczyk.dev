@@ -30,14 +30,16 @@ const { Content } = await render(entry);
 >
   <CenterContent>
     <Container hasPadding>
-      <Grid class="note">
+      <Grid class="note-grid">
         <article>
           <ContentHeader
             title={entry.data.title}
             date={new Date(entry.data.pubDate)}
+            size="lg"
+            template="full"
           />
           <section>
-            <ContentStyle>
+            <ContentStyle template="full">
               <Content />
             </ContentStyle>
           </section>
@@ -50,12 +52,15 @@ const { Content } = await render(entry);
   </CenterContent>
 </Layout>
 <style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
   @use "../../styles/spacing" as spacing;
 
   /* ==========================================
    Global/Mobile
   =========================================== */
-  .note {
+  .note-grid {
     margin: spacing.space(8) 0 0 0;
   }
 
@@ -79,6 +84,15 @@ const { Content } = await render(entry);
       margin-top: spacing.space(6);
       text-decoration: none;
       color: var(--color-accent);
+    }
+  }
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    article {
+      grid-column: 4 / span 6;
+      border-top: none;
     }
   }
 </style>

@@ -4,14 +4,17 @@ import Time from "../atoms/Time.astro";
 interface Props {
   title: string;
   date: Date;
+  href?: string;
 }
 
-const { title, date } = Astro.props;
+const { title, date, href } = Astro.props;
 ---
 
 <header>
   <Time date={date} />
-  <h1>{title}</h1>
+  <h1>
+    {href ? <a href={href}>{title}</a> : title}
+  </h1>
 </header>
 <style lang="scss">
   @use "sass:map";
@@ -29,6 +32,15 @@ const { title, date } = Astro.props;
       @include typography.font("sm", "base", "bold");
       margin-bottom: spacing.space(1);
       display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--color-primary);
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
 
     h1 {

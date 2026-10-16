@@ -1,10 +1,8 @@
 ---
 import { render, type CollectionEntry } from "astro:content";
-import H2 from "../atoms/H2.astro";
-import Time from "../atoms/Time.astro";
+import CopyButton from "../buttons/CopyButton.astro";
 import ContentStyle from "../content/ContentStyle.astro";
 import ContentHeader from "../organisms/ContentHeader.astro";
-import CopyButton from "../buttons/CopyButton.astro";
 
 interface Props {
   entry: CollectionEntry<"notes">;
@@ -12,11 +10,11 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const permalink = new URL(`/notes/${entry.id}`, Astro.site?.href).href;
+const permalink = new URL(`/notes/${entry.id}`, Astro.url.origin).href;
 ---
 
 <article>
-  <ContentHeader title={entry.data.title} date={new Date(entry.data.pubDate)} />
+  <ContentHeader title={entry.data.title} date={new Date(entry.data.pubDate)} href={permalink} />
   <section>
     <ContentStyle>
       <Content />

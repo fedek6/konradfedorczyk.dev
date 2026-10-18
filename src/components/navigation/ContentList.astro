@@ -1,4 +1,6 @@
 ---
+import IconArrowRight from "../icons/IconArrowRight.astro";
+
 interface Entry {
   title: string;
   id: string;
@@ -16,6 +18,7 @@ const { entries, slug } = Astro.props;
   {
     entries.map((entry) => (
       <li>
+        <IconArrowRight />
         <a href={`/${slug}/${entry.id}/`}>
           <span>{entry.title}</span>
         </a>
@@ -47,19 +50,11 @@ const { entries, slug } = Astro.props;
       gap: spacing.space(2);
       margin-bottom: spacing.space(2);
 
-      &::before {
-        content: "";
-        display: block;
+      & :global([data-icon]) {
+        height: 32px;
         width: 32px;
-        height: 28px;
         flex-shrink: 0;
         flex-grow: 0;
-        // border: solid 1px Yellow;
-        background-image: var(--icon-arrow-right);
-        image-rendering: pixelated;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 100% auto;
       }
 
       a {

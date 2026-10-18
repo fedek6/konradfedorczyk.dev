@@ -7,6 +7,8 @@ import ContentHeader from "../../components/organisms/ContentHeader.astro";
 import { getCollection, render } from "astro:content";
 import { getEntry } from "astro:content";
 import Grid from "../../components/layout/Grid.astro";
+import LinkButton from "../../components/buttons/LinkButton.astro";
+import IconArrowRight from "../../components/icons/IconArrowRight.astro";
 
 export async function getStaticPaths() {
   const collection = await getCollection("notes");
@@ -30,23 +32,24 @@ const { Content } = await render(entry);
 >
   <CenterContent>
     <Container hasPadding>
-      <Grid class="note-grid">
-        <article>
-          <ContentHeader
-            title={entry.data.title}
-            date={new Date(entry.data.pubDate)}
-            size="lg"
-            template="full"
-          />
-          <section>
-            <ContentStyle template="full">
-              <Content />
-            </ContentStyle>
-          </section>
-          <footer>
-            <a class="back-link" href="/notes">&larr; back to notes</a>
-          </footer>
-        </article>
+      <Grid class="note-grid" as="article" noGap={true}>
+        <ContentHeader
+          title={entry.data.title}
+          date={new Date(entry.data.pubDate)}
+          size="lg"
+          template="full"
+        />
+        <section>
+          <ContentStyle template="simple">
+            <Content />
+          </ContentStyle>
+        </section>
+        <footer>
+          <LinkButton href="/notes"
+            ><IconArrowRight style="height: 32px; transform: scale(-1, 1);" /> Back
+            to notes</LinkButton
+          >
+        </footer>
       </Grid>
     </Container>
   </CenterContent>
@@ -61,38 +64,56 @@ const { Content } = await render(entry);
    Global/Mobile
   =========================================== */
   .note-grid {
-    margin: spacing.space(8) 0 0 0;
-  }
-
-  article {
-    grid-column: span 12;
+    margin: spacing.space(8) 0 spacing.space(10) 0;
     border-top: solid 1px var(--color-primary);
-    padding-top: spacing.space(2);
-  }
 
-  .note-single {
-    // max-width: 72ch;
-    margin: 0 auto;
+    :global(header) {
+      grid-column: span 12;
+      margin-bottom: spacing.space(3);
+    }
 
-    article,
-    header {
+    section {
+      grid-column: span 12;
       margin-bottom: spacing.space(4);
     }
 
-    .back-link {
-      display: inline-block;
-      margin-top: spacing.space(6);
-      text-decoration: none;
-      color: var(--color-accent);
+    footer {
+      grid-column: span 12;
     }
   }
+
   /* ==========================================
    Desktop
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
-    article {
-      grid-column: 4 / span 6;
+    .note-grid {
+      margin: spacing.space(8) 0 spacing.space(10) 0;
       border-top: none;
+
+      :global(header) {
+        margin-bottom: spacing.space(5);
+
+        display: grid;
+        grid-template-columns: subgrid;
+
+        :global(time) {
+          grid-column: 3 / span 2;
+          margin-bottom: spacing.space(6);
+        }
+
+        :global(h1) {
+          grid-column: 4 / span 6;
+        }
+      }
+
+      section {
+        grid-column: 4 / span 6;
+        margin-bottom: spacing.space(5);
+      }
+
+      footer {
+        grid-column: 4 / span 6;
+      }
     }
   }
 </style>

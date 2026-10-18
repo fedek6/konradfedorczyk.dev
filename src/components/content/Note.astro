@@ -14,7 +14,11 @@ const permalink = new URL(`/notes/${entry.id}`, Astro.url.origin).href;
 ---
 
 <article>
-  <ContentHeader title={entry.data.title} date={new Date(entry.data.pubDate)} href={permalink} />
+  <ContentHeader
+    title={entry.data.title}
+    date={new Date(entry.data.pubDate)}
+    href={permalink}
+  />
   <section>
     <ContentStyle>
       <Content />
@@ -36,8 +40,11 @@ const permalink = new URL(`/notes/${entry.id}`, Astro.url.origin).href;
   article {
     // border-radius: 8px;
     border-left: solid 2px var(--color-primary);
-    padding: spacing.space(2) spacing.space(2) spacing.space(4)  spacing.space(2);
+    padding: spacing.space(2) spacing.space(2) spacing.space(4) spacing.space(2);
 
+    section {
+      margin-bottom: spacing.space(4);
+    }
     // transition: all 0.5s ease-in-out;
   }
 
@@ -56,7 +63,7 @@ const permalink = new URL(`/notes/${entry.id}`, Astro.url.origin).href;
   }
 
   footer {
-    margin-top: spacing.space(2);
+    margin-top: spacing.space(3);
   }
 
   /* ==========================================
@@ -68,8 +75,6 @@ const permalink = new URL(`/notes/${entry.id}`, Astro.url.origin).href;
       border: solid 1px var(--color-primary);
       padding: spacing.space(3) spacing.space(4) spacing.space(5)
         spacing.space(4);
-
-      // transition: all 0.5s ease-in-out;
     }
 
     footer {

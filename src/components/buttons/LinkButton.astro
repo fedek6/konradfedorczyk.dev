@@ -23,10 +23,18 @@ const { isReversed, ...props } = Astro.props;
     justify-content: center;
     @include typography.link;
     border: solid 1px var(--color-primary);
+    background-color: transparent;
     height: spacing.space(6);
     border-radius: 8px;
+    gap: 4px;
 
     @include typography.font("sm", "base", "bold");
+  }
+
+  a:hover {
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    text-decoration: none;
   }
 
   .reversed {

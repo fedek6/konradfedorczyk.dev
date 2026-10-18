@@ -83,9 +83,10 @@ const { template = "simple" } = Astro.props;
 
   .content-style.full {
     :global(p:first-of-type) {
-      font-style: italic;
+      // font-style: italic;
       @include typography.font("lg", "2xl", "normal");
-      margin-bottom: spacing.space(6);
+      margin-bottom: spacing.space(4);
+      font-style: italic;
       // border-bottom: solid 1px var(--color-primary);
       // padding-bottom: spacing.space(2);
       // border-top: solid 1px var(--color-primary);
@@ -97,9 +98,13 @@ const { template = "simple" } = Astro.props;
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
     .content-style.full {
+      :global(p:first-of-type) {
+        font-style: italic;
+        @include typography.font("lg", "2xl", "normal");
+        margin-bottom: spacing.space(6);
+      }
 
-
-      :global(* + h1, h2, h3, h4)  {
+      :global(* + h1, h2, h3, h4) {
         margin-top: spacing.space(6);
       }
     }

@@ -1,7 +1,12 @@
 ---
-const { class: className, ...props} = Astro.props;
+import type { HTMLTag, Polymorphic } from "astro/types";
+
+type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & { noGap?: boolean };
+
+const { class: className, as: Tag = "div", noGap = false, ...props } = Astro.props;
 ---
-<div class:list={['grid-12', className]} {...props}><slot /></div>
+
+<Tag class:list={["grid-12", className, noGap ? "no-gap" : "gap"]} {...props}><slot /></Tag>
 <style lang="scss">
   @use "sass:map";
   @use "../../styles/breakpoints" as breakpoints;
@@ -12,12 +17,17 @@ const { class: className, ...props} = Astro.props;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(1, 1fr);
-    gap: spacing.space(4);
+    // gap: spacing.space(4);
   }
+
   .grid-12 {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(1, 1fr);
+    // gap: spacing.space(4);
+  }
+
+  .gap {
     gap: spacing.space(4);
   }
 </style>

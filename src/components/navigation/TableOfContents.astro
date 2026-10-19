@@ -118,12 +118,21 @@ const { toc, ...props } = Astro.props;
           for (const entry of entries) {
             if (entry.isIntersecting) {
               const id = entry.target.getAttribute("id");
-              toc
-                .querySelectorAll('[aria-current="true"]')
-                .forEach((el) => el.setAttribute("aria-current", "false"));
-              toc
-                .querySelector(`a[href='#${id}']`)
-                ?.setAttribute("aria-current", "true");
+              const currentElement = toc.querySelector(`a[href='#${id}']`);
+              const otherElements = toc.querySelectorAll(
+                "[data-toc-scroll-to-content]",
+              );
+
+              // Disable current state on all elements
+              otherElements.forEach((el) => {
+                el.setAttribute("aria-current", "false");
+                el.parentElement!.dataset.current = "false";
+              });
+
+              if (currentElement) {
+                currentElement.setAttribute("aria-current", "true");
+                currentElement.parentElement!.dataset.current = "true";
+              }
             }
           }
         },

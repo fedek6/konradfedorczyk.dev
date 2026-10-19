@@ -12,3 +12,12 @@ export const groupByYear = <T extends { data: { pubDate: Date } }>(
   Object.entries(
     Object.groupBy(content, (item) => item.data.pubDate.getFullYear()),
   ).sort(([a], [b]) => +b - +a);
+
+export const extractYears = <T extends { data: { pubDate: Date } }>(
+  content: T[],
+) =>
+  [
+    ...new Set(
+      Object.values(content).map((item) => item.data.pubDate.getFullYear()),
+    ),
+  ].sort((a, b) => +b - +a);

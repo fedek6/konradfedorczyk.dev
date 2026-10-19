@@ -1,10 +1,9 @@
 ---
-import { getCollection, getEntry } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import SimpleContent from "../../components/content/SimpleContent.astro";
 import CenterContent from "../../components/layout/CenterContent.astro";
 import Container from "../../components/layout/Container.astro";
 import Layout from "../../layouts/Layout.astro";
-import { render, type CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
   const collection = await getCollection("notes");

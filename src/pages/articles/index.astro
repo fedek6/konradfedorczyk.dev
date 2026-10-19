@@ -1,16 +1,14 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Container from "../components/layout/Container.astro";
-import Grid from "../components/layout/Grid.astro";
-import CenterContent from "../components/layout/CenterContent.astro";
-import DividedHeader from "../components/typography/DividedHeader.astro";
-import TableOfContents from "../components/navigation/TableOfContents.astro";
-import { metaConfig } from "../config/meta";
 import { getCollection } from "astro:content";
-import Masonry from "../components/layout/Masonry.astro";
-import Note from "../components/content/Note.astro";
-import { groupByYear, extractYears } from "../utils/content";
-import SideTocContainer from "../components/layout/SideTocContainer.astro";
+import CenterContent from "../../components/layout/CenterContent.astro";
+import Container from "../../components/layout/Container.astro";
+import Grid from "../../components/layout/Grid.astro";
+import SideTocContainer from "../../components/layout/SideTocContainer.astro";
+import TableOfContents from "../../components/navigation/TableOfContents.astro";
+import DividedHeader from "../../components/typography/DividedHeader.astro";
+import { metaConfig } from "../../config/meta";
+import Layout from "../../layouts/Layout.astro";
+import { extractYears } from "../../utils/content";
 
 const config = metaConfig.categories.articles;
 const collection = await getCollection("articles");
@@ -39,9 +37,9 @@ const toc = years.map((year) => ({
 </Layout>
 <style lang="scss">
   @use "sass:map";
-  @use "../styles/breakpoints" as breakpoints;
-  @use "../styles/typography" as typography;
-  @use "../styles/spacing" as spacing;
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
 
   /* ==========================================
    Global/Mobile

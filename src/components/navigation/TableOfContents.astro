@@ -15,9 +15,13 @@ const { toc, ...props } = Astro.props;
   <h3 id="menu-title">Table of contents</h3>
   <ul>
     {
-      toc.map((entry) => (
-        <li>
-          <a href={entry.href} data-toc-scroll-to-content>
+      toc.map((entry, i) => (
+        <li data-current={i === 0 ? "true" : "false"}>
+          <a
+            href={entry.href}
+            data-toc-scroll-to-content
+            aria-current={i === 0 ? "true" : "false"}
+          >
             {entry.title}
           </a>
         </li>

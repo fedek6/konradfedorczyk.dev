@@ -1,14 +1,10 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Container from "../../components/layout/Container.astro";
+import { getCollection, getEntry } from "astro:content";
+import SimpleContent from "../../components/content/SimpleContent.astro";
 import CenterContent from "../../components/layout/CenterContent.astro";
-import ContentStyle from "../../components/content/ContentStyle.astro";
-import ContentHeader from "../../components/organisms/ContentHeader.astro";
-import { getCollection, render } from "astro:content";
-import { getEntry } from "astro:content";
-import Grid from "../../components/layout/Grid.astro";
-import LinkButton from "../../components/buttons/LinkButton.astro";
-import IconArrowRight from "../../components/icons/IconArrowRight.astro";
+import Container from "../../components/layout/Container.astro";
+import Layout from "../../layouts/Layout.astro";
+import { render, type CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
   const collection = await getCollection("notes");
@@ -20,8 +16,6 @@ export async function getStaticPaths() {
 const { id } = Astro.params;
 const entry = await getEntry("notes", id);
 if (!entry) throw new Error(`Note "${id}" not found`);
-// const entry = collection.find((note) => note.id === id)!;
-
 const { Content } = await render(entry);
 ---
 
@@ -32,88 +26,7 @@ const { Content } = await render(entry);
 >
   <CenterContent>
     <Container hasPadding>
-      <Grid class="note-grid" as="article" noGap={true}>
-        <ContentHeader
-          title={entry.data.title}
-          date={new Date(entry.data.pubDate)}
-          size="lg"
-          template="full"
-        />
-        <section>
-          <ContentStyle template="simple">
-            <Content />
-          </ContentStyle>
-        </section>
-        <footer>
-          <LinkButton href="/notes"
-            ><IconArrowRight style="height: 32px; transform: scale(-1, 1);" /> Back
-            to notes</LinkButton
-          >
-        </footer>
-      </Grid>
+      <SimpleContent entry={entry} backLink="/notes" backLinkText="notes"><Content /></SimpleContent>
     </Container>
   </CenterContent>
 </Layout>
-<style lang="scss">
-  @use "sass:map";
-  @use "../../styles/breakpoints" as breakpoints;
-  @use "../../styles/typography" as typography;
-  @use "../../styles/spacing" as spacing;
-
-  /* ==========================================
-   Global/Mobile
-  =========================================== */
-  .note-grid {
-    margin: spacing.space(8) 0 spacing.space(10) 0;
-    border-top: solid 1px var(--color-primary);
-
-    :global(header) {
-      grid-column: span 12;
-      margin-bottom: spacing.space(3);
-    }
-
-    section {
-      grid-column: span 12;
-      margin-bottom: spacing.space(4);
-    }
-
-    footer {
-      grid-column: span 12;
-    }
-  }
-
-  /* ==========================================
-   Desktop
-  =========================================== */
-  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
-    .note-grid {
-      margin: spacing.space(8) 0 spacing.space(10) 0;
-      border-top: none;
-
-      :global(header) {
-        margin-bottom: spacing.space(5);
-
-        display: grid;
-        grid-template-columns: subgrid;
-
-        :global(time) {
-          grid-column: 3 / span 2;
-          margin-bottom: spacing.space(6);
-        }
-
-        :global(h1) {
-          grid-column: 4 / span 6;
-        }
-      }
-
-      section {
-        grid-column: 4 / span 6;
-        margin-bottom: spacing.space(5);
-      }
-
-      footer {
-        grid-column: 4 / span 6;
-      }
-    }
-  }
-</style>

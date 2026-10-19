@@ -1,0 +1,99 @@
+---
+import LinkButton from "../buttons/LinkButton.astro";
+import IconArrowRight from "../icons/IconArrowRight.astro";
+import Grid from "../layout/Grid.astro";
+import ContentHeader from "../organisms/ContentHeader.astro";
+import ContentStyle from "./ContentStyle.astro";
+
+interface Props {
+  entry: {
+    id: string;
+    body?: string;
+    data: { title: string; pubDate: Date };
+  },
+  backLink: string,
+  backLinkText: string
+}
+const { entry, backLinkText, backLink } = Astro.props;
+---
+<Grid class="note-grid" as="article" noGap={true}>
+  <ContentHeader
+    title={entry.data.title}
+    date={new Date(entry.data.pubDate)}
+    size="lg"
+    template="full"
+  />
+  <section>
+    <ContentStyle template="simple">
+      <slot />
+    </ContentStyle>
+  </section>
+  <footer>
+    <LinkButton href={backLink}
+      ><IconArrowRight style="height: 32px; transform: scale(-1, 1);" /> Back to {backLinkText}</LinkButton
+    >
+  </footer>
+</Grid>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  .note-grid {
+    margin: spacing.space(8) 0 spacing.space(10) 0;
+    border-top: solid 1px var(--color-primary);
+
+    :global(header) {
+      grid-column: span 12;
+      margin-bottom: spacing.space(3);
+    }
+
+    section {
+      grid-column: span 12;
+      margin-bottom: spacing.space(4);
+    }
+
+    footer {
+      grid-column: span 12;
+    }
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .note-grid {
+      margin: spacing.space(8) 0 spacing.space(10) 0;
+      border-top: none;
+
+      :global(header) {
+        margin-bottom: spacing.space(5);
+
+        display: grid;
+        grid-template-columns: subgrid;
+
+        :global(time) {
+          grid-column: 3 / span 2;
+          margin-bottom: spacing.space(6);
+        }
+
+        :global(h1) {
+          grid-column: 4 / span 6;
+        }
+      }
+
+      section {
+        grid-column: 4 / span 6;
+        margin-bottom: spacing.space(5);
+      }
+
+      footer {
+        grid-column: 4 / span 6;
+      }
+    }
+  }
+</style>

@@ -1,0 +1,10 @@
+---
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const collection = await getCollection("articles");
+  return collection.map((article) => ({
+    params: { id: article.id, year: `${article.data.pubDate.getFullYear()}` },
+  }));
+}
+---

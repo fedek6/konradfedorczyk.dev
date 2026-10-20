@@ -4,33 +4,47 @@ import CenterContent from "../../components/layout/CenterContent.astro";
 import Container from "../../components/layout/Container.astro";
 import Grid from "../../components/layout/Grid.astro";
 import SideTocContainer from "../../components/layout/SideTocContainer.astro";
-import TableOfContents from "../../components/navigation/TableOfContents.astro";
+import TableOfContents from "../../components/navigation/ExternalTableOfContents.astro";
 import DividedHeader from "../../components/typography/DividedHeader.astro";
 import { metaConfig } from "../../config/meta";
 import Layout from "../../layouts/Layout.astro";
-import { extractYears } from "../../utils/content";
+import { extractYears, groupByYear } from "../../utils/content";
+import Article from "../../components/content/Article.astro";
 
 const config = metaConfig.categories.articles;
 const collection = await getCollection("articles");
 const years = extractYears(collection);
+const groupedByYear = groupByYear(collection);
 const toc = years.map((year) => ({
   title: `${year}`,
   href: `/articles/${year}`,
 }));
+
+const currentHref = toc[0].href;
+const currentTitle = toc[0].title;
+const currentArticles = groupedByYear[0][1];
+const title = `articles from ${currentTitle}`;
 ---
 
-<Layout title="articles">
+<Layout title={title}>
   <CenterContent>
     <Container hasPadding>
       <Grid class="notes-list">
         <SideTocContainer class="toc" variant="right">
-          <TableOfContents toc={toc} />
+          <TableOfContents toc={toc} currentHref={currentHref} title="Archives" />
         </SideTocContainer>
         <div class="content-header">
-          <DividedHeader as="h1">{config.title}</DividedHeader>
+          <DividedHeader as="h1"
+            >{config.title} from {currentTitle}</DividedHeader
+          >
           <p>{config.description}</p>
         </div>
-        <div class="content">ss</div>
+        <div class="content">
+          {
+            currentArticles &&
+              currentArticles.map((article) => <Article entry={article} />)
+          }
+        </div>
       </Grid>
     </Container></CenterContent
   >
@@ -51,12 +65,27 @@ const toc = years.map((year) => ({
   .content-header {
     grid-column: span 12;
     margin-bottom: spacing.space(2);
+    :global(h1) {
+      @include typography.font("3xl", "xs", "bold");
+      margin-bottom: spacing.space(3);
+    }
 
+    :global(p) {
+      @include typography.font("lg", "base", "normal");
+    }
+
+    :global(> div) {
+      padding-top: spacing.space(2);
+    }
   }
 
   .content {
     // display: none;
     grid-column: span 12;
+
+    :global(article) {
+      margin-bottom: spacing.space(8);
+    }
   }
 
   .group-container {
@@ -91,8 +120,21 @@ const toc = years.map((year) => ({
     }
 
     .content-header {
-      grid-column: span 4;
-      margin-bottom: spacing.space(2);
+      grid-column: span 6;
+      margin-bottom: spacing.space(6);
+
+      :global(h1) {
+        @include typography.font("6xl", "xs", "bold");
+        margin-bottom: spacing.space(3);
+      }
+
+      :global(> div) {
+        padding-top: spacing.space(2);
+      }
+
+      :global(p) {
+        @include typography.font("lg", "base", "normal");
+      }
     }
 
     .content {
@@ -101,7 +143,7 @@ const toc = years.map((year) => ({
       grid-template-columns: subgrid;
 
       :global(article) {
-        margin-bottom: spacing.space(4);
+        margin-bottom: spacing.space(8);
       }
     }
 
@@ -124,6 +166,4 @@ const toc = years.map((year) => ({
       }
     }
   }
-</style>
-
 </style>

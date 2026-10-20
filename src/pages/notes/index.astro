@@ -75,7 +75,6 @@ const toc = notesGrouped.map(([year]) => ({
   .content-header {
     grid-column: span 12;
     margin-bottom: spacing.space(2);
-
   }
 
   .content {
@@ -115,8 +114,21 @@ const toc = notesGrouped.map(([year]) => ({
     }
 
     .content-header {
-      grid-column: span 4;
-      margin-bottom: spacing.space(2);
+      grid-column: span 6;
+      margin-bottom: spacing.space(6);
+
+      :global(h1) {
+        @include typography.font("6xl", "xs", "bold");
+        margin-bottom: spacing.space(3);
+      }
+
+      :global(> div) {
+        padding-top: spacing.space(2);
+      }
+
+      :global(p) {
+        @include typography.font("lg", "base", "normal");
+      }
     }
 
     .content {

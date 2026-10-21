@@ -1,6 +1,7 @@
 ---
 import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
+import { capitalize } from "../../utils/content";
 
 export interface Props {
   pageName: string;
@@ -10,6 +11,7 @@ export interface Props {
   ogTitle?: string;
   ogImage?: string;
   ogImageAlt?: string;
+  rawTitle?: boolean;
 }
 
 const {
@@ -20,10 +22,11 @@ const {
   ogImage,
   ogImageAlt = "",
   pageName,
+  rawTitle = false,
   ...props
 } = Astro.props;
 
-const pageTitle = `${pageName} – ${title}`;
+const pageTitle = rawTitle ? title : `${capitalize(title)} – ${pageName}`;
 ---
 
 <title>{pageTitle}</title>

@@ -9,9 +9,11 @@ import Header from "../components/common/Header.astro";
 import OverlayMenu from "../components/layout/OverlayMenu.astro";
 import Footer from "../components/common/Footer.astro";
 
-interface Props extends Omit<HeadProps, "pageName"> {}
+interface Props extends Omit<HeadProps, "pageName"> {
+  rawTitle?: boolean;
+}
 
-const { ...headProps } = Astro.props;
+const { rawTitle = false, ...headProps } = Astro.props;
 
 const meta = {
   ...metaConfig,
@@ -22,7 +24,7 @@ const meta = {
 <!doctype html>
 <html lang="en" transition:animate="none">
   <head>
-    <Head {...meta} />
+    <Head rawTitle={rawTitle} {...meta} />
   </head>
   <body data-theme="light">
     <Header transition:persist="main-header" transition:animate="none" />

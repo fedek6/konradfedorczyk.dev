@@ -10,7 +10,7 @@ type MetaConfig = {
 };
 
 export const metaConfig: MetaConfig = {
-  pageName: "Konrad Fedorczyk dev blog",
+  pageName: "Konrad Fedorczyk",
   categories: {
     notes: {
       title: "Notes",

@@ -1,5 +1,9 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
+import SimpleContent from "../../../components/content/SimpleContent.astro";
+import CenterContent from "../../../components/layout/CenterContent.astro";
+import Container from "../../../components/layout/Container.astro";
+import Layout from "../../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
   const collection = await getCollection("articles");
@@ -7,4 +11,20 @@ export async function getStaticPaths() {
     params: { id: article.id, year: `${article.data.pubDate.getFullYear()}` },
   }));
 }
+
+const { id, year } = Astro.params;
+const entry = await getEntry("notes", id);
+if (!entry) throw new Error(`Note "${id}" not found`);
+const { Content } = await render(entry);
 ---
+<Layout
+  title={entry.data.title}
+  description={entry.data.description}
+  seoTitle={entry.data.title}
+>
+  <CenterContent>
+    <Container hasPadding>
+      <SimpleContent entry={entry} backLink={`/articles/${year}`} backLinkText="articles"><Content /></SimpleContent>
+    </Container>
+  </CenterContent>
+</Layout>

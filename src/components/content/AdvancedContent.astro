@@ -1,0 +1,36 @@
+---
+import LinkButton from "../buttons/LinkButton.astro";
+import IconArrowRight from "../icons/IconArrowRight.astro";
+import Grid from "../layout/Grid.astro";
+import ContentHeader from "../organisms/ContentHeader.astro";
+import ContentStyle from "./ContentStyle.astro";
+
+interface Props {
+  entry: {
+    id: string;
+    body?: string;
+    data: { title: string; pubDate: Date };
+  },
+  backLink: string,
+  backLinkText: string
+}
+const { entry, backLinkText, backLink } = Astro.props;
+---
+<Grid class="note-grid" as="article" noGap={true}>
+  <ContentHeader
+    title={entry.data.title}
+    date={new Date(entry.data.pubDate)}
+    size="lg"
+    template="full"
+  />
+  <section>
+    <ContentStyle template="simple">
+      <slot />
+    </ContentStyle>
+  </section>
+  <footer>
+    <LinkButton href={backLink}
+      ><IconArrowRight style="height: 32px; transform: scale(-1, 1);" /> Back to {backLinkText}</LinkButton
+    >
+  </footer>
+</Grid>

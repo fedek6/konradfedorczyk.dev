@@ -44,6 +44,8 @@ const { variant, ...props } = Astro.props;
     padding: spacing.space(2)  spacing.space(2)  spacing.space(1)  spacing.space(2);
     z-index: 100;
     max-width: 66vw;
+    min-width: 200px;
+    top: calc(65px + spacing.space(2));
   }
 
   div[data-variant="left"] {

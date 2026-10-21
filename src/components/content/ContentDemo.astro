@@ -65,9 +65,10 @@ const isProjectsCategoryExpendable =
           </p>
         </header>
         <ContentList
-          entries={articles.map((note) => ({
-            title: note.data.title,
-            id: note.id,
+          entries={articles.map((article) => ({
+            title: article.data.title,
+            id: article.id,
+            year: `${article.data.pubDate.getFullYear()}`,
           }))}
           slug={metaConfig.categories.articles.slug}
         />

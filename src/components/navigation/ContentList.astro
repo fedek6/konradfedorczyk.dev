@@ -4,6 +4,7 @@ import IconArrowRight from "../icons/IconArrowRight.astro";
 interface Entry {
   title: string;
   id: string;
+    year?: string;
 }
 
 interface Props {
@@ -19,7 +20,7 @@ const { entries, slug } = Astro.props;
     entries.map((entry) => (
       <li>
         <IconArrowRight />
-        <a href={`/${slug}/${entry.id}/`}>
+        <a href={`/${slug}/${entry.year ? `${entry.year}/` : ''}${entry.id}/`}>
           <span>{entry.title}</span>
         </a>
       </li>

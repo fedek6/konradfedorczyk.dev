@@ -1,15 +1,8 @@
 ---
 import { getCollection } from "astro:content";
-import CenterContent from "../../components/layout/CenterContent.astro";
-import Container from "../../components/layout/Container.astro";
-import Grid from "../../components/layout/Grid.astro";
-import SideTocContainer from "../../components/layout/SideTocContainer.astro";
-import TableOfContents from "../../components/navigation/ExternalTableOfContents.astro";
-import DividedHeader from "../../components/typography/DividedHeader.astro";
+import ContentList from "../../components/content/ContentList.astro";
 import { metaConfig } from "../../config/meta";
-import Layout from "../../layouts/Layout.astro";
-import { extractYears, groupByYear } from "../../utils/content";
-import Article from "../../components/content/Article.astro";
+import { extractYears, groupByYear, sortByDateDesc } from "../../utils/content";
 
 const config = metaConfig.categories.articles;
 const collection = await getCollection("articles");
@@ -22,154 +15,12 @@ const toc = years.map((year) => ({
 
 const currentHref = toc[0].href;
 const currentTitle = toc[0].title;
-const currentArticles = groupedByYear[0][1];
-const title = `articles from ${currentTitle}`;
 ---
 
-<Layout title={title}>
-  <CenterContent>
-    <Container hasPadding>
-      <Grid class="content-list">
-        <SideTocContainer class="toc" variant="right">
-          <TableOfContents toc={toc} currentHref={currentHref} title="Archives" />
-        </SideTocContainer>
-        <div class="content-header">
-          <DividedHeader as="h1"
-            >{config.title} from {currentTitle}</DividedHeader
-          >
-          <p>{config.description}</p>
-        </div>
-        <div class="content">
-          {
-            currentArticles &&
-              currentArticles.map((article) => <Article entry={article} />)
-          }
-        </div>
-      </Grid>
-    </Container></CenterContent
-  >
-</Layout>
-<style lang="scss">
-  @use "sass:map";
-  @use "../../styles/breakpoints" as breakpoints;
-  @use "../../styles/typography" as typography;
-  @use "../../styles/spacing" as spacing;
-
-  /* ==========================================
-   Global/Mobile
-  =========================================== */
-  .content-list {
-    margin: spacing.space(8) 0 spacing.space(8) 0;
-  }
-
-  .content-header {
-    grid-column: span 12;
-    margin-bottom: spacing.space(2);
-    :global(h1) {
-      @include typography.font("3xl", "xs", "bold");
-      margin-bottom: spacing.space(3);
-    }
-
-    :global(p) {
-      @include typography.font("lg", "base", "normal");
-    }
-
-    :global(> div) {
-      padding-top: spacing.space(2);
-    }
-  }
-
-  .content {
-    // display: none;
-    grid-column: span 12;
-
-    :global(article) {
-      margin-bottom: spacing.space(8);
-    }
-  }
-
-  .group-container {
-    margin-bottom: spacing.space(10);
-
-    // Year header
-    :global(> div:first-child) {
-      scroll-margin-top: calc(65px + spacing.space(8));
-      grid-column: span 2;
-      margin-bottom: spacing.space(3);
-    }
-
-    // Note card
-    :global(> div:nth-child(2) > div > article) {
-      margin-bottom: spacing.space(10);
-    }
-  }
-
-  // Toc has different look on mobile
-  .toc {
-    // display: none;
-  }
-
-  /* ==========================================
-   Desktop
-  =========================================== */
-  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
-    .toc {
-      grid-column: span 2;
-      grid-row: 1 / 3;
-      position: static;
-      display: initial;
-
-      :global(> nav) {
-        position: sticky;
-        top: calc(65px + 64px);
-      }
-    }
-
-    .content-header {
-      grid-column: span 6;
-      margin-bottom: spacing.space(6);
-
-      :global(h1) {
-        @include typography.font("6xl", "xs", "bold");
-        margin-bottom: spacing.space(3);
-      }
-
-      :global(> div) {
-        padding-top: spacing.space(2);
-      }
-
-      :global(p) {
-        @include typography.font("lg", "base", "normal");
-      }
-    }
-
-    .content {
-      grid-column: 3 / span 10;
-      display: grid;
-      grid-template-columns: subgrid;
-
-      :global(article) {
-        margin-bottom: spacing.space(8);
-      }
-    }
-
-    .group-container {
-      grid-column: span 10;
-      margin-bottom: spacing.space(10);
-
-      display: grid;
-      grid-template-columns: subgrid;
-
-      // Year header
-      :global(> div:first-child) {
-        scroll-margin-top: calc(65px + spacing.space(8));
-        grid-column: span 2;
-        margin-bottom: spacing.space(4);
-      }
-
-      :global(> div:nth-child(2)) {
-        grid-column: span 10;
-      }
-    }
-  }
-</style>
+<ContentList
+  category={config}
+  toc={toc}
+  currentHref={currentHref}
+  currentTitle={currentTitle}
+  articles={sortByDateDesc(groupedByYear[0][1]!)}
+/>

@@ -21,3 +21,10 @@ export const extractYears = <T extends { data: { pubDate: Date } }>(
       Object.values(content).map((item) => item.data.pubDate.getFullYear()),
     ),
   ].sort((a, b) => +b - +a);
+
+export const sortByDateDesc = <T extends { data: { pubDate: Date } }>(
+  content: T[],
+) =>
+  content.toSorted(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );

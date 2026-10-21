@@ -1,6 +1,6 @@
 ---
 import { getCollection, getEntry, render } from "astro:content";
-import SimpleContent from "../../../components/content/SimpleContent.astro";
+import AdvancedContent from "../../../components/content/AdvancedContent.astro";
 import CenterContent from "../../../components/layout/CenterContent.astro";
 import Container from "../../../components/layout/Container.astro";
 import Layout from "../../../layouts/Layout.astro";
@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 }
 
 const { id, year } = Astro.params;
-const entry = await getEntry("notes", id);
+const entry = await getEntry("articles", id);
 if (!entry) throw new Error(`Note "${id}" not found`);
 const { Content } = await render(entry);
 ---
@@ -24,7 +24,7 @@ const { Content } = await render(entry);
 >
   <CenterContent>
     <Container hasPadding>
-      <SimpleContent entry={entry} backLink={`/articles/${year}`} backLinkText="articles"><Content /></SimpleContent>
+      <AdvancedContent entry={entry} backLink={`/articles/${year}`} backLinkText="articles"><Content /></AdvancedContent>
     </Container>
   </CenterContent>
 </Layout>

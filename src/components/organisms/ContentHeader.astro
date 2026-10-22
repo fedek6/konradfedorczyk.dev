@@ -5,7 +5,7 @@ interface Props {
   title: string;
   date: Date;
   href?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   template?: "simple" | "full";
 }
 
@@ -52,6 +52,9 @@ const { title, date, href, size = "sm", template = "simple" } = Astro.props;
       &.lg {
         @include typography.font("2xl", "sm", "bold");
       }
+      &.xl {
+        @include typography.font("3xl", "sm", "bold");
+      }
     }
   }
 
@@ -66,6 +69,9 @@ const { title, date, href, size = "sm", template = "simple" } = Astro.props;
         }
         &.lg {
           @include typography.font("4xl", "xs", "bold");
+        }
+        &.xl {
+          @include typography.font("6xl", "xs", "bold");
         }
       }
     }

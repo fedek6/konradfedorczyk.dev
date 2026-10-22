@@ -1,36 +1,98 @@
 ---
+import type { MarkdownHeading } from "astro";
 import LinkButton from "../buttons/LinkButton.astro";
 import IconArrowRight from "../icons/IconArrowRight.astro";
 import Grid from "../layout/Grid.astro";
 import ContentHeader from "../organisms/ContentHeader.astro";
 import ContentStyle from "./ContentStyle.astro";
+import SideTocContainer from "../layout/SideTocContainer.astro";
+import TableOfContents from "../navigation/TableOfContents.astro";
 
 interface Props {
   entry: {
     id: string;
     body?: string;
     data: { title: string; pubDate: Date };
-  },
-  backLink: string,
-  backLinkText: string
+  };
+  backLink: string;
+  backLinkText: string;
+  headings: MarkdownHeading[];
 }
 const { entry, backLinkText, backLink } = Astro.props;
 ---
-<Grid class="note-grid" as="article" noGap={true}>
+
+<Grid class="note-grid" as="article">
+  <SideTocContainer class="toc" variant="right">
+    <TableOfContents toc={[{ title: "aaa", href: "#aaa" }]} />
+  </SideTocContainer>
   <ContentHeader
     title={entry.data.title}
     date={new Date(entry.data.pubDate)}
-    size="lg"
     template="full"
+    size="xl"
   />
-  <section>
-    <ContentStyle template="simple">
-      <slot />
-    </ContentStyle>
-  </section>
-  <footer>
-    <LinkButton href={backLink}
-      ><IconArrowRight style="height: 32px; transform: scale(-1, 1);" /> Back to {backLinkText}</LinkButton
-    >
-  </footer>
+  <div class="content">
+    <section>
+      <ContentStyle template="full">
+        <slot />
+      </ContentStyle>
+    </section>
+    <footer>
+      <LinkButton href={backLink}
+        ><IconArrowRight style="height: 32px; transform: scale(-1, 1);" /> Back to{
+          " "
+        }{backLinkText}</LinkButton
+      >
+    </footer>
+  </div>
 </Grid>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+
+  .note-grid {
+    margin-top: spacing.space(8);
+    border-top: solid 1px var(--color-primary);
+    row-gap: 0;
+
+    :global(header) {
+      grid-column: span 12;
+      // margin-bottom: spacing.space(2);
+    }
+
+    .content {
+      // display: none;
+      grid-column: span 12;
+
+      section {
+        // grid-column: span 12;
+      }
+    }
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  /* @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .content {
+      grid-column: span 6;
+    }
+
+    .toc {
+      grid-column: span 2;
+      position: static;
+      display: initial;
+
+      :global(> nav) {
+        position: sticky;
+        top: calc(65px + 65px);
+      }
+    }
+  } */
+</style>

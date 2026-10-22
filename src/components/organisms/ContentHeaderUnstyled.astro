@@ -1,0 +1,18 @@
+---
+import Time from "../atoms/Time.astro";
+
+interface Props {
+  title: string;
+  date: Date;
+  href?: string;
+}
+
+const { title, date, href } = Astro.props;
+---
+
+<header>
+  <Time date={date} />
+  <h1>
+    {href ? <a href={href}>{title}</a> : title}
+  </h1>
+</header>

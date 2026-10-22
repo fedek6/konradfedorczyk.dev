@@ -85,7 +85,9 @@ const { template = "simple" } = Astro.props;
     :global(p:first-of-type) {
       // font-style: italic;
       @include typography.font("lg", "2xl", "normal");
-      margin-bottom: spacing.space(4);
+      margin-bottom: spacing.space(6);
+
+      // padding-left: spacing.space(2);
       font-style: italic;
       // border-bottom: solid 1px var(--color-primary);
       // padding-bottom: spacing.space(2);

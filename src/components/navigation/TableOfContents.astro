@@ -30,91 +30,7 @@ const { toc, ...props } = Astro.props;
   </ul>
 </nav>
 <style lang="scss">
-  @use "sass:map";
-  @use "../../styles/breakpoints" as breakpoints;
-  @use "../../styles/typography" as typography;
-  @use "../../styles/spacing" as spacing;
-
-  /* ==========================================
-   Global/Mobile
-  =========================================== */
-  nav {
-    :global(> div) {
-      margin-bottom: spacing.space(2);
-    }
-  }
-
-  h3 {
-    @include typography.font("sm", "sm", "bold");
-    margin-bottom: spacing.space(2);
-    text-transform: uppercase;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0 0 0 0;
-    margin: 0 0;
-  }
-
-  a {
-    @include typography.link();
-    display: inline-block;
-    // margin-bottom: spacing.space(1);
-  }
-
-  a[aria-current="true"] {
-    text-decoration: underline;
-  }
-
-  li {
-    margin-bottom: spacing.space(1);
-  }
-
-  /* ==========================================
-   Desktop
-  =========================================== */
-  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
-    h3 {
-      border-top: solid 1px var(--color-primary);
-      @include typography.font("lg", "sm", "bold");
-      padding: spacing.space(1) 0 0 0;
-      text-transform: unset;
-    }
-
-    li {
-      display: flex;
-      align-items: flex-start;
-      gap: spacing.space(1);
-
-      padding-left: calc(32px + spacing.space(1));
-      margin-bottom: spacing.space(1);
-    }
-
-    li[data-current="true"] {
-      // border: solid 1px #000;
-      // text-decoration: underline;
-      padding-left: 0;
-
-      &::before {
-        content: "";
-        text-decoration: none;
-        width: 32px;
-        height: 32px;
-        display: inline-block;
-        vertical-align: middle;
-
-        background-image: var(--icon-arrow-right);
-        image-rendering: pixelated;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 100% auto;
-      }
-    }
-
-    a[aria-current="true"] {
-      text-decoration: none;
-    }
-  }
+  @use "./TableOfContents.scss";
 </style>
 <script>
   let observer: IntersectionObserver;
@@ -165,13 +81,13 @@ const { toc, ...props } = Astro.props;
                 "[data-toc-scroll-to-content]",
               );
 
-              // Disable current state on all elements
-              otherElements.forEach((el) => {
-                el.setAttribute("aria-current", "false");
-                el.parentElement!.dataset.current = "false";
-              });
-
               if (currentElement) {
+                // Disable current state on all elements
+                otherElements.forEach((el) => {
+                  el.setAttribute("aria-current", "false");
+                  el.parentElement!.dataset.current = "false";
+                });
+
                 currentElement.setAttribute("aria-current", "true");
                 currentElement.parentElement!.dataset.current = "true";
               }

@@ -2,6 +2,18 @@
 import { defineConfig, fontProviders } from "astro/config";
 
 import mdx from "@astrojs/mdx";
+import { satteri } from "@astrojs/markdown-satteri";
+import { defineHastPlugin } from "satteri";
+
+const tocObservePlugin = defineHastPlugin({
+  name: "toc-observe",
+  element: {
+    filter: ["h1", "h2", "h3", "h4", "h5", "h6"],
+    visit(node, ctx) {
+      ctx.setProperty(node, "data-toc-observe", true);
+    },
+  },
+});
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,6 +25,9 @@ export default defineConfig({
   },
 
   markdown: {
+    processor: satteri({
+      hastPlugins: [tocObservePlugin],
+    }),
     shikiConfig: {
       themes: {
         light: 'nord',

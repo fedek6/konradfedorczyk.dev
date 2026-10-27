@@ -24,6 +24,17 @@ export default defineConfig({
     inlineStylesheets: "always",
   },
 
+  image: {
+    service: {
+      entrypoint: "astro/assets/services/sharp",
+      config: {
+        limitInputPixels: false,
+      },
+    },
+    breakpoints: [640, 768, 1024, 1280, 2048],
+    layout: "constrained",
+  },
+
   markdown: {
     processor: satteri({
       hastPlugins: [tocObservePlugin],

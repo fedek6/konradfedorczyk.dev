@@ -6,4 +6,5 @@ export const renderingConfig = {
     lg: 1200,
     "2xl": 1560,
   },
+  truncateBreadCrumbTitle: 25,
 };

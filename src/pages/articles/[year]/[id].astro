@@ -1,9 +1,9 @@
 ---
 import { getCollection, getEntry, render } from "astro:content";
 import AdvancedContent from "../../../components/content/AdvancedContent.astro";
-import Breadcrumb from "../../../components/navigation/Breadcrumb.astro";
 import CenterContent from "../../../components/layout/CenterContent.astro";
 import Container from "../../../components/layout/Container.astro";
+import StandardizedBreadcrumbs from "../../../components/navigation/StandardizedBreadcrumbs.astro";
 import Layout from "../../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
@@ -26,12 +26,13 @@ const { Content, headings } = await render(entry);
 >
   <CenterContent>
     <Container hasPadding>
-      <Breadcrumb
+      <StandardizedBreadcrumbs
         items={[
-          { label: "articles", href: "/articles" },
+          { label: "Articles", href: "/articles" },
           { label: String(year), href: `/articles/${year}` },
           { label: entry.data.title },
         ]}
+        marginBottom="md"
       />
       <AdvancedContent
         entry={entry}

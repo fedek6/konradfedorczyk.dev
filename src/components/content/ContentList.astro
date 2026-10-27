@@ -1,13 +1,13 @@
 ---
 import { type CollectionEntry } from "astro:content";
-import type { TocEntry } from "../navigation/ExternalTableOfContents.astro";
+import Layout from "../../layouts/Layout.astro";
 import CenterContent from "../layout/CenterContent.astro";
 import Container from "../layout/Container.astro";
 import Grid from "../layout/Grid.astro";
 import SideTocContainer from "../layout/SideTocContainer.astro";
+import type { TocEntry } from "../navigation/ExternalTableOfContents.astro";
 import TableOfContents from "../navigation/ExternalTableOfContents.astro";
 import DividedHeader from "../typography/DividedHeader.astro";
-import Layout from "../../layouts/Layout.astro";
 import Article from "./Article.astro";
 
 interface Props {
@@ -30,7 +30,11 @@ const title = `${category.title} from ${currentTitle}`;
     <Container hasPadding>
       <Grid class="content-list">
         <SideTocContainer class="toc" variant="right">
-          <TableOfContents toc={toc} currentHref={currentHref} title="Archives" />
+          <TableOfContents
+            toc={toc}
+            currentHref={currentHref}
+            title="Archives"
+          />
         </SideTocContainer>
         <div class="content-header">
           <DividedHeader as="h1">

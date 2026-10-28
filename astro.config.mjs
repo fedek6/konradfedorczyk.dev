@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
+const SITE_URL = process.env.SITE_URL ?? "https://konradfedorczyk.dev";
 
 import mdx from "@astrojs/mdx";
 import { satteri } from "@astrojs/markdown-satteri";
@@ -17,7 +18,7 @@ const tocObservePlugin = defineHastPlugin({
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://konradfedorczyk.dev",
+  site: SITE_URL,
   output: "static",
 
   build: {

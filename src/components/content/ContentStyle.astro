@@ -89,7 +89,7 @@ const { template = "simple" } = Astro.props;
     :global(p:first-of-type) {
       // font-style: italic;
       @include typography.font("lg", "2xl", "normal");
-      margin-bottom: spacing.space(6);
+      margin-bottom: spacing.space(3);
       // padding-left: spacing.space(2);
       font-style: italic;
       // border-bottom: solid 1px var(--color-primary);
@@ -98,6 +98,7 @@ const { template = "simple" } = Astro.props;
       // padding-top: spacing.space(2)
     }
   }
+
   /* ==========================================
    Desktop
   =========================================== */
@@ -107,8 +108,8 @@ const { template = "simple" } = Astro.props;
         font-style: italic;
         @include typography.font("lg", "2xl", "normal");
         margin-bottom: spacing.space(6);
-              border-bottom: solid 1px var(--color-primary);
-      padding-bottom: spacing.space(2);
+        border-bottom: solid 1px var(--color-primary);
+        padding-bottom: spacing.space(2);
       }
 
       :global(* + h1, h2, h3, h4) {

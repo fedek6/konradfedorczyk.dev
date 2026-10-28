@@ -27,7 +27,7 @@ const { src, alt, ...rest } = Astro.props;
   @use "../../styles/typography" as typography;
 
   .content-image {
-    margin: spacing.space(6) 0;
+    margin: spacing.space(4) 0;
 
     img,
     picture {
@@ -37,8 +37,8 @@ const { src, alt, ...rest } = Astro.props;
     }
 
     &__caption {
-      margin-top: spacing.space(2);
-      color: var(--color-accent);
+      margin-top: spacing.space(1);
+      color: var(--color-primary);
       @include typography.font("sm", "sm", "normal");
       font-style: italic;
     }

@@ -1,0 +1,64 @@
+---
+const props = Astro.props;
+---
+
+<div {...props}>
+  <span>Status:</span>
+  <span><slot /></span>
+</div>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  div {
+    display: inline-flex;
+    // width: 100%;
+    align-items: center;
+    justify-content: center;
+
+    border: solid 1px var(--color-primary);
+    border-radius: 8px;
+    // padding: 4px;
+    // gap: spacing.space(1);
+    overflow: hidden;
+  }
+
+  div > span {
+    flex: 1 1 auto;
+    align-self: auto;
+    display: block;
+
+    padding: 4px 8px;
+  }
+
+  /* div :first-child {
+    text-align: right;
+    @include typography.font("xs", "base", "bold");
+  } */
+
+  div :first-child {
+    text-align: right;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    @include typography.font("xs", "base", "normal");
+  }
+
+  div :last-child {
+    @include typography.font("xs", "base", "normal");
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    div :first-child {
+      @include typography.font("sm", "base", "normal");
+    }
+
+    div :last-child {
+      @include typography.font("sm", "base", "normal");
+    }
+  }
+</style>

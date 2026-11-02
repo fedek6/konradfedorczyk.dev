@@ -3,7 +3,7 @@ import { type CollectionEntry } from "astro:content";
 import ContentHeader from "../organisms/ContentHeader.astro";
 import LinkButton from "../buttons/LinkButton.astro";
 import IconArrowRight from "../icons/IconArrowRight.astro";
-import Lozenge from "../atoms/Lozenge.astro";
+import Lozenge from "../atoms/ProjectStatus.astro";
 
 interface Props {
   entry: CollectionEntry<"projects">;
@@ -22,7 +22,9 @@ const permalink = new URL(`/projects/${entry.id}`, Astro.url.origin).href;
     size="lg"
   >
     <div slot="before-header" class="project-status">
-      <Lozenge reverse={true}>{entry.data.finished ? "Finished" : "In progress"}</Lozenge>
+      <Lozenge reverse={true}
+        >{entry.data.finished ? "Finished" : "In progress"}</Lozenge
+      >
     </div>
   </ContentHeader>
   <section>
@@ -30,7 +32,7 @@ const permalink = new URL(`/projects/${entry.id}`, Astro.url.origin).href;
   </section>
   <footer>
     <LinkButton href={permalink}
-      >Read more <IconArrowRight style="height: 32px;" /></LinkButton
+      >Check updates <IconArrowRight style="height: 32px;" /></LinkButton
     >
   </footer>
 </article>
@@ -54,6 +56,12 @@ const permalink = new URL(`/projects/${entry.id}`, Astro.url.origin).href;
     padding-bottom: spacing.space(3);
 
     // border-top: solid 1px var(--color-primary);
+  }
+
+  .project-status {
+    grid-column: span 2;
+    margin-bottom: spacing.space(2);
+    // margin-top: spacing.space(1);
   }
 
   :global(header) {
@@ -91,6 +99,7 @@ const permalink = new URL(`/projects/${entry.id}`, Astro.url.origin).href;
     .project-status {
       grid-column: span 2;
       margin-bottom: spacing.space(2);
+      // margin-top: spacing.space(1);
     }
 
     section {

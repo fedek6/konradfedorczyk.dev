@@ -1,0 +1,114 @@
+---
+import { getCollection } from "astro:content";
+import Project from "../../components/content/Project.astro";
+import CenterContent from "../../components/layout/CenterContent.astro";
+import Container from "../../components/layout/Container.astro";
+import Grid from "../../components/layout/Grid.astro";
+import DividedHeader from "../../components/typography/DividedHeader.astro";
+import { metaConfig } from "../../config/meta";
+import Layout from "../../layouts/Layout.astro";
+import { sortByDateDesc } from "../../utils/content";
+
+const config = metaConfig.categories.projects;
+const collection = await getCollection("projects");
+const projects = sortByDateDesc(collection);
+---
+
+<Layout title="projects">
+  <CenterContent>
+    <Container hasPadding>
+      <Grid class="content-list">
+        <div class="content-header">
+          <header class="main-header">
+            <DividedHeader as="h1">{config.title}</DividedHeader>
+            <p>{config.description}</p>
+          </header>
+        </div>
+        <div class="content">
+          {projects.map((project) => <Project entry={project} />)}
+        </div>
+      </Grid>
+    </Container>
+  </CenterContent>
+</Layout>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  .content-list {
+    margin: spacing.space(8) 0 spacing.space(8) 0;
+  }
+
+  .content-header {
+    grid-column: span 12;
+    margin-bottom: spacing.space(2);
+    :global(h1) {
+      @include typography.font("3xl", "xs", "bold");
+      margin-bottom: spacing.space(3);
+    }
+
+    :global(p) {
+      @include typography.font("lg", "base", "normal");
+    }
+
+    :global(> div) {
+      padding-top: spacing.space(2);
+    }
+  }
+
+  .content {
+    grid-column: span 12;
+
+    :global(article) {
+      margin-bottom: spacing.space(8);
+    }
+  }
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .main-header {
+      position: sticky;
+      top: calc(65px + 64px);
+    }
+
+    // Content header modifications
+    .content-header {
+      grid-column: span 3;
+      margin-bottom: spacing.space(6);
+
+      :global(h1) {
+        @include typography.font("6xl", "xs", "bold");
+        margin-bottom: spacing.space(3);
+      }
+
+      :global(> div) {
+        padding-top: spacing.space(2);
+      }
+
+      :global(p) {
+        @include typography.font("lg", "base", "normal");
+        font-variant: italic;
+      }
+    }
+
+    .content {
+      grid-column: 4 / span 6;
+      display: grid;
+      grid-template-columns: subgrid;
+
+      :global(article) {
+        margin-bottom: spacing.space(8);
+      }
+    }
+
+    .content-list {
+      margin: spacing.space(5) 0 spacing.space(8) 0;
+    }
+  }
+</style>

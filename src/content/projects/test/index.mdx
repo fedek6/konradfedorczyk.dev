@@ -1,0 +1,17 @@
+---
+title: Test Project — Placeholder Content Entry
+description: A scratch entry demonstrating the projects collection layout where each project lives in its own directory with colocated assets
+pubDate: 2026-11-02
+---
+
+This is a scratch project entry used to verify that per-project directories and colocated assets resolve correctly during build.
+
+## Preview
+
+![Project preview placeholder](./preview.jpg)
+
+## Notes
+
+- The `title`, `description`, and `pubDate` frontmatter is loaded from `src/content/projects/test/index.mdx`.
+- The `entry.id` resolves to the directory name `test`, not the filename.
+- Any image or asset referenced with a relative `./` path stays inside this project directory and is excluded from the glob loader pattern.

@@ -21,7 +21,14 @@ const articles = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/projects" }),
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/projects",
+    generateId: ({ entry }) =>
+      entry
+        .replace(/\.(md|mdx)$/i, "")
+        .replace(/\/index$/i, "")
+  }),
   schema: z.object({
     title: z.string(),
     description: z.string(),

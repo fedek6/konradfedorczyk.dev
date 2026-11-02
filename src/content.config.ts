@@ -33,6 +33,7 @@ const projects = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
+    finished: z.boolean().optional(),
   })
 });
 

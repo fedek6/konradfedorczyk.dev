@@ -17,8 +17,9 @@ interface Props {
   backLink: string;
   backLinkText: string;
   headings: MarkdownHeading[];
+  tocTitle?: string;
 }
-const { entry, backLinkText, backLink, headings } = Astro.props;
+const { entry, backLinkText, tocTitle, backLink, headings } = Astro.props;
 
 const toc = headings.map((heading) => ({
   title: heading.text,
@@ -28,7 +29,7 @@ const toc = headings.map((heading) => ({
 
 <Grid class="note-grid" as="article">
   <SideTocContainer class="toc" variant="right">
-    <TableOfContents toc={toc} />
+    <TableOfContents toc={toc} tocTitle={tocTitle} />
   </SideTocContainer>
   <ContentHeader
     title={entry.data.title}

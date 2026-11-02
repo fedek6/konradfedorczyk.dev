@@ -14,9 +14,11 @@ const { title, date, href, size = "sm", template = "simple" } = Astro.props;
 
 <header class={template}>
   <Time date={date} />
+   <slot name="before-header" />
   <h1 class={size}>
-    {href ? <a href={href}>{title}</a> : title}
+    {href ? <a class="content-link" href={href}>{title}</a> : title}
   </h1>
+   <slot name="after-header" />
 </header>
 <style lang="scss">
   @use "sass:map";
@@ -37,12 +39,12 @@ const { title, date, href, size = "sm", template = "simple" } = Astro.props;
       padding-top: spacing.space(1);
     }
 
-    a {
+    .content-link {
       text-decoration: none;
       color: var(--color-primary);
     }
 
-    a:hover {
+    .content-link:hover {
       text-decoration: underline;
     }
 

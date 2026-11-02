@@ -3,15 +3,14 @@ import { type CollectionEntry } from "astro:content";
 import ContentHeader from "../organisms/ContentHeader.astro";
 import LinkButton from "../buttons/LinkButton.astro";
 import IconArrowRight from "../icons/IconArrowRight.astro";
+import Lozenge from "../atoms/Lozenge.astro";
 
 interface Props {
   entry: CollectionEntry<"projects">;
 }
 
 const { entry } = Astro.props;
-const year = entry.data.pubDate.getFullYear();
-const permalink = new URL(`/articles/${year}/${entry.id}`, Astro.url.origin)
-  .href;
+const permalink = new URL(`/projects/${entry.id}`, Astro.url.origin).href;
 ---
 
 <article>
@@ -21,7 +20,11 @@ const permalink = new URL(`/articles/${year}/${entry.id}`, Astro.url.origin)
     href={permalink}
     template="full"
     size="lg"
-  />
+  >
+    <div slot="before-header" class="project-status">
+      <Lozenge reverse={true}>{entry.data.finished ? "Finished" : "In progress"}</Lozenge>
+    </div>
+  </ContentHeader>
   <section>
     {entry.data.description}
   </section>
@@ -85,6 +88,11 @@ const permalink = new URL(`/articles/${year}/${entry.id}`, Astro.url.origin)
       }
     }
 
+    .project-status {
+      grid-column: span 2;
+      margin-bottom: spacing.space(2);
+    }
+
     section {
       grid-column: span 6;
     }
@@ -97,7 +105,5 @@ const permalink = new URL(`/articles/${year}/${entry.id}`, Astro.url.origin)
       padding-left: 0;
       border-left: none;
     }
-
-
   }
 </style>

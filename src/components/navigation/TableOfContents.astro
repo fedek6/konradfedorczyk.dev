@@ -6,13 +6,14 @@ export type TocEntry = {
 
 interface Props {
   toc: TocEntry[];
+  tocTitle?: string;
 }
 
-const { toc, ...props } = Astro.props;
+const { toc, tocTitle = "Table of contents", ...props } = Astro.props;
 ---
 
 <nav data-toc {...props}>
-  <h3 id="menu-title">Table of contents</h3>
+  <h3 id="menu-title">{tocTitle}</h3>
   <ul>
     {
       toc.map((entry, i) => (

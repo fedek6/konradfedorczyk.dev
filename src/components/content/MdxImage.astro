@@ -5,9 +5,17 @@ import type { ImageMetadata } from "astro";
 interface Props {
   src: ImageMetadata;
   alt: string;
+  sizes?: string;
+  widths?: number[];
 }
 
-const { src, alt, ...rest } = Astro.props;
+const {
+  src,
+  alt,
+  sizes = "(max-width: 750px) 100vw, 750px",
+  widths = [320, 480, 750],
+  ...rest
+} = Astro.props;
 ---
 
 <figure
@@ -19,13 +27,15 @@ const { src, alt, ...rest } = Astro.props;
   aria-label={`View ${alt || "image"} in full screen`}
 >
   {
-    <Image
-      src={src}
-      alt={alt}
-      sizes="(max-width: 750px) 100vw, 750px"
-      widths={[320, 480, 750]}
-      {...rest}
-    />
+    (
+      <Image
+        src={src}
+        alt={alt}
+        sizes={sizes}
+        widths={widths}
+        {...rest}
+      />
+    )
   }
   {alt && <figcaption class="content-image__caption">{alt}</figcaption>}
   <span class="content-image__zoom" aria-hidden="true">

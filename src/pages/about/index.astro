@@ -1,21 +1,36 @@
 ---
 import CenterContent from "../../components/layout/CenterContent.astro";
+import { Image } from "astro:assets";
 import Container from "../../components/layout/Container.astro";
 import Grid from "../../components/layout/Grid.astro";
 import DividedHeader from "../../components/typography/DividedHeader.astro";
 import Layout from "../../layouts/Layout.astro";
+import ContentStyle from "./../../components/content/ContentStyle.astro";
+import testPhoto from "./WhatsApp Image 2026-10-05 at 10.23.40.jpeg";
+import MdxImage from "../../components/content/MdxImage.astro";
 ---
 
 <Layout title="projects">
   <CenterContent>
     <Container hasPadding>
       <Grid class="special-content">
-          <header>
-            <DividedHeader as="h1">About</DividedHeader>
-          </header>
+        <header>
+          <DividedHeader as="h1">About</DividedHeader>
+        </header>
 
-        <div class="content">
-          Lorem ipsum
+        <div class="content-block">
+          <ContentStyle template="simple">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </ContentStyle>
+        </div>
+        <div class="content-block wide">
+          <MdxImage
+            src={testPhoto}
+            alt="A description of my image."
+            sizes = "(max-width: 1528px) 100vw, 1528px"
+            widths = {[320, 480, 1528]}
+          />
         </div>
       </Grid>
     </Container>
@@ -31,13 +46,28 @@ import Layout from "../../layouts/Layout.astro";
    Global/Mobile
   =========================================== */
 
-
   /* ==========================================
    Desktop
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .special-content {
+      margin-top: spacing.space(8);
+    }
+
     header {
       grid-column: 3 / span 6;
+
+      :global(h1) {
+        @include typography.font("8xl", "xs", "bold");
+      }
+    }
+
+    .content-block {
+      grid-column: 3 / span 6;
+    }
+
+    .content-block.wide {
+      grid-column: 1 / span 12;
     }
   }
 </style>

@@ -8,6 +8,7 @@ import { metaConfig } from "../config/meta";
 import Header from "../components/common/Header.astro";
 import OverlayMenu from "../components/layout/OverlayMenu.astro";
 import Footer from "../components/common/Footer.astro";
+import ImageLightbox from "../components/lightbox/ImageLightbox.astro";
 
 interface Props extends Omit<HeadProps, "pageName"> {
   rawTitle?: boolean;
@@ -33,6 +34,7 @@ const meta = {
       <slot />
     </main>
     <Footer transition:persist="main-footer" transition:animate="none" />
+    <ImageLightbox transition:persist="image-lightbox" transition:animate="none" />
     <script is:inline>
       document
         .querySelector("body")

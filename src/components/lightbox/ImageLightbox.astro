@@ -1,0 +1,323 @@
+---
+---
+
+<dialog
+  id="image-lightbox"
+  class="image-lightbox"
+  aria-label="Full screen image view"
+>
+  <div class="image-lightbox__stage">
+    <figure class="image-lightbox__figure">
+      <img class="image-lightbox__img" alt="" />
+      <figcaption class="image-lightbox__caption" hidden></figcaption>
+    </figure>
+  </div>
+
+  <button
+    type="button"
+    class="image-lightbox__close"
+    aria-label="Close full screen view"
+    title="Close (Esc)"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      aria-hidden="true"
+    >
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+    </svg>
+  </button>
+</dialog>
+
+<style lang="scss">
+  @use "../../styles/spacing" as spacing;
+  @use "../../styles/typography" as typography;
+
+  dialog.image-lightbox {
+    /* Hidden entirely (and out of the layout) until it is opened. */
+    display: none;
+  }
+
+  dialog.image-lightbox[open] {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    color: #fff;
+    font: inherit;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  dialog.image-lightbox.open {
+    opacity: 1;
+  }
+
+  dialog.image-lightbox::backdrop {
+    background: rgba(9, 10, 14, 0.72);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    transition: opacity 0.32s ease;
+  }
+
+  dialog.image-lightbox.open::backdrop {
+    opacity: 1;
+  }
+
+  .image-lightbox__stage {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: spacing.space(4);
+  }
+
+  .image-lightbox__figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: spacing.space(2);
+
+    transform: scale(0.94);
+    opacity: 0;
+    transition:
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.34s ease;
+  }
+
+  dialog.image-lightbox.open .image-lightbox__figure {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .image-lightbox__img {
+    display: block;
+    max-width: min(1280px, calc(100vw - #{spacing.space(8)}));
+    max-height: calc(100vh - #{spacing.space(14)});
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 14px;
+    box-shadow: 0 40px 100px -24px rgba(0, 0, 0, 0.72);
+  }
+
+  .image-lightbox__caption {
+    @include typography.font("sm", "base", "normal");
+    color: rgba(255, 255, 255, 0.78);
+    font-style: italic;
+    text-align: center;
+    max-width: 72ch;
+    overflow-wrap: break-word;
+  }
+
+  .image-lightbox__close {
+    position: fixed;
+    top: spacing.space(3);
+    right: spacing.space(3);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: none;
+    margin: 0;
+    cursor: pointer;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    border-radius: 999px;
+    transition:
+      transform 0.25s ease,
+      background-color 0.25s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.22);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+
+    svg {
+      width: 26px;
+      height: 26px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    dialog.image-lightbox,
+    dialog.image-lightbox::backdrop,
+    .image-lightbox__figure {
+      transition: none;
+    }
+    .image-lightbox__figure {
+      transform: none;
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  interface LightboxPayload {
+    src: string;
+    alt?: string;
+  }
+
+  // Resolve the dialog fresh from the live document every time. During a view
+  // transition the previously-rendered <dialog> node can be orphaned, so a
+  // reference cached at script load becomes stale and showModal() throws
+  // ("not in a Document"). Always querying the live DOM sidesteps that.
+  function getDialog(): HTMLDialogElement | null {
+    const d = document.querySelector<HTMLDialogElement>("#image-lightbox");
+    return d && d.isConnected ? d : null;
+  }
+
+  let closing = false;
+  let wasOverflow = "";
+
+  function lockScroll() {
+    wasOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+  }
+
+  function unlockScroll() {
+    document.body.style.overflow = wasOverflow;
+  }
+
+  function open({ src, alt = "" }: LightboxPayload) {
+    const dialog = getDialog();
+    const img = dialog?.querySelector<HTMLImageElement>(".image-lightbox__img");
+    if (!dialog || !img) return;
+    const caption = dialog.querySelector<HTMLElement>(".image-lightbox__caption");
+
+    closing = false;
+    img.src = src;
+    img.alt = alt;
+    if (caption) {
+      caption.textContent = alt;
+      caption.hidden = !alt;
+    }
+    lockScroll();
+    dialog.showModal();
+    requestAnimationFrame(() => {
+      dialog.classList.add("open");
+    });
+    dialog.querySelector<HTMLButtonElement>(".image-lightbox__close")?.focus();
+  }
+
+  function close() {
+    const dialog = getDialog();
+    if (!dialog || !dialog.open || closing) return;
+    closing = true;
+    dialog.classList.remove("open");
+    window.setTimeout(() => {
+      const d = getDialog();
+      if (d && d.open) d.close();
+      unlockScroll();
+      closing = false;
+    }, 320);
+  }
+
+  function triggerSrc(trigger: HTMLElement): string | null {
+    const img = trigger.querySelector<HTMLImageElement>("img");
+    // The `src` attribute holds the full-resolution original, while
+    // `currentSrc` is the responsive downscale — prefer the full version.
+    return img?.getAttribute("src") || img?.currentSrc || null;
+  }
+
+  function openFromTrigger(trigger: HTMLElement) {
+    const src = triggerSrc(trigger);
+    if (!src) return;
+    open({ src, alt: trigger.getAttribute("data-alt") ?? "" });
+  }
+
+  // Register binding logic once (guarded) so SPA navigations don't stack up
+  // duplicate document listeners.
+  const w = window as unknown as Record<string, unknown>;
+  if (!w.__imageLightboxBound) {
+    w.__imageLightboxBound = true;
+
+    document.addEventListener(
+      "click",
+      (event) => {
+        const target = (event.target as Element | null);
+        if (!target?.closest) return;
+        const dialog = getDialog();
+
+        if (dialog?.open) {
+          const insideLightbox = target.closest<HTMLElement>(".image-lightbox");
+          if (!insideLightbox) return;
+          const isCloseButton =
+            !!target.closest<HTMLElement>(".image-lightbox__close");
+          const isBackground =
+            target === dialog ||
+            !!target.classList.contains("image-lightbox__stage");
+          if (isCloseButton || isBackground) close();
+          return;
+        }
+
+        const trigger = target.closest<HTMLElement>("[data-image-lightbox-trigger]");
+        if (trigger) openFromTrigger(trigger);
+      },
+      { capture: true },
+    );
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+        const dialog = getDialog();
+
+        if (event.key === "Escape" && dialog?.open) {
+          event.preventDefault();
+          close();
+          return;
+        }
+
+        if (event.key !== "Enter" && event.key !== " ") return;
+        if (dialog?.open) return;
+
+        const target = event.target as Element | null;
+        if (!target?.closest) return;
+        const trigger = target.closest<HTMLElement>("[data-image-lightbox-trigger]");
+        if (!trigger) return;
+        event.preventDefault();
+        openFromTrigger(trigger);
+      },
+      { capture: true },
+    );
+
+    document.addEventListener(
+      "image-lightbox:open",
+      ((event) => {
+        const detail = (event as CustomEvent<LightboxPayload>).detail;
+        if (detail?.src) open(detail);
+      }) as EventListener,
+    );
+  }
+</script>

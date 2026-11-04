@@ -1,4 +1,5 @@
 ---
+import IconClose from "../icons/IconClose.astro";
 ---
 
 <dialog
@@ -19,18 +20,7 @@
     aria-label="Close full screen view"
     title="Close (Esc)"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      aria-hidden="true"
-    >
-      <line x1="6" y1="6" x2="18" y2="18"></line>
-      <line x1="18" y1="6" x2="6" y2="18"></line>
-    </svg>
+    <IconClose />
   </button>
 </dialog>
 
@@ -72,7 +62,8 @@
   }
 
   dialog.image-lightbox::backdrop {
-    background: rgba(9, 10, 14, 0.72);
+    // background: var(--color-secondary);
+    background: rgb(var(--color-secondary) / 0.5);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     opacity: 0;
@@ -96,7 +87,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: spacing.space(2);
+    gap: spacing.space(1);
 
     transform: scale(0.94);
     opacity: 0;
@@ -117,17 +108,19 @@
     width: auto;
     height: auto;
     object-fit: contain;
-    border-radius: 14px;
-    box-shadow: 0 40px 100px -24px rgba(0, 0, 0, 0.72);
+    // border-radius: 14px;
+    // box-shadow: 0 40px 100px -24px rgba(0, 0, 0, 0.72);
   }
 
   .image-lightbox__caption {
-    @include typography.font("sm", "base", "normal");
-    color: rgba(255, 255, 255, 0.78);
+    @include typography.font("sm", "sm", "normal");
+    color: var(--color-primary);
     font-style: italic;
-    text-align: center;
-    max-width: 72ch;
+    // text-align: center;
+    // max-width: 150ch;
     overflow-wrap: break-word;
+    width: 100%;
+    text-align: left;
   }
 
   .image-lightbox__close {
@@ -146,16 +139,21 @@
     margin: 0;
     cursor: pointer;
     appearance: none;
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.9);
-    border-radius: 999px;
+    // background: var(--color-secondary);
+    background: transparent;
+    // color: var(--color-primary);
+    color: var(--color-primary);
+    border: solid 1px var(--color-primary);
+    // border-radius: 999px;
     transition:
       transform 0.25s ease,
       background-color 0.25s ease;
 
+    font-size: 1em;
+
     &:hover {
-      background: rgba(255, 255, 255, 0.22);
-      color: #fff;
+      background: var(--color-primary);
+      color: var(--color-secondary);
       transform: scale(1.05);
     }
 
@@ -164,9 +162,9 @@
       outline-offset: 3px;
     }
 
-    svg {
-      width: 26px;
-      height: 26px;
+    > div {
+      width: 30px;
+      height: 30px;
     }
   }
 
@@ -214,7 +212,9 @@
     const dialog = getDialog();
     const img = dialog?.querySelector<HTMLImageElement>(".image-lightbox__img");
     if (!dialog || !img) return;
-    const caption = dialog.querySelector<HTMLElement>(".image-lightbox__caption");
+    const caption = dialog.querySelector<HTMLElement>(
+      ".image-lightbox__caption",
+    );
 
     closing = false;
     img.src = src;
@@ -266,15 +266,16 @@
     document.addEventListener(
       "click",
       (event) => {
-        const target = (event.target as Element | null);
+        const target = event.target as Element | null;
         if (!target?.closest) return;
         const dialog = getDialog();
 
         if (dialog?.open) {
           const insideLightbox = target.closest<HTMLElement>(".image-lightbox");
           if (!insideLightbox) return;
-          const isCloseButton =
-            !!target.closest<HTMLElement>(".image-lightbox__close");
+          const isCloseButton = !!target.closest<HTMLElement>(
+            ".image-lightbox__close",
+          );
           const isBackground =
             target === dialog ||
             !!target.classList.contains("image-lightbox__stage");
@@ -282,7 +283,9 @@
           return;
         }
 
-        const trigger = target.closest<HTMLElement>("[data-image-lightbox-trigger]");
+        const trigger = target.closest<HTMLElement>(
+          "[data-image-lightbox-trigger]",
+        );
         if (trigger) openFromTrigger(trigger);
       },
       { capture: true },
@@ -304,7 +307,9 @@
 
         const target = event.target as Element | null;
         if (!target?.closest) return;
-        const trigger = target.closest<HTMLElement>("[data-image-lightbox-trigger]");
+        const trigger = target.closest<HTMLElement>(
+          "[data-image-lightbox-trigger]",
+        );
         if (!trigger) return;
         event.preventDefault();
         openFromTrigger(trigger);
@@ -312,12 +317,9 @@
       { capture: true },
     );
 
-    document.addEventListener(
-      "image-lightbox:open",
-      ((event) => {
-        const detail = (event as CustomEvent<LightboxPayload>).detail;
-        if (detail?.src) open(detail);
-      }) as EventListener,
-    );
+    document.addEventListener("image-lightbox:open", ((event) => {
+      const detail = (event as CustomEvent<LightboxPayload>).detail;
+      if (detail?.src) open(detail);
+    }) as EventListener);
   }
 </script>

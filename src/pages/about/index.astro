@@ -9,9 +9,8 @@ import Layout from "../../layouts/Layout.astro";
 <Layout title="projects">
   <CenterContent>
     <Container hasPadding>
-      <Grid class="content-list">
-
-          <header class="main-header">
+      <Grid class="special-content">
+          <header>
             <DividedHeader as="h1">About</DividedHeader>
           </header>
 
@@ -31,72 +30,14 @@ import Layout from "../../layouts/Layout.astro";
   /* ==========================================
    Global/Mobile
   =========================================== */
-  .content-list {
-    margin: spacing.space(8) 0 spacing.space(8) 0;
-  }
 
-  .content-header {
-    grid-column: span 12;
-    margin-bottom: spacing.space(2);
-    :global(h1) {
-      @include typography.font("3xl", "xs", "bold");
-      margin-bottom: spacing.space(3);
-    }
-
-    :global(p) {
-      @include typography.font("lg", "base", "normal");
-    }
-
-    :global(> div) {
-      padding-top: spacing.space(2);
-    }
-  }
-
-  .content {
-    grid-column: span 12;
-
-    :global(article) {
-      margin-bottom: spacing.space(8);
-    }
-  }
 
   /* ==========================================
    Desktop
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
-
-    // Content header modifications
-    .content-header {
-      grid-column: span 3;
-      margin-bottom: spacing.space(6);
-
-      :global(h1) {
-        @include typography.font("5xl", "xs", "bold");
-        margin-bottom: spacing.space(3);
-      }
-
-      :global(> div) {
-        padding-top: spacing.space(2);
-      }
-
-      :global(p) {
-        @include typography.font("lg", "base", "normal");
-        font-variant: italic;
-      }
-    }
-
-    .content {
-      grid-column: 4 / span 6;
-      display: grid;
-      grid-template-columns: subgrid;
-
-      :global(article) {
-        margin-bottom: spacing.space(8);
-      }
-    }
-
-    .content-list {
-      margin: spacing.space(5) 0 spacing.space(8) 0;
+    header {
+      grid-column: 3 / span 6;
     }
   }
 </style>

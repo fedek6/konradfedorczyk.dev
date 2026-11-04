@@ -1,10 +1,26 @@
 ---
-const props = Astro.props;
+import IconHourglass from "../icons/IconHourglass.astro";
+import IconCheckmark from "../icons/IconCheckmark.astro";
+
+type Props = {
+  isReversed?: boolean;
+  isFinished: boolean;
+} & astroHTML.JSX.HTMLAttributes;
+
+const { isReversed, isFinished, ...props } = Astro.props;
 ---
 
-<div {...props}>
+<div class="project-status" {...props} data-is-finished={isFinished}>
   <span>Status:</span>
-  <span><slot /></span>
+  <span
+    >{isFinished ? "Finished" : "In progress"}{
+      isFinished ? (
+        <IconCheckmark class="icon-checkmark" />
+      ) : (
+        <IconHourglass class="icon-hourglass" />
+      )
+    }</span
+  >
 </div>
 <style lang="scss">
   @use "sass:map";
@@ -12,52 +28,72 @@ const props = Astro.props;
   @use "../../styles/typography" as typography;
   @use "../../styles/spacing" as spacing;
 
-  div {
+  div.project-status {
     display: inline-flex;
-    // width: 100%;
     align-items: center;
     justify-content: center;
 
     border: solid 1px var(--color-primary);
     border-radius: 8px;
-    // padding: 4px;
-    // gap: spacing.space(1);
     overflow: hidden;
   }
 
-  div > span {
+  div.project-status > span {
     flex: 1 1 auto;
     align-self: auto;
-    display: block;
+    // display: block;
 
-    padding: 4px 8px;
+    padding: 4px spacing.space(1);
   }
 
-  /* div :first-child {
-    text-align: right;
-    @include typography.font("xs", "base", "bold");
-  } */
-
-  div :first-child {
+  div.project-status > :first-child {
     text-align: right;
     background-color: var(--color-primary);
     color: var(--color-secondary);
     @include typography.font("xs", "base", "normal");
   }
 
-  div :last-child {
+  div.project-status > :last-child {
     @include typography.font("xs", "base", "normal");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: spacing.space(1);
+
+    // Icon
+    > div {
+      height: 24px;
+    }
+  }
+
+  .icon-hourglass {
+    animation: spin 8s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    25%,
+    50% {
+      transform: rotate(180deg);
+    } /* spins during the first 2s */
+    75%,
+    100% {
+      transform: rotate(360deg);
+    } /* holds still for the next 2s */
   }
 
   /* ==========================================
    Desktop
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
-    div :first-child {
+    div.project-status :first-child {
       @include typography.font("sm", "base", "normal");
     }
 
-    div :last-child {
+    div.project-status :last-child {
       @include typography.font("sm", "base", "normal");
     }
   }

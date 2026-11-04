@@ -1,9 +1,9 @@
 ---
 type Props = {
-  reverse?: boolean;
+  isReversed?: boolean;
 } & astroHTML.JSX.HTMLAttributes;
 
-const { reverse, ...props } = Astro.props;
+const { isReversed: reverse, ...props } = Astro.props;
 ---
 
 <div class:list={[{ "reversed": reverse}, "lozenge"]} {...props}>

@@ -1,4 +1,6 @@
 ---
+import "../../styles/_globals.scss";
+
 interface Props {
   template?: "simple" | "full";
   variant?: "standard" | "block";
@@ -23,9 +25,25 @@ const { template = "simple", variant = "standard" } = Astro.props;
     :global(pre) {
       @include typography.font("xs", "base", "bold");
       padding: spacing.space(2) spacing.space(2);
-      border: solid 1px var(--color-primary);
+      // border: solid 1px var(--color-primary);
       border-radius: 8px;
+    }
+
+    // Code rendering
+    :global([data-code-wrapper]) {
       margin-bottom: spacing.space(2);
+      margin-top: spacing.space(3);
+      border-top: solid 1px var(--color-primary);
+      border-bottom: solid 1px var(--color-primary);
+      padding-bottom: spacing.space(3);
+      padding-top: spacing.space(2);
+
+      :global(.copy-button-wrapper) {
+        margin-bottom: spacing.space(2);
+        display: flex;
+        justify-content: end;
+        width: 100%;
+      }
     }
 
     :global([data-toc-observe]) {
@@ -104,6 +122,24 @@ const { template = "simple", variant = "standard" } = Astro.props;
    Desktop
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .content-style {
+      // Code rendering
+      :global([data-code-wrapper]) {
+        margin-bottom: spacing.space(3);
+        margin-top: spacing.space(3);
+        border-top: solid 1px var(--color-primary);
+        border-bottom: solid 1px var(--color-primary);
+        padding: 0 0 spacing.space(3) 0;
+
+        :global(.copy-button-wrapper) {
+          margin-bottom: spacing.space(0);
+          display: flex;
+          justify-content: end;
+          width: 100%;
+        }
+      }
+    }
+
     .content-style.full {
       :global(p:first-of-type) {
         font-style: italic;
@@ -146,3 +182,4 @@ const { template = "simple", variant = "standard" } = Astro.props;
     }
   }
 </style>
+<script src="../../utils/codeCopy.ts" />

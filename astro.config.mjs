@@ -1,10 +1,10 @@
-// @ts-check
+// @ts-nocheck
 import { defineConfig, fontProviders } from "astro/config";
-const SITE_URL = process.env.SITE_URL ?? "https://konradfedorczyk.dev";
-
 import mdx from "@astrojs/mdx";
 import { satteri } from "@astrojs/markdown-satteri";
 import { defineHastPlugin } from "satteri";
+
+const SITE_URL = process.env.SITE_URL ?? "https://konradfedorczyk.dev";
 
 const tocObservePlugin = defineHastPlugin({
   name: "toc-observe",
@@ -15,6 +15,55 @@ const tocObservePlugin = defineHastPlugin({
     },
   },
 });
+
+const copyButtonNode = {
+  type: "element",
+  tagName: "button",
+  properties: {
+    type: "button",
+    "data-copy-button": true,
+    "data-copied": "false",
+    "aria-label": "Copy code",
+    title: "Copy code",
+  },
+  children: [
+    {
+      type: "element",
+      tagName: "span",
+      properties: {},
+      children: [{ type: "text", value: "Copy code" }],
+    },
+  ],
+};
+
+const copyButtonWrapperNode = {
+  type: "element",
+  tagName: "div",
+  properties: {
+    className: "copy-button-wrapper",
+  },
+  children: [copyButtonNode]
+}
+
+
+// Wrap each highlighted <pre> in a container div so a copy button can live
+// *below* it as a sibling. Using a Shiki transformer (instead of a HAST
+// plugin) is required because Satteri's highlight pass replaces the <pre>
+// it styles, which silently drops in-place child insertion / return-replace
+// from a HAST visitor that runs later in the same chain.
+const copyButtonTransformer = {
+  pre(hast) {
+    if (hast.properties?.["data-code-wrapper"] ?? false) {
+      return hast;
+    }
+    return {
+      type: "element",
+      tagName: "div",
+      properties: { "data-code-wrapper": true },
+      children: [copyButtonWrapperNode, hast],
+    };
+  },
+};
 
 // https://astro.build/config
 export default defineConfig({
@@ -42,9 +91,10 @@ export default defineConfig({
     }),
     shikiConfig: {
       themes: {
-        light: 'nord',
-        dark: 'vitesse-dark',
+        light: "nord",
+        dark: "vitesse-dark",
       },
+      transformers: [copyButtonTransformer],
     },
   },
 

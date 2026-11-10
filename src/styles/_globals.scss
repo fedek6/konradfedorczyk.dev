@@ -1,0 +1,41 @@
+@use "sass:map";
+@use "./breakpoints" as breakpoints;
+@use "./typography" as typography;
+@use "./spacing" as spacing;
+
+/* Copy code injected button */
+button[data-copy-button] {
+    all: unset;
+    background-color: var(--color-secondary);
+    color: var(--color-accent);
+    border: solid 1px var(--color-accent);
+    border-radius: 8px;
+    // display: flex;
+    // gap: 8px;
+    // align-items: center;
+    // justify-content: center;
+    // width: 100%;
+
+    box-sizing: border-box;
+    cursor: pointer;
+
+    @include typography.font("xs", "base", "bold");
+    padding: spacing.space(1) spacing.space(1);
+}
+
+button[data-copy-button]:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================
+   Desktop
+  =========================================== */
+@media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    button[data-copy-button] {
+        width: 150px;
+        text-align: right;
+        border: none;
+
+        padding: spacing.space(2) 0;
+    }
+}

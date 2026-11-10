@@ -101,6 +101,19 @@ import MdxImage from "../../components/content/Image.astro";
             </p>
           </ContentStyle>
         </div>
+
+        <div class="content-block">
+          <ContentStyle template="simple" variant="block">
+            <h2>What have I been up to lately?</h2>
+            <p>
+              All my life I've been struggling with long-term projects. I've had
+              multiple hobbies, changing interests almost every two weeks. I've
+              gone from street art to military history, through photography, and
+              even a brief stint in a band (I sucked at it). I was always
+              searching for that next dopamine hit, only to abandon everything
+              once the initial excitement wore off.
+            </p></ContentStyle>
+        </div>
       </Grid>
     </Container>
   </CenterContent>
@@ -116,6 +129,7 @@ import MdxImage from "../../components/content/Image.astro";
   =========================================== */
   .special-content {
     // row-gap: 0;
+    margin-bottom: spacing.space(16);
   }
 
   .desktop-image {
@@ -142,12 +156,12 @@ import MdxImage from "../../components/content/Image.astro";
       > p {
         // font-style: italic;
         @include typography.font("2xl", "base", "normal");
-
       }
     }
 
     .content-block {
-      grid-column: 4 / span 6;
+      grid-column: 3 / span 6;
+      margin-bottom: spacing.space(3);
     }
 
     .content-block.wide {

@@ -1,12 +1,13 @@
 ---
 interface Props {
   template?: "simple" | "full";
+  variant?: "standard" | "block";
 }
 
-const { template = "simple" } = Astro.props;
+const { template = "simple", variant = "standard" } = Astro.props;
 ---
 
-<div class:list={["content-style", template]}>
+<div class:list={["content-style", template, variant]}>
   <slot />
 </div>
 <style lang="scss">
@@ -114,6 +115,33 @@ const { template = "simple" } = Astro.props;
 
       :global(* + h1, h2, h3, h4) {
         margin-top: spacing.space(6);
+      }
+    }
+
+    // Bigger headings for block variant
+    .content-style.block {
+      :global(h2) {
+        @include typography.font("4xl", "sm", "bold");
+        margin-bottom: spacing.space(2);
+      }
+
+      :global(h3) {
+        @include typography.font("3xl", "sm", "bold");
+        margin-bottom: spacing.space(3);
+      }
+
+      :global(h4) {
+        @include typography.font("2xl", "sm", "bold");
+        margin-bottom: spacing.space(1);
+        text-transform: uppercase;
+      }
+
+      :global(* + h1, h2, h3, h4) {
+        margin-top: 0;
+      }
+
+      :global(p) {
+        margin-bottom: spacing.space(4);
       }
     }
   }

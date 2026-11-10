@@ -1,0 +1,79 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+type Props = {
+  src: ImageMetadata;
+  alt: string;
+  sizes?: string;
+  widths?: number[];
+  caption?: string;
+  captionAlign?: "left" | "right" | "center";
+} & astroHTML.JSX.HTMLAttributes;
+
+const {
+  src,
+  alt,
+  sizes = "(max-width: 750px) 100vw, 750px",
+  widths = [320, 480, 750],
+  caption,
+  captionAlign = "left",
+  ...rest
+} = Astro.props;
+---
+
+<figure class="content-image">
+  {(<Image src={src} alt={alt} sizes={sizes} widths={widths} {...rest} />)}
+  {
+    caption && (
+      <div class:list={["caption-container", captionAlign]}>
+        <figcaption class="content-image__caption">{caption}</figcaption>
+      </div>
+    )
+  }
+</figure>
+
+<style lang="scss">
+  @use "../../styles/spacing" as spacing;
+  @use "../../styles/typography" as typography;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  .content-image {
+    // position: relative;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    display: grid;
+    gap: spacing.space(1);
+    // margin: spacing.space(4) 0;
+
+    img,
+    picture {
+      display: block;
+      max-width: 100%;
+      height: auto;
+
+      grid-column: span 12;
+    }
+
+    .caption-container {
+      grid-column: 2 / span 6;
+    }
+
+    &__caption {
+      margin-top: spacing.space(1);
+      color: var(--color-primary);
+      @include typography.font("sm", "sm", "normal");
+      font-style: italic;
+      text-align: left;
+      // max-width: 900px;
+      // padding-left: spacing.space(30);
+
+    }
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+</style>

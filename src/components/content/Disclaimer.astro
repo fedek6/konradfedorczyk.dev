@@ -1,0 +1,20 @@
+<aside><slot /></aside>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  aside {
+    border: solid 2px var(--color-accent);
+    border-radius: 8px;
+    padding: spacing.space(2) spacing.space(6);
+    color: var(--color-accent);
+    font-style: italic;
+  }
+  /* ==========================================
+   Desktop
+  =========================================== */
+</style>

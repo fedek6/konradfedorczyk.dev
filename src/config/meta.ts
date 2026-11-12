@@ -33,19 +33,19 @@ export const metaConfig: MetaConfig = {
       title: "Notes",
       slug: "notes",
       description:
-        "Quick, practical tips and advice on coding shortcuts, design hacks, and mini tutorials for swift reference and learning.",
+        "A collection of entries designed for rapid reference, featuring essential terminal commands and brief code snippets.",
     },
     articles: {
       title: "Articles",
       slug: "articles",
       description:
-        "In-depth pieces providing extensive knowledge on web development topics, including tutorials, case studies, and reviews.",
+        "A place for the long reads. Unpacking IT topics through tutorials, case studies, and a few deep dives into the tools I'm using lately.",
     },
     projects: {
       title: "Projects",
       slug: "projects",
       description:
-        "Real-world examples of web development tasks showcasing the application of theories, problem-solving, and project completion.",
+        "Think of these as living dev blogs—I'll be posting regular updates here to show how these projects grow and change over time.",
     },
   },
 };

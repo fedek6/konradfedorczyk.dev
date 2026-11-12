@@ -35,7 +35,8 @@ const toc = notesGrouped.map(([year]) => ({
         (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
       ),
     ),
-  )}>
+  )}
+>
   <CenterContent>
     <Container hasPadding>
       <Grid class="notes-list">
@@ -87,7 +88,11 @@ const toc = notesGrouped.map(([year]) => ({
 
   .content-header {
     grid-column: span 12;
-    margin-bottom: spacing.space(2);
+    margin-bottom: spacing.space(5);
+
+    :global(p) {
+      @include typography.font("lg", "base", "normal");
+    }
   }
 
   .content {
@@ -102,12 +107,17 @@ const toc = notesGrouped.map(([year]) => ({
     :global(> div:first-child) {
       scroll-margin-top: calc(65px + spacing.space(8));
       grid-column: span 2;
-      margin-bottom: spacing.space(3);
+      margin-bottom: spacing.space(5);
+
+      :global(h2) {
+        @include typography.font("2xl", "sm", "bold");
+        text-align: left;
+      }
     }
 
     // Note card
     :global(> div:nth-child(2) > div > article) {
-      margin-bottom: spacing.space(10);
+      margin-bottom: spacing.space(12);
     }
   }
 
@@ -132,7 +142,7 @@ const toc = notesGrouped.map(([year]) => ({
 
       :global(h1) {
         @include typography.font("6xl", "xs", "bold");
-        margin-bottom: spacing.space(3);
+        // margin-bottom: spacing.space(3);
       }
 
       :global(> div) {

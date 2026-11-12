@@ -72,26 +72,27 @@ const title = `${category.title} from ${currentTitle}`;
 
   .content-header {
     grid-column: span 12;
-    margin-bottom: spacing.space(2);
-    :global(h1) {
+    margin-bottom: spacing.space(5);
+
+    /* :global(h1) {
       @include typography.font("3xl", "xs", "bold");
       margin-bottom: spacing.space(3);
-    }
+    } */
 
     :global(p) {
       @include typography.font("lg", "base", "normal");
     }
 
-    :global(> div) {
+    /* :global(> div) {
       padding-top: spacing.space(2);
-    }
+    } */
   }
 
   .content {
     grid-column: span 12;
 
     :global(article) {
-      margin-bottom: spacing.space(8);
+      margin-bottom: spacing.space(12);
     }
   }
 

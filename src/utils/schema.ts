@@ -80,9 +80,10 @@ export function articleNode(
 }
 
 interface Entry {
+  data: {
   title: string;
   description: string;
-  pubDate: Date;
+  pubDate: Date;}
 }
 
 export function collectionNode(
@@ -102,7 +103,7 @@ export function collectionNode(
       itemListElement: entries.map((entry, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        name: entry.title,
+        name: entry.data.title,
       })),
     },
   };

@@ -17,20 +17,21 @@ const { as: Tag = "h2", ...props } = Astro.props;
 
   div {
     border-top: solid 1px var(--color-primary);
+    margin-bottom: spacing.space(2);
   }
 
   h1 {
-    @include typography.font("3xl", "base", "bold");
+    @include typography.font("4xl", "sm", "bold");
     padding: spacing.space(1) 0 0 0;
   }
 
   h2 {
-    @include typography.font("xl", "base", "bold");
+    @include typography.font("xl", "sm", "bold");
     padding: spacing.space(1) 0 0 0;
   }
 
   h3 {
-    @include typography.font("lg", "base", "bold");
+    @include typography.font("lg", "sm", "bold");
     padding: spacing.space(1) 0 0 0;
   }
 
@@ -39,17 +40,17 @@ const { as: Tag = "h2", ...props } = Astro.props;
   =========================================== */
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
     h1 {
-      @include typography.font("4xl", "base", "bold");
+      @include typography.font("4xl", "sm", "bold");
       padding: spacing.space(1) 0 0 0;
     }
 
     h2 {
-      @include typography.font("xl", "base", "bold");
+      @include typography.font("xl", "sm", "bold");
       padding: spacing.space(1) 0 0 0;
     }
 
     h3 {
-      @include typography.font("lg", "base", "bold");
+      @include typography.font("lg", "sm", "bold");
       padding: spacing.space(1) 0 0 0;
     }
   }

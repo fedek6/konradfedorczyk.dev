@@ -4,12 +4,13 @@ import "../../styles/_globals.scss";
 interface Props {
   template?: "simple" | "full";
   variant?: "standard" | "block";
+  disableMarginOnLastElement?: boolean;
 }
 
-const { template = "simple", variant = "standard" } = Astro.props;
+const { template = "simple", variant = "standard", disableMarginOnLastElement = false } = Astro.props;
 ---
 
-<div class:list={["content-style", template, variant]}>
+<div class:list={["content-style", template, variant, disableMarginOnLastElement ? "no-margin-on-last" : ""]}>
   <slot />
 </div>
 <style lang="scss">
@@ -101,6 +102,10 @@ const { template = "simple", variant = "standard" } = Astro.props;
         background-position: center;
         background-size: 100% auto;
       }
+    }
+
+    &.no-margin-on-last :global(:last-child) {
+      margin-bottom: spacing.space(0);
     }
   }
 

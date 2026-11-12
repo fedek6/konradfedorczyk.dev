@@ -10,9 +10,28 @@
   aside {
     border: solid 2px var(--color-accent);
     border-radius: 8px;
-    padding: spacing.space(2) spacing.space(6);
+    padding: spacing.space(2) spacing.space(4);
     color: var(--color-accent);
     font-style: italic;
+
+    @include typography.font("base", "2xl", "normal");
+
+    :global(.underline) {
+      text-decoration: underline;
+    }
+
+    :global(p:not(:last-of-type)){
+      margin-bottom: spacing.space(2);
+    }
+
+    :global(a) {
+      text-decoration: underline;
+      color: var(--color-accent);
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
   /* ==========================================
    Desktop

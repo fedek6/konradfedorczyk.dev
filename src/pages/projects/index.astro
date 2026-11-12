@@ -8,13 +8,19 @@ import DividedHeader from "../../components/typography/DividedHeader.astro";
 import { metaConfig } from "../../config/meta";
 import Layout from "../../layouts/Layout.astro";
 import { sortByDateDesc } from "../../utils/content";
+import { collectionNode, graph } from "../../utils/schema";
 
 const config = metaConfig.categories.projects;
 const collection = await getCollection("projects");
 const projects = sortByDateDesc(collection);
 ---
 
-<Layout title="projects">
+<Layout
+  title="projects"
+  description={config.description}
+  schema={graph(
+    collectionNode(config.title, config.description, Astro.url, projects),
+  )}>
   <CenterContent>
     <Container hasPadding>
       <Grid class="content-list">

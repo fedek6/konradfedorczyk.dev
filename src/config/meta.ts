@@ -4,13 +4,30 @@ type Category = {
   description: string;
 };
 
+type Author = {
+  name: string;
+  email: string;
+  jobTitle: string;
+  sameAs: string[];
+};
+
 type MetaConfig = {
   pageName: string;
+  author: Author;
   categories: Record<string, Category>;
 };
 
 export const metaConfig: MetaConfig = {
   pageName: "Konrad Fedorczyk",
+  author: {
+    name: "Konrad Fedorczyk",
+    email: "contact@konradfedorczyk.dev",
+    jobTitle: "Software developer",
+    sameAs: [
+      "https://github.com/fedek6",
+      "https://www.linkedin.com/in/konrad-fedorczyk-rh/",
+    ],
+  },
   categories: {
     notes: {
       title: "Notes",

@@ -8,6 +8,7 @@ import StandardizedBreadcrumbs from "../../components/navigation/StandardizedBre
 import { renderingConfig } from "../../config/rendering";
 import Layout from "../../layouts/Layout.astro";
 import { truncate } from "../../utils/content";
+import { articleNode, breadcrumbNode, graph } from "../../utils/schema";
 
 export async function getStaticPaths() {
   const collection = await getCollection("projects");
@@ -26,7 +27,19 @@ const { Content, headings } = await render(entry);
   title={entry.data.title}
   description={entry.data.description}
   seoTitle={entry.data.title}
->
+  schema={graph(
+    articleNode(
+      entry.data.title,
+      entry.data.description,
+      entry.data.pubDate,
+      Astro.url,
+    ),
+    breadcrumbNode([
+      { label: "Home", href: "/" },
+      { label: "Projects", href: "/projects" },
+      { label: entry.data.title },
+    ]),
+  )}>
   <CenterContent>
     <Container hasPadding>
       <StandardizedBreadcrumbs

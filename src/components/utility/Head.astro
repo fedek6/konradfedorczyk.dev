@@ -12,6 +12,7 @@ export interface Props {
   ogImage?: string;
   ogImageAlt?: string;
   rawTitle?: boolean;
+  schema?: Record<string, unknown>;
 }
 
 const {
@@ -23,6 +24,7 @@ const {
   ogImageAlt = "",
   pageName,
   rawTitle = false,
+  schema,
   ...props
 } = Astro.props;
 
@@ -43,5 +45,13 @@ const pageTitle = rawTitle ? title : `${capitalize(title)} – ${pageName}`;
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
 <meta property="og:image:alt" content={ogImageAlt} />
+{
+  schema && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(schema)}
+    />
+  )
+}
 <Font cssVariable="--hanken-grotesk" preload />
 <ClientRouter />

@@ -19,13 +19,21 @@ interface Props {
   currentHref: string;
   currentTitle: string;
   articles: CollectionEntry<"articles">[];
+  schema?: Record<string, unknown>;
 }
 
-const { category, toc, currentHref, currentTitle, articles } = Astro.props;
+const {
+  category,
+  toc,
+  currentHref,
+  currentTitle,
+  articles,
+  schema,
+} = Astro.props;
 const title = `${category.title} from ${currentTitle}`;
 ---
 
-<Layout title={title}>
+<Layout title={title} description={category.description} schema={schema}>
   <CenterContent>
     <Container hasPadding>
       <Grid class="content-list">

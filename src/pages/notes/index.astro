@@ -11,6 +11,7 @@ import Masonry from "../../components/layout/Masonry.astro";
 import Note from "../../components/content/Note.astro";
 import { groupByYear } from "../../utils/content";
 import SideTocContainer from "../../components/layout/SideTocContainer.astro";
+import { collectionNode, graph } from "../../utils/schema";
 
 const config = metaConfig.categories.notes;
 const collection = await getCollection("notes");
@@ -22,7 +23,19 @@ const toc = notesGrouped.map(([year]) => ({
 }));
 ---
 
-<Layout title="notes">
+<Layout
+  title="notes"
+  description={config.description}
+  schema={graph(
+    collectionNode(
+      config.title,
+      config.description,
+      Astro.url,
+      [...collection].sort(
+        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+      ),
+    ),
+  )}>
   <CenterContent>
     <Container hasPadding>
       <Grid class="notes-list">

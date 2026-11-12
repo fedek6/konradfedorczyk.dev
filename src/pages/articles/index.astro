@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import ContentList from "../../components/content/ContentList.astro";
 import { metaConfig } from "../../config/meta";
 import { extractYears, groupByYear, sortByDateDesc } from "../../utils/content";
+import { collectionNode, graph } from "../../utils/schema";
 
 const config = metaConfig.categories.articles;
 const collection = await getCollection("articles");
@@ -23,4 +24,7 @@ const currentTitle = toc[0].title;
   currentHref={currentHref}
   currentTitle={currentTitle}
   articles={sortByDateDesc(groupedByYear[0][1]!)}
+  schema={graph(
+    collectionNode(config.title, config.description, Astro.url, collection),
+  )}
 />

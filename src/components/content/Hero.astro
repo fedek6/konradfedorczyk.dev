@@ -97,7 +97,7 @@ type Part = { kind: "br" } | { kind: "text"; text: string };
 // All timing values in milliseconds. Tune these to taste.
 const TIMING = {
   // Normal letter: delay = min + random * range
-  letter: { min: 28, range: 35 },
+  letter: { min: 15, range: 20 },
   // After comma / semicolon: delay = min + random * range
   punctuation: { min: 40, range: 50 },
   // After . ! ? : delay = min + random * range

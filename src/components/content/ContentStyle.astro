@@ -5,12 +5,26 @@ interface Props {
   template?: "simple" | "full";
   variant?: "standard" | "block";
   disableMarginOnLastElement?: boolean;
+  disableMarginOnFirstElement?: boolean;
 }
 
-const { template = "simple", variant = "standard", disableMarginOnLastElement = false } = Astro.props;
+const {
+  template = "simple",
+  variant = "standard",
+  disableMarginOnLastElement = false,
+  disableMarginOnFirstElement = false,
+} = Astro.props;
 ---
 
-<div class:list={["content-style", template, variant, disableMarginOnLastElement ? "no-margin-on-last" : ""]}>
+<div
+  class:list={[
+    "content-style",
+    template,
+    variant,
+    disableMarginOnLastElement ? "no-margin-on-last" : "",
+    disableMarginOnFirstElement ? "no-margin-on-first" : "",
+  ]}
+>
   <slot />
 </div>
 <style lang="scss">
@@ -107,6 +121,10 @@ const { template = "simple", variant = "standard", disableMarginOnLastElement = 
     &.no-margin-on-last :global(:last-child) {
       margin-bottom: spacing.space(0);
     }
+
+    &.no-margin-on-first :global(:first-child) {
+      margin-top: spacing.space(0);
+    }
   }
 
   .content-style.full {
@@ -188,4 +206,4 @@ const { template = "simple", variant = "standard", disableMarginOnLastElement = 
     }
   }
 </style>
-<script src="../../utils/codeCopy.ts" />
+<script src="../../utils/codeCopy.ts"></script>

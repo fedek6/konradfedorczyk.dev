@@ -28,6 +28,7 @@ import Disclaimer from "../../components/content/Disclaimer.astro";
             template="simple"
             variant="block"
             disableMarginOnLastElement={true}
+            disableMarginOnFirstElement={true}
           >
             <h2>Who am I?</h2>
             <p>
@@ -83,6 +84,7 @@ import Disclaimer from "../../components/content/Disclaimer.astro";
             template="simple"
             variant="block"
             disableMarginOnLastElement={true}
+            disableMarginOnFirstElement={true}
           >
             <h3>My late diagnosis&hellip;</h3>
             <p>
@@ -114,6 +116,7 @@ import Disclaimer from "../../components/content/Disclaimer.astro";
             template="simple"
             variant="block"
             disableMarginOnLastElement={true}
+            disableMarginOnFirstElement={true}
           >
             <h2>What have I been up to lately?</h2>
             <p>
@@ -151,9 +154,9 @@ import Disclaimer from "../../components/content/Disclaimer.astro";
               >.
             </p>
             <p>
-              Personally, I believe humans must remain integral to the process. A lack of
-              technological understanding is likely to stifle innovation and
-              lead to stagnation.
+              Personally, I believe humans must remain integral to the process.
+              A lack of technological understanding is likely to stifle
+              innovation and lead to stagnation.
             </p>
           </Disclaimer>
         </div>
@@ -171,12 +174,34 @@ import Disclaimer from "../../components/content/Disclaimer.astro";
    Global/Mobile
   =========================================== */
   .special-content {
-    // row-gap: 0;
-    margin-bottom: spacing.space(20);
+    margin-top: spacing.space(8);
+    margin-bottom: spacing.space(14);
+  }
+
+  header {
+    grid-column: span 12;
+
+    :global(h1) {
+      @include typography.font("3xl", "xs", "bold");
+      margin-bottom: spacing.space(3);
+    }
+
+    > p {
+      // font-style: italic;
+      @include typography.font("lg", "base", "normal");
+    }
+  }
+
+  .content-block {
+    grid-column: span 12;
   }
 
   .desktop-image {
     display: none;
+  }
+
+  .disclaimer {
+    grid-column: span 12;
   }
 
   /* ==========================================
@@ -185,6 +210,7 @@ import Disclaimer from "../../components/content/Disclaimer.astro";
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
     .special-content {
       margin-top: spacing.space(8);
+      margin-bottom: spacing.space(20);
     }
 
     header {

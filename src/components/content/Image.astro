@@ -34,27 +34,27 @@ const {
 </figure>
 
 <style lang="scss">
-  @use "../../styles/spacing" as spacing;
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
   @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
 
   /* ==========================================
    Global/Mobile
   =========================================== */
   .content-image {
     // position: relative;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(1, 1fr);
-    display: grid;
-    gap: spacing.space(1);
+    // grid-template-columns: repeat(12, 1fr);
+    // grid-template-rows: repeat(1, 1fr);
+   //  display: grid;
+    // gap: spacing.space(1);
     // margin: spacing.space(4) 0;
 
     img,
     picture {
       display: block;
       max-width: 100%;
-      height: auto;
-
-      grid-column: span 12;
+      height: auto;;
     }
 
     .caption-container {
@@ -69,11 +69,43 @@ const {
       text-align: left;
       // max-width: 900px;
       // padding-left: spacing.space(30);
-
     }
   }
 
   /* ==========================================
    Desktop
   =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .content-image {
+      // position: relative;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: repeat(1, 1fr);
+      display: grid;
+      gap: spacing.space(1);
+      // margin: spacing.space(4) 0;
+
+      img,
+      picture {
+        display: block;
+        max-width: 100%;
+        height: auto;
+
+        grid-column: span 12;
+      }
+
+      .caption-container {
+        grid-column: 2 / span 6;
+      }
+
+      &__caption {
+        margin-top: spacing.space(1);
+        color: var(--color-primary);
+        @include typography.font("sm", "sm", "normal");
+        font-style: italic;
+        text-align: left;
+        // max-width: 900px;
+        // padding-left: spacing.space(30);
+      }
+    }
+  }
 </style>

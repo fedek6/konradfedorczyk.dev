@@ -4,6 +4,9 @@ import mdx from "@astrojs/mdx";
 import { satteri } from "@astrojs/markdown-satteri";
 import { defineHastPlugin } from "satteri";
 
+import favicons from "astro-favicons";
+import { readFile } from "fs/promises";
+
 const SITE_URL = process.env.SITE_URL ?? "https://konradfedorczyk.dev";
 
 const tocObservePlugin = defineHastPlugin({
@@ -42,9 +45,8 @@ const copyButtonWrapperNode = {
   properties: {
     className: "copy-button-wrapper",
   },
-  children: [copyButtonNode]
-}
-
+  children: [copyButtonNode],
+};
 
 // Wrap each highlighted <pre> in a container div so a copy button can live
 // *below* it as a sibling. Using a Shiki transformer (instead of a HAST
@@ -111,5 +113,17 @@ export default defineConfig({
     },
   ],
 
-  integrations: [mdx({ optimize: false })],
+  integrations: [
+    mdx({ optimize: false }),
+    favicons({
+      input: {
+        favicons: [
+          // "public/favicon.svg",
+          await readFile("src/assets/head3d-preview.png"),
+        ], // select best source image by its size
+        // Add other platform-specific sources if needed.
+      },
+      pixel_art: true,
+    }),
+  ],
 });

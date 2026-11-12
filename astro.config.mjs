@@ -124,6 +124,7 @@ export default defineConfig({
         // Add other platform-specific sources if needed.
       },
       pixel_art: true,
+      name: "konradfedorczyk.dev",
     }),
   ],
 });

@@ -35,7 +35,10 @@ const meta = {
       <slot />
     </main>
     <Footer transition:persist="main-footer" transition:animate="none" />
-    <ImageLightbox transition:persist="image-lightbox" transition:animate="none" />
+    <ImageLightbox
+      transition:persist="image-lightbox"
+      transition:animate="none"
+    />
     <script is:inline>
       document
         .querySelector("body")
@@ -119,8 +122,8 @@ const meta = {
     true,
   );
 
-  document.addEventListener("astro:page-load", () => {
-    document.body.setAttribute("data-theme", theme.get());
+  document.addEventListener("astro:before-swap", (event: any) => {
+    event.newDocument.body.dataset.theme = theme.get();
   });
 
   effect(theme, (theme) => {

@@ -27,6 +27,8 @@ const year = entry.data.pubDate.getFullYear().toString();
   title={entry.data.title}
   description={entry.data.description}
   seoTitle={entry.data.title}
+  ogType="article"
+  publishedTime={entry.data.pubDate}
   schema={graph(
     articleNode(
       entry.data.title,

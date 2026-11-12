@@ -22,6 +22,7 @@
     "three": "^0.185.1"
   },
   "devDependencies": {
+    "@astrojs/sitemap": "^3.7.4",
     "@types/node": "^26.6.5",
     "@types/three": "^0.185.1"
   }

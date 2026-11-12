@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { defineConfig, fontProviders } from "astro/config";
 import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
 import { satteri } from "@astrojs/markdown-satteri";
 import { defineHastPlugin } from "satteri";
 
@@ -115,6 +116,7 @@ export default defineConfig({
 
   integrations: [
     mdx({ optimize: false }),
+    sitemap(),
     favicons({
       input: {
         favicons: [

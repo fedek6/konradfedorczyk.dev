@@ -14,8 +14,11 @@ import CenterContent from "../layout/CenterContent.astro";
         </div>
       </div>
       <div class="introduction">
-        <h1>
-         Hey,<br />I'm Konrad, a Warsaw-based nerd with ADHD. I spend my time learning, building, and creating geeky stuff. This is my space to share projects, reviews, and whatever else I'm hyper-focusing on lately.
+        <h1 id="hero-intro">
+          Hey,<br />I'm Konrad, a Warsaw-based nerd with ADHD. I spend my time
+          learning, building, and creating geeky stuff. This is my space to
+          share projects, reviews, and whatever else I'm hyper-focusing on
+          lately.
         </h1>
       </div>
     </Grid>
@@ -80,7 +83,7 @@ import CenterContent from "../layout/CenterContent.astro";
     }
 
     .introduction {
-      grid-column: span 10
+      grid-column: span 10;
     }
 
     .introduction h1 {
@@ -88,3 +91,69 @@ import CenterContent from "../layout/CenterContent.astro";
     }
   }
 </style>
+<script>
+type Part = { kind: "br" } | { kind: "text"; text: string };
+
+// All timing values in milliseconds. Tune these to taste.
+const TIMING = {
+  // Normal letter: delay = min + random * range
+  letter: { min: 28, range: 35 },
+  // After comma / semicolon: delay = min + random * range
+  punctuation: { min: 40, range: 50 },
+  // After . ! ? : delay = min + random * range
+  sentenceEnd: { min: 250, range: 350 },
+  // Extra pause after each <br>
+  lineBreak: 300,
+} as const;
+
+function typeHero(): void {
+  const h1 = document.getElementById("hero-intro");
+  if (window.matchMedia("(max-width: 768px)").matches) return;
+  if (!h1) return;
+
+  // Respect the OS setting: keep the full text, skip the effect.
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  // Split the markup into parts; each <br> stays as its own part.
+  const original = document.createElement("div");
+  original.innerHTML = h1.innerHTML;
+  const parts: Part[] = [];
+  for (const node of Array.from(original.childNodes)) {
+    if (node instanceof HTMLBRElement) {
+      parts.push({ kind: "br" });
+    } else {
+      parts.push({ kind: "text", text: node.textContent ?? "" });
+    }
+  }
+  h1.textContent = "";
+
+  // Random delay per character, longer after sentence ends.
+  function delayFor(ch: string): number {
+    if (ch === "." || ch === "!" || ch === "?")
+      return TIMING.sentenceEnd.min + Math.random() * TIMING.sentenceEnd.range;
+    if (ch === "," || ch === ";")
+      return TIMING.punctuation.min + Math.random() * TIMING.punctuation.range;
+    return TIMING.letter.min + Math.random() * TIMING.letter.range;
+  }
+
+  function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  (async function type(): Promise<void> {
+    for (const part of parts) {
+      if (part.kind === "br") {
+        h1.appendChild(document.createElement("br"));
+        await sleep(TIMING.lineBreak);
+        continue;
+      }
+      for (const ch of part.text) {
+        h1.appendChild(document.createTextNode(ch));
+        await sleep(delayFor(ch));
+      }
+    }
+  })();
+}
+
+typeHero();
+</script>

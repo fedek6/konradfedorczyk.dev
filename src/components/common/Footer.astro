@@ -4,6 +4,7 @@ import Grid from "../layout/Grid.astro";
 import CenterContent from "../layout/CenterContent.astro";
 import ContactMenu from "../navigation/ContactMenu.astro";
 import MiscMenu from "../navigation/MiscMenu.astro";
+import pkg from "../../../package.json";
 
 const { ...props } = Astro.props;
 ---
@@ -26,6 +27,9 @@ const { ...props } = Astro.props;
         <div class="misc footer-menu">
           <MiscMenu />
         </div>
+        <div class="version">
+          <span>v{pkg.version}</span>
+        </div>
       </Grid>
     </Container>
   </CenterContent>
@@ -41,6 +45,7 @@ const { ...props } = Astro.props;
   =========================================== */
   footer {
     padding-top: spacing.space(4);
+    // padding-bottom: spacing.space(4);
     background-color: var(--color-primary);
     color: var(--color-secondary);
 
@@ -69,6 +74,26 @@ const { ...props } = Astro.props;
       &:hover {
         text-decoration: underline;
       }
+    }
+  }
+
+  .version {
+    padding-top: spacing.space(2);
+    grid-column: span 12;
+    order: 4;
+    @include typography.font("xs", "base");
+    text-align: right;
+
+    display: flex;
+
+    justify-content: center;
+    width: 100%;
+
+    > span {
+      display: inline-block;
+      border: solid 1px var(--color-secondary);
+      border-radius: 8px;
+      padding: 4px spacing.space(2);
     }
   }
 
@@ -107,7 +132,7 @@ const { ...props } = Astro.props;
 
     order: 2;
 
-    margin-bottom: spacing.space(3);
+    margin-bottom: spacing.space(2);
   }
 
   .footer-menu {
@@ -165,6 +190,18 @@ const { ...props } = Astro.props;
       :global(menu a) {
         @include typography.font("sm", "base");
       }
+    }
+
+    .version {
+      padding-top: 0;
+      grid-column: span 12;
+      order: 4;
+      @include typography.font("xs", "base");
+      text-align: right;
+
+      display: flex;
+
+      justify-content: flex-end
     }
   }
 

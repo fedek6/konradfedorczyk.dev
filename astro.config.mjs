@@ -71,7 +71,21 @@ const copyButtonTransformer = {
 export default defineConfig({
   site: SITE_URL,
   output: "static",
-
+  vite: {
+    build: {
+      // applies to all environments (client, server, prerender)
+      // chunkSizeWarningLimit: 2000,
+      rolldownOptions: {
+        output: {
+          codeSplitting: {
+            groups: [
+              { name: "vendor", test: /node_modules/ },
+            ],
+          },
+        },
+      },
+    },
+  },
   build: {
     inlineStylesheets: "always",
   },

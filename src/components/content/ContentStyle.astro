@@ -38,10 +38,11 @@ const {
   =========================================== */
   .content-style {
     :global(pre) {
-      @include typography.font("xs", "base", "bold");
+      @include typography.font("sm", "base", "normal");
       padding: spacing.space(2) spacing.space(2);
       // border: solid 1px var(--color-primary);
       border-radius: 8px;
+      font-family: var(--source-code-pro);
     }
 
     // Code rendering
@@ -59,6 +60,19 @@ const {
         justify-content: end;
         width: 100%;
       }
+    }
+
+    :global(code) {
+      font-family: var(--source-code-pro);
+    }
+
+    :global(p > code) {
+      // border: solid 1px var(--color-primary);
+      background: var(--color-primary);
+      color: var(--color-secondary);
+      border-radius: 4px;
+      padding: .2em .4em;
+      @include typography.font("sm", "base", "normal");
     }
 
     :global([data-toc-observe]) {

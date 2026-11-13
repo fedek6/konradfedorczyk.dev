@@ -4,7 +4,6 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import { satteri } from "@astrojs/markdown-satteri";
 import { defineHastPlugin } from "satteri";
-
 import favicons from "astro-favicons";
 import { readFile } from "fs/promises";
 
@@ -110,6 +109,16 @@ export default defineConfig({
       styles: ["normal", "italic"],
       subsets: ["latin"],
       fallbacks: ["sans-serif"],
+      formats: ["woff2"],
+    },
+    {
+      name: "Source Code Pro",
+      cssVariable: "--source-code-pro",
+      provider: fontProviders.google(),
+      weights: [400],
+      styles: ["normal"],
+      subsets: ["latin"],
+      fallbacks: ["monospace"],
       formats: ["woff2"],
     },
   ],

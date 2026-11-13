@@ -91,7 +91,7 @@ import CenterContent from "../layout/CenterContent.astro";
     }
   }
 </style>
-<script>
+{false && <script>
 type Part = { kind: "br" } | { kind: "text"; text: string };
 
 // All timing values in milliseconds. Tune these to taste.
@@ -156,4 +156,4 @@ function typeHero(): void {
 }
 
 typeHero();
-</script>
+</script>}

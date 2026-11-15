@@ -1,6 +1,6 @@
 ---
 title: Automatically rate and update Arch mirrors
-description: This is my first Astro blog
+description: Automatically update your Arch Linux mirrorlist based on the fastest download speeds
 pubDate: 2026-11-13 13:10:20
 categories: ["linux", "arch"]
 ---
@@ -16,4 +16,3 @@ sudo reflector \
 ```
 
 Once the process is complete, you will have a new set of mirrors optimized for your location.
-

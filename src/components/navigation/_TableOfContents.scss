@@ -37,6 +37,7 @@ a[aria-current="true"] {
 
 li {
     margin-bottom: spacing.space(1);
+    padding-left: calc(var(--toc-depth, 0) * spacing.space(2));
 }
 
 /* ==========================================

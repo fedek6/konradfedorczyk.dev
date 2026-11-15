@@ -111,7 +111,7 @@ export function collectionNode(
 
 export interface Breadcrumb {
   label: string;
-  href: string;
+  href?: string;
 }
 
 export function breadcrumbNode(items: Breadcrumb[]): Node {

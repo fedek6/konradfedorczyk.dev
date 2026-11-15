@@ -2,7 +2,7 @@
 title: CUDA support on Arch Linux
 description: How to install CUDA on Arch Linux
 pubDate: 2026-11-15T17:02:27
-categories: ["linux", "nvcc", "cuda", "ai]
+categories: ["linux", "nvcc", "cuda", "ai"]
 ---
 
 Tu run CUDA with Blackwell architecture (RTX 5090) you'll need to install following packages:

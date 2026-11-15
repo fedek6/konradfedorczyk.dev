@@ -45,6 +45,28 @@ const {
       font-family: var(--source-code-pro);
     }
 
+    :global(blockquote) {
+      border: solid 1px var(--color-primary);
+      border-radius: 8px;
+      padding: spacing.space(2) spacing.space(2);
+      color: var(--color-primary);
+      font-style: italic;
+
+      :global(p) {
+        margin-bottom: 0;
+      }
+
+      @include typography.font("base", "2xl", "normal");
+      margin-bottom: spacing.space(2);
+    }
+
+    :global(ul) {
+      margin-bottom: spacing.space(3);
+      :global(li) {
+        margin-bottom: spacing.space(2);
+      }
+    }
+
     // Code rendering
     :global([data-code-wrapper]) {
       margin-bottom: spacing.space(2);
@@ -66,12 +88,12 @@ const {
       font-family: var(--source-code-pro);
     }
 
-    :global(p > code) {
+    :global(p > code, li > code) {
       // border: solid 1px var(--color-primary);
-      background: var(--color-primary);
+      background: var(--color-primary-opaque);
       color: var(--color-secondary);
       border-radius: 4px;
-      padding: .2em .4em;
+      padding: 0.2em 0.4em;
       @include typography.font("sm", "base", "normal");
     }
 
@@ -91,7 +113,7 @@ const {
 
     :global(h3) {
       @include typography.font("lg", "sm", "bold");
-      margin-bottom: spacing.space();
+      margin-bottom: spacing.space(2);
     }
 
     :global(h4) {
@@ -142,7 +164,7 @@ const {
   }
 
   .content-style.full {
-    :global(p:first-of-type) {
+    :global(> p:first-of-type) {
       // font-style: italic;
       @include typography.font("lg", "2xl", "normal");
       margin-bottom: spacing.space(3);
@@ -178,7 +200,7 @@ const {
     }
 
     .content-style.full {
-      :global(p:first-of-type) {
+      :global(> p:first-of-type) {
         font-style: italic;
         @include typography.font("lg", "2xl", "normal");
         margin-bottom: spacing.space(6);

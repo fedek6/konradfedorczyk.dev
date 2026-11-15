@@ -1,5 +1,5 @@
 ---
-title: How to setup Ollama server on Arch (with Blackwell)
+title: Ollama server on Arch (with Blackwell)
 description: This guide will help you to setup Ollama on Arch Linux
 pubDate: 2026-11-15T17:11:24
 categories: ["linux", "nvcc", "cuda", "ai"]
@@ -50,6 +50,7 @@ Environment="OLLAMA_HOST=0.0.0.0"
 Environment="OLLAMA_CONTEXT_LENGTH=8192"
 # Quantization of context
 Environment="OLLAMA_KV_CACHE_TYPE=q8_0"
+# Faster, more memory-efficient way of computing the attention step.
 Environment="OLLAMA_FLASH_ATTENTION=1"
 
 [Install]

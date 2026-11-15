@@ -30,7 +30,7 @@ const toc = headings.map((heading) => ({
 
 <Grid class="note-grid" as="article">
   <SideTocContainer class="toc" variant="right">
-    <TableOfContents toc={toc} tocTitle={tocTitle} />
+    {toc.length > 0 && <TableOfContents toc={toc} tocTitle={tocTitle} />}
   </SideTocContainer>
   <ContentHeader
     title={entry.data.title}

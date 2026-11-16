@@ -8,9 +8,10 @@ export type TocEntry = {
 interface Props {
   toc: TocEntry[];
   tocTitle?: string;
+  tocSize?: "sm" | "md";
 }
 
-const { toc, tocTitle = "Table of contents", ...props } = Astro.props;
+const { toc, tocTitle = "Table of contents", tocSize = "md", ...props } = Astro.props;
 
 const depths = toc
   .map((entry) => entry.depth)
@@ -24,7 +25,7 @@ const offset = (entry: TocEntry) =>
 
 <nav data-toc {...props}>
   <h3 id="menu-title">{tocTitle}</h3>
-  <ul>
+  <ul class:list={["size-" + tocSize]}>
     {
       toc.map((entry, i) => (
         <li

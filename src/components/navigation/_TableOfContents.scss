@@ -24,11 +24,15 @@ ul {
     margin: 0 0;
 }
 
-a {
-    @include typography.link();
-    display: inline-block;
-    @include typography.font("base", "sm", "normal");
-    // margin-bottom: spacing.space(1);
+ul {
+    li {
+        a {
+            @include typography.link();
+            display: inline-block;
+            @include typography.font("base", "sm", "normal");
+            // margin-bottom: spacing.space(1);
+        }
+    }
 }
 
 a[aria-current="true"] {
@@ -59,7 +63,7 @@ li {
         gap: spacing.space(1);
 
         // padding-left: calc(32px + spacing.space(1));
-        margin-bottom: spacing.space(1);
+        margin-bottom: spacing.space(2);
 
         &::before {
             content: "";
@@ -96,5 +100,19 @@ li {
 
     a[aria-current="true"] {
         text-decoration: none;
+    }
+
+    // Variants
+    ul.size-sm {
+        li {
+            margin-bottom: spacing.space(1);
+
+            a {
+                @include typography.link();
+                display: inline-block;
+                @include typography.font("sm", "sm", "normal");
+                // margin-bottom: spacing.space(1);
+            }
+        }
     }
 }

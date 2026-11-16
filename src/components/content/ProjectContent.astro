@@ -31,7 +31,7 @@ const toc = headings.map((heading) => ({
 
 <Grid class="note-grid" as="article">
   <SideTocContainer class="toc" variant="right">
-    <TableOfContents toc={toc} tocTitle={tocTitle} />
+    <TableOfContents toc={toc} tocTitle={tocTitle} tocSize="sm" />
   </SideTocContainer>
   <ContentHeader
     title={entry.data.title}
@@ -50,11 +50,10 @@ const toc = headings.map((heading) => ({
       </ContentStyle>
     </section>
     <footer>
-      <LinkButton href={backLink}
-        ><IconArrowRight style="height: 32px; transform: scale(-1, 1);" /> Back to{
-          " "
-        }{backLinkText}</LinkButton
-      >
+      <LinkButton href={backLink}>
+        <IconArrowRight style="height: 32px; transform: scale(-1, 1);" /> Back
+        to {backLinkText}
+      </LinkButton>
     </footer>
   </div>
 </Grid>
@@ -101,6 +100,7 @@ const toc = headings.map((heading) => ({
   @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
     .note-grid {
       border-top: none;
+      margin-bottom: spacing.space(25);
 
       .toc {
         grid-column: span 2;

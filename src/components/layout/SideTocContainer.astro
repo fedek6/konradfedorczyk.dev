@@ -3,9 +3,10 @@ import TocButton from "../buttons/TocButton.astro";
 
 type Props = {
   variant: "left" | "right";
+  renderTocButton?: boolean;
 } & astroHTML.JSX.HTMLAttributes;
 
-const { variant, ...props } = Astro.props;
+const { variant, renderTocButton = true, ...props } = Astro.props;
 ---
 
 <div
@@ -18,13 +19,13 @@ const { variant, ...props } = Astro.props;
   data-variant={variant}
   {...props}
 >
-  <slot /><TocButton
+  <slot />{renderTocButton && <TocButton
     aria-label="Open menu"
     aria-expanded="false"
     aria-controls="side-toc"
     aria-haspopup="true"
     data-toc-button
-  />
+  />}
 </div>
 <style lang="scss">
   @use "sass:map";

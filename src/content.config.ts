@@ -8,6 +8,7 @@ const notes = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
+    categories: z.array(z.string()).default([]),
   })
 });
 
@@ -17,6 +18,7 @@ const articles = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
+    categories: z.array(z.string()).default([]),
   })
 });
 
@@ -34,6 +36,7 @@ const projects = defineCollection({
     description: z.string(),
     pubDate: z.coerce.date(),
     finished: z.boolean().optional(),
+    categories: z.array(z.string()).default([]),
   })
 });
 

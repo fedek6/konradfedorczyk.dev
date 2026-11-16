@@ -24,11 +24,15 @@ ul {
     margin: 0 0;
 }
 
-a {
-    @include typography.link();
-    display: inline-block;
-    @include typography.font("base", "sm", "normal");
-    // margin-bottom: spacing.space(1);
+ul {
+    li {
+        a {
+            @include typography.link();
+            display: inline-block;
+            @include typography.font("base", "sm", "normal");
+            // margin-bottom: spacing.space(1);
+        }
+    }
 }
 
 a[aria-current="true"] {
@@ -37,6 +41,7 @@ a[aria-current="true"] {
 
 li {
     margin-bottom: spacing.space(1);
+    padding-left: calc(var(--toc-depth, 0) * spacing.space(3));
 }
 
 /* ==========================================
@@ -58,7 +63,7 @@ li {
         gap: spacing.space(1);
 
         // padding-left: calc(32px + spacing.space(1));
-        margin-bottom: spacing.space(1);
+        margin-bottom: spacing.space(2);
 
         &::before {
             content: "";
@@ -74,7 +79,7 @@ li {
     li[data-current="true"] {
         // border: solid 1px #000;
         // text-decoration: underline;
-        padding-left: 0;
+        // padding-left: 0;
 
         &::before {
             content: "";
@@ -95,5 +100,19 @@ li {
 
     a[aria-current="true"] {
         text-decoration: none;
+    }
+
+    // Variants
+    ul.size-sm {
+        li {
+            margin-bottom: spacing.space(1);
+
+            a {
+                @include typography.link();
+                display: inline-block;
+                @include typography.font("sm", "sm", "normal");
+                // margin-bottom: spacing.space(1);
+            }
+        }
     }
 }

@@ -4,7 +4,6 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import { satteri } from "@astrojs/markdown-satteri";
 import { defineHastPlugin } from "satteri";
-
 import favicons from "astro-favicons";
 import { readFile } from "fs/promises";
 
@@ -72,7 +71,21 @@ const copyButtonTransformer = {
 export default defineConfig({
   site: SITE_URL,
   output: "static",
-
+  vite: {
+    build: {
+      // applies to all environments (client, server, prerender)
+      // chunkSizeWarningLimit: 2000,
+      rolldownOptions: {
+        output: {
+          codeSplitting: {
+            groups: [
+              { name: "vendor", test: /node_modules/ },
+            ],
+          },
+        },
+      },
+    },
+  },
   build: {
     inlineStylesheets: "always",
   },
@@ -110,6 +123,16 @@ export default defineConfig({
       styles: ["normal", "italic"],
       subsets: ["latin"],
       fallbacks: ["sans-serif"],
+      formats: ["woff2"],
+    },
+    {
+      name: "Source Code Pro",
+      cssVariable: "--source-code-pro",
+      provider: fontProviders.google(),
+      weights: [400],
+      styles: ["normal"],
+      subsets: ["latin"],
+      fallbacks: ["monospace"],
       formats: ["woff2"],
     },
   ],

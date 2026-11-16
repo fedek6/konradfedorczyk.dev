@@ -2,22 +2,37 @@
 export type TocEntry = {
   title: string;
   href: string;
+  depth?: number;
 };
 
 interface Props {
   toc: TocEntry[];
   tocTitle?: string;
+  tocSize?: "sm" | "md";
 }
 
-const { toc, tocTitle = "Table of contents", ...props } = Astro.props;
+const { toc, tocTitle = "Table of contents", tocSize = "md", ...props } = Astro.props;
+
+const depths = toc
+  .map((entry) => entry.depth)
+  .filter((depth): depth is number => depth !== undefined);
+
+const minDepth = depths.length > 0 ? Math.min(...depths) : 0;
+
+const offset = (entry: TocEntry) =>
+  entry.depth !== undefined ? entry.depth - minDepth : 0;
 ---
 
 <nav data-toc {...props}>
   <h3 id="menu-title">{tocTitle}</h3>
-  <ul>
+  <ul class:list={["size-" + tocSize]}>
     {
       toc.map((entry, i) => (
-        <li data-current={i === 0 ? "true" : "false"}>
+        <li
+          data-current={i === 0 ? "true" : "false"}
+          data-depth={entry.depth}
+          style={`--toc-depth: ${offset(entry)};`}
+        >
           <a
             href={entry.href}
             data-toc-scroll-to-content

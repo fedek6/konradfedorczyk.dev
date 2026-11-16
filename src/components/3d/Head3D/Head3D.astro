@@ -23,21 +23,31 @@ import head3DPreview from "../../../assets/head3d-preview.png";
   }
 </style>
 <script>
-  // Runs each page load
-  document.addEventListener("astro:page-load", async () => {
-    const container = document.querySelector("#head-3d");
+  // Safari/WebKit (and therefore every iOS browser) has no requestIdleCallback
+  const onIdle = (cb: () => void) =>
+    "requestIdleCallback" in window
+      ? window.requestIdleCallback(cb, { timeout: 2000 })
+      : setTimeout(cb, 1);
 
-    if (container) {
-      requestIdleCallback(async () => {
-        const { initScene } = await import("./head");
-        initScene();
-      });
-    }
+  let headModule: typeof import("./head") | null = null;
+  let cancelled = false;
+
+  document.addEventListener("astro:page-load", () => {
+    if (!document.querySelector("#head-3d")) return;
+
+    cancelled = false;
+    onIdle(async () => {
+      if (cancelled) return; // user navigated away before idle fired
+      headModule ??= await import("./head");
+      if (cancelled) return;
+      headModule.initScene();
+    });
   });
 
-  // Cleanup code
-  document.addEventListener("astro:before-swap", async () => {
-    const { destroyScene } = await import("./head");
-    destroyScene();
+  document.addEventListener("astro:before-swap", () => {
+    cancelled = true;
+    // Only call destroy if the module was ever loaded,
+    // so we don't download three.js just to tear it down
+    headModule?.destroyScene();
   });
 </script>

@@ -1,0 +1,66 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import SimpleContent from "../../components/content/SimpleContent.astro";
+import CenterContent from "../../components/layout/CenterContent.astro";
+import Container from "../../components/layout/Container.astro";
+import StandardizedBreadcrumbs from "../../components/navigation/StandardizedBreadcrumbs.astro";
+import { renderingConfig } from "../../config/rendering";
+import Layout from "../../layouts/Layout.astro";
+import { truncate } from "../../utils/content";
+import { articleNode, breadcrumbNode, graph } from "../../utils/schema";
+
+export async function getStaticPaths() {
+  const collection = await getCollection("notes");
+  return collection.map((note) => ({
+    params: { id: note.id },
+  }));
+}
+
+const { id } = Astro.params;
+const entry = await getEntry("notes", id);
+if (!entry) throw new Error(`Note "${id}" not found`);
+const { Content } = await render(entry);
+const year = entry.data.pubDate.getFullYear().toString();
+---
+
+<Layout
+  title={entry.data.title}
+  description={entry.data.description}
+  seoTitle={entry.data.title}
+  ogType="article"
+  publishedTime={entry.data.pubDate}
+  schema={graph(
+    articleNode(
+      entry.data.title,
+      entry.data.description,
+      entry.data.pubDate,
+      Astro.url,
+    ),
+    breadcrumbNode([
+      { label: "Home", href: "/" },
+      { label: "Notes", href: "/notes" },
+      { label: entry.data.title },
+    ]),
+  )}>
+  <CenterContent>
+    <Container hasPadding>
+      <StandardizedBreadcrumbs
+        items={[
+          { label: "Notes", href: "/notes" },
+          { label: year, href: `/notes/#${year}` },
+          {
+            label: truncate(
+              entry.data.title,
+              renderingConfig.truncateBreadCrumbTitle,
+            ),
+          },
+        ]}
+        marginTop="sm"
+        marginBottom="sm"
+      />
+      <SimpleContent entry={entry} backLink="/notes" backLinkText="notes"
+        ><Content /></SimpleContent
+      >
+    </Container>
+  </CenterContent>
+</Layout>

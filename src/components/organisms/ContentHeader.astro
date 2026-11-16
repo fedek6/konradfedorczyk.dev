@@ -1,0 +1,92 @@
+---
+import Time from "../atoms/Time.astro";
+
+interface Props {
+  title: string;
+  date: Date;
+  href?: string;
+  size?: "sm" | "md" | "lg" | "xl";
+  template?: "simple" | "full";
+}
+
+const { title, date, href, size = "sm", template = "simple" } = Astro.props;
+---
+
+<header class={template}>
+  <Time date={date} />
+   <slot name="before-header" />
+  <h1 class={size}>
+    {href ? <a class="content-link" href={href}>{title}</a> : title}
+  </h1>
+   <slot name="after-header" />
+</header>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  header {
+    margin-bottom: spacing.space(3);
+
+    :global(time) {
+      @include typography.font("sm", "base", "bold");
+      margin-bottom: spacing.space(1);
+      display: block;
+      padding-top: spacing.space(1);
+    }
+
+    .content-link {
+      text-decoration: none;
+      color: var(--color-primary);
+    }
+
+    .content-link:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      &.sm {
+        @include typography.font("2xl", "sm", "bold");
+      }
+      &.lg {
+        @include typography.font("2xl", "sm", "bold");
+      }
+      &.xl {
+        @include typography.font("3xl", "sm", "bold");
+      }
+    }
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    header {
+      h1 {
+        &.sm {
+          @include typography.font("2xl", "sm", "bold");
+        }
+        &.lg {
+          @include typography.font("4xl", "xs", "bold");
+        }
+        &.xl {
+          @include typography.font("4xl", "xs", "bold");
+        }
+      }
+    }
+
+    header.full {
+      margin-bottom: spacing.space(4);
+
+      :global(time) {
+        border-top: solid 1px var(--color-primary);
+        display: inline-block;
+        margin-bottom: spacing.space(2);
+      }
+    }
+  }
+</style>

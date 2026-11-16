@@ -1,0 +1,120 @@
+---
+import Menu from "../navigation/Menu.astro";
+import ThemeButtonClassic from "../buttons/ThemeButtonClassic.astro";
+const { ...props } = Astro.props;
+---
+
+<nav id="overlay-menu" class="overlay-menu" aria-hidden="true" {...props}>
+  <Menu />
+  <div class="tools">
+    <ThemeButtonClassic />
+  </div>
+</nav>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints";
+  @use "../../styles/spacing";
+  @use "../../styles/typography";
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  #overlay-menu {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background-color: var(--color-secondary);
+    z-index: 3;
+    position: fixed;
+    top: 63px;
+    border: solid 1px var(--color-primary);
+    transition: transform .5s ease-out;
+
+    padding-top: spacing.space(2);
+
+    // Inject menu on mobile
+    :global(menu) {
+      all: unset;
+
+      box-sizing: border-box;
+      display: block;
+      list-style: none;
+
+      padding-left: spacing.space(4);
+    }
+
+    :global(menu > li) {
+      margin-bottom: spacing.space(1);
+    }
+
+    :global(menu > li > a) {
+      color: var(--color-primary);
+
+      @include typography.font("lg", "base", "bold");
+      text-decoration: none;
+
+      display: flex;
+      align-items: center;
+
+      height: 48px;
+      width: 100%;
+    }
+
+    :global(menu > li > a:focus) {
+      outline: dashed 1px var(--color-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  #overlay-menu[aria-hidden="true"] {
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-100%);
+    transition: transform 0.25s ease-out;
+  }
+
+  .tools {
+    padding-left: spacing.space(2);
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    #overlay-menu {
+      display: none;
+    }
+  }
+</style>
+<script>
+  import { effect } from "nanostores";
+  import { isMenuOpen } from "../../stores/menuStore.js";
+
+  const menu = document.getElementById("overlay-menu");
+
+  if (!menu) {
+    throw new Error("Menu element not found");
+  }
+
+  menu.addEventListener("transitionend", (e) => {
+    const target = e.target as HTMLElement;
+    const isHidden = target.getAttribute("aria-hidden");
+
+    if (isHidden === "true") {
+      menu.style.visibility = "hidden";
+    }
+  });
+
+  // Listen for changes to the store
+  effect(isMenuOpen, (isOpen) => {
+    if (isOpen) {
+      menu.style.visibility = "visible";
+      menu.setAttribute("aria-hidden", "false");
+    } else {
+      menu.setAttribute("aria-hidden", "true");
+    }
+  });
+</script>

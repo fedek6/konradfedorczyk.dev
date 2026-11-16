@@ -1,0 +1,44 @@
+---
+const { ...props } = Astro.props;
+import IconToc from "../icons/IconToc.astro";
+import IconClose from "../icons/IconClose.astro";
+---
+
+<button
+  class="toc-button"
+  {...props}
+>
+  <IconToc class="toc-close icon" />
+  <IconClose class="toc-open icon" />
+</button>
+<style>
+  .toc-button {
+    all: unset;
+    height: 64px;
+    width: 64px;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    display: block;
+
+    box-sizing: border-box;
+  }
+
+  .icon {
+    color: var(--color-secondary);
+  }
+
+  .toc-button[aria-expanded="true"] {
+    padding: 16px;
+
+    .toc-close {
+      display: none;
+    }
+  }
+  .toc-button[aria-expanded="false"] {
+    padding: 14px;
+
+    .toc-open {
+      display: none;
+    }
+  }
+</style>

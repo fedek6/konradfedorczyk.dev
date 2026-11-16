@@ -1,0 +1,45 @@
+<aside><slot /></aside>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  aside {
+    border: solid 1px var(--color-accent);
+    border-radius: 8px;
+    padding: spacing.space(4) spacing.space(2);
+    color: var(--color-accent);
+    font-style: italic;
+
+    @include typography.font("base", "2xl", "normal");
+
+    :global(.underline) {
+      text-decoration: underline;
+    }
+
+    :global(p:not(:last-of-type)){
+      margin-bottom: spacing.space(2);
+    }
+
+    :global(a) {
+      text-decoration: underline;
+      color: var(--color-accent);
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    aside {
+      padding: spacing.space(2) spacing.space(4);
+    }
+  }
+</style>

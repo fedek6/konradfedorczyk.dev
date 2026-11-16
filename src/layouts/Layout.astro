@@ -1,23 +1,133 @@
+---
+import Head from "../components/utility/Head.astro";
+import type { Props as HeadProps } from "../components/utility/Head.astro";
+import "../styles/main.css";
+import "../styles/dark.css";
+import "../styles/light.css";
+
+import { metaConfig } from "../config/meta";
+import Header from "../components/common/Header.astro";
+import OverlayMenu from "../components/layout/OverlayMenu.astro";
+import Footer from "../components/common/Footer.astro";
+import ImageLightbox from "../components/lightbox/ImageLightbox.astro";
+
+interface Props extends Omit<HeadProps, "pageName"> {
+  rawTitle?: boolean;
+}
+
+const { rawTitle = false, ...headProps } = Astro.props;
+
+const meta = {
+  ...metaConfig,
+  ...headProps,
+};
+---
+
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="en" transition:animate="none">
+  <head>
+    <Head rawTitle={rawTitle} {...meta} />
+  </head>
+  <body data-theme="light">
+    <Header transition:persist="main-header" transition:animate="none" />
+    <OverlayMenu transition:persist="overlay-menu" transition:animate="none" />
+    <main transition:animate="fade">
+      <slot />
+    </main>
+    <Footer transition:persist="main-footer" transition:animate="none" />
+    <ImageLightbox
+      transition:persist="image-lightbox"
+      transition:animate="none"
+    />
+    <script is:inline>
+      document
+        .querySelector("body")
+        .setAttribute(
+          "data-theme",
+          ((t) =>
+            t == "light"
+              ? "light"
+              : t === null
+                ? window.matchMedia("(prefers-color-scheme: dark)").matches
+                  ? "dark"
+                  : "light"
+                : "dark")(localStorage.getItem("theme")),
+        );
+    </script>
+  </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style lang="scss">
+  @use "sass:map";
+  @use "../styles/breakpoints" as breakpoints;
+  @use "../styles/typography" as typography;
+  @use "../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    padding-top: 65px;
+  }
+
+  main {
+    min-height: calc(100vh - #{spacing.$footer-height-mobile});
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    main {
+      min-height: calc(100vh - #{spacing.$footer-height-desktop} - 65px);
+    }
+  }
 </style>
+
+<script>
+  import { theme } from "../stores/themeStore";
+  import { effect } from "nanostores";
+  import { navigate } from "astro:transitions/client";
+  import { isMenuOpen } from "../stores/menuStore.js";
+
+  document.addEventListener(
+    "click",
+    function (e) {
+      const target = e.target;
+      const el = (target as HTMLElement).closest("[data-hide-overlay-menu]");
+
+      if (el && el instanceof HTMLAnchorElement) {
+        if (isMenuOpen.get() === false) return;
+        document.querySelector<HTMLElement>("[data-menu-button]")?.focus();
+
+        e.preventDefault();
+        e.stopPropagation(); // Stops the event from reaching Astro's listener entirely
+
+        // Trigger the menu close animation
+        isMenuOpen.set(false);
+
+        // Wait for your CSS animation to finish
+        setTimeout(() => {
+          navigate(el.getAttribute("href") || window.location.href);
+        }, 250);
+      }
+    },
+    true,
+  );
+
+  document.addEventListener("astro:before-swap", (event: any) => {
+    event.newDocument.body.dataset.theme = theme.get();
+  });
+
+  effect(theme, (theme) => {
+    document.body.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  });
+</script>

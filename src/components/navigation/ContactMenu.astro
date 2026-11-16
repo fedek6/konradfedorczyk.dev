@@ -1,0 +1,28 @@
+---
+import { obfuscate } from "../../utils/obfuscator";
+
+const [prefix, suffix] = [obfuscate("contact"), obfuscate("konradfedorczyk.dev")];
+---
+<menu>
+  <li>
+    <a href="https://github.com/fedek6" target="_blank">Github</a>
+  </li>
+  <li>
+    <a href={`mailto:${prefix}@${suffix}`} data-obfuscated-email>E-mail</a>
+  </li>
+  <li>
+    <a href="https://www.linkedin.com/in/konrad-fedorczyk-rh/" target="_blank"
+      >LinkedIn</a>
+  </li>
+</menu>
+<script>
+import { deobfuscateEmailString } from "../../utils/obfuscator";
+const obfuscatedEmails = document.querySelectorAll("[data-obfuscated-email]");
+obfuscatedEmails.forEach((el) => {
+  const href = el.getAttribute("href");
+
+  if (href) {
+    el.setAttribute("href", deobfuscateEmailString(href));
+  }
+});
+</script>

@@ -1,0 +1,35 @@
+---
+export type TocEntry = {
+  title: string;
+  href: string;
+};
+
+interface Props {
+  toc: TocEntry[];
+  currentHref: string;
+  title?: string;
+}
+
+const { toc, currentHref, title = "Table of contents", ...props } = Astro.props;
+---
+
+<nav data-toc {...props}>
+  <h3 id="menu-title">{title}</h3>
+  <ul>
+    {
+      toc.map((entry, i) => (
+        <li data-current={entry.href === currentHref ? "true" : "false"}>
+          <a
+            href={entry.href}
+            aria-current={entry.href === currentHref ? "true" : "false"}
+          >
+            {entry.title}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+<style lang="scss">
+  @use "./TableOfContents.scss";
+</style>

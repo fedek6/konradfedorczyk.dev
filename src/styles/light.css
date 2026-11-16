@@ -1,0 +1,16 @@
+@layer theme {
+    [data-theme="light"] {
+        /* Colors */
+        --color-primary: #161925;
+        --color-secondary: #e3e4db;
+        --color-accent: #A0031D;
+
+        --color-primary-opaque: rgba(22, 25, 37, .75);
+        --color-secondary-opaque: rgba(227, 228, 219, .5);
+
+        /* Icons */
+        --icon-arrow-right: url("../assets/icon-arrow-right.png");
+        --icon-heart: url("../assets/icon-heart-light2.png");
+        --icon-link: url("../assets/icon-link-light.png");
+    }
+}

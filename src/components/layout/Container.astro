@@ -1,0 +1,21 @@
+---
+interface Props {
+  hasPadding?: boolean;
+}
+
+const { hasPadding = false } = Astro.props;
+---
+
+<div class:list={["container", { 'vertical-padding': hasPadding }]}>
+  <slot />
+</div>
+<style>
+  .container {
+    width: 100%;
+    max-width: 1560px;
+  }
+  .vertical-padding {
+    padding-right: var(--size-vertical-base);
+    padding-left: var(--size-vertical-base);
+  }
+</style>

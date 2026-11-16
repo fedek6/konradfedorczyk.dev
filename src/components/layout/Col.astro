@@ -1,0 +1,14 @@
+---
+interface Props {
+  start: number;
+  stop: number;
+}
+
+const { start, stop } = Astro.props;
+---
+<div class="col"><slot /></div>
+<style define:vars={{ start, stop }}>
+  .col {
+    grid-column: span var(--start) / span var(--stop);
+  }
+</style>

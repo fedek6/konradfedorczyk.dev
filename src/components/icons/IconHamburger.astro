@@ -1,0 +1,21 @@
+---
+const { ...props } = Astro.props;
+---
+
+<div {...props}>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
+    <path d="M0 0h12v12H0z" fill="none"></path>
+    <path fill="currentColor" d="M0 3h11V2H0Zm0 8h11v-1H0Zm0-4h11V6H0Zm0 0"
+    ></path>
+  </svg>
+</div>
+<style>
+  div {
+    color: var(--color-primary);
+  }
+
+  div > svg {
+    height: 100%;
+    width: auto;
+  }
+</style>

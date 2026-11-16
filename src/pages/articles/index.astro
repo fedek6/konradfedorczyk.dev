@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import ContentList from "../../components/content/ContentList.astro";
+import { metaConfig } from "../../config/meta";
+import { extractYears, groupByYear, sortByDateDesc } from "../../utils/content";
+import { collectionNode, graph } from "../../utils/schema";
+
+const config = metaConfig.categories.articles;
+const collection = await getCollection("articles");
+const years = extractYears(collection);
+const groupedByYear = groupByYear(collection);
+const toc = years.map((year) => ({
+  title: `${year}`,
+  href: `/articles/${year}`,
+}));
+
+const currentHref = toc[0].href;
+const currentTitle = toc[0].title;
+---
+
+<ContentList
+  category={config}
+  toc={toc}
+  currentHref={currentHref}
+  currentTitle={currentTitle}
+  articles={sortByDateDesc(groupedByYear[0][1]!)}
+  schema={graph(
+    collectionNode(config.title, config.description, Astro.url, collection),
+  )}
+/>

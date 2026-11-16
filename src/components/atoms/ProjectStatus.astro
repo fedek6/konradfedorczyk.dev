@@ -1,0 +1,100 @@
+---
+import IconHourglass from "../icons/IconHourglass.astro";
+import IconCheckmark from "../icons/IconCheckmark.astro";
+
+type Props = {
+  isReversed?: boolean;
+  isFinished: boolean;
+} & astroHTML.JSX.HTMLAttributes;
+
+const { isReversed, isFinished, ...props } = Astro.props;
+---
+
+<div class="project-status" {...props} data-is-finished={isFinished}>
+  <span>Status:</span>
+  <span
+    >{isFinished ? "Finished" : "In progress"}{
+      isFinished ? (
+        <IconCheckmark class="icon-checkmark" />
+      ) : (
+        <IconHourglass class="icon-hourglass" />
+      )
+    }</span
+  >
+</div>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  div.project-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: solid 1px var(--color-primary);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  div.project-status > span {
+    flex: 1 1 auto;
+    align-self: auto;
+    // display: block;
+
+    padding: 4px spacing.space(1);
+  }
+
+  div.project-status > :first-child {
+    text-align: right;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    @include typography.font("sm", "base", "normal");
+  }
+
+  div.project-status > :last-child {
+    @include typography.font("sm", "base", "normal");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: spacing.space(1);
+
+    // Icon
+    > div {
+      height: 24px;
+    }
+  }
+
+  .icon-hourglass {
+    animation: spin 8s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    25%,
+    50% {
+      transform: rotate(180deg);
+    } /* spins during the first 2s */
+    75%,
+    100% {
+      transform: rotate(360deg);
+    } /* holds still for the next 2s */
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    div.project-status :first-child {
+      @include typography.font("sm", "base", "normal");
+    }
+
+    div.project-status :last-child {
+      @include typography.font("sm", "base", "normal");
+    }
+  }
+</style>

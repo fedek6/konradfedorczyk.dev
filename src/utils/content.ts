@@ -1,0 +1,36 @@
+export const createCollectionHeadMapper =
+  (itemsCount: number) =>
+  <T extends { data: { pubDate: Date } }>(content: T[]): T[] => {
+    return [...content]
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+      .slice(0, itemsCount);
+  };
+
+export const groupByYear = <T extends { data: { pubDate: Date } }>(
+  content: T[],
+) =>
+  Object.entries(
+    Object.groupBy(content, (item) => item.data.pubDate.getFullYear()),
+  ).sort(([a], [b]) => +b - +a);
+
+export const extractYears = <T extends { data: { pubDate: Date } }>(
+  content: T[],
+) =>
+  [
+    ...new Set(
+      Object.values(content).map((item) => item.data.pubDate.getFullYear()),
+    ),
+  ].sort((a, b) => +b - +a);
+
+export const sortByDateDesc = <T extends { data: { pubDate: Date } }>(
+  content: T[],
+) =>
+  content.toSorted(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+
+export const capitalize = (s: string) =>
+  (s && String(s[0]).toUpperCase() + String(s).slice(1)) || "";
+
+export const truncate = (str: string, length: number) =>
+  str.length > length ? `${str.slice(0, length).trim()}…` : str;

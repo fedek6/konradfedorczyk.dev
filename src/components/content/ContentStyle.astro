@@ -1,0 +1,246 @@
+---
+import "../../styles/_globals.scss";
+
+interface Props {
+  template?: "simple" | "full";
+  variant?: "standard" | "block";
+  disableMarginOnLastElement?: boolean;
+  disableMarginOnFirstElement?: boolean;
+}
+
+const {
+  template = "simple",
+  variant = "standard",
+  disableMarginOnLastElement = false,
+  disableMarginOnFirstElement = false,
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "content-style",
+    template,
+    variant,
+    disableMarginOnLastElement ? "no-margin-on-last" : "",
+    disableMarginOnFirstElement ? "no-margin-on-first" : "",
+  ]}
+>
+  <slot />
+</div>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  .content-style {
+    :global(pre) {
+      @include typography.font("sm", "base", "normal");
+      padding: spacing.space(2) spacing.space(2);
+      // border: solid 1px var(--color-primary);
+      border-radius: 8px;
+      font-family: var(--source-code-pro);
+    }
+
+    :global(blockquote) {
+      border: solid 1px var(--color-primary);
+      border-radius: 8px;
+      padding: spacing.space(2) spacing.space(2);
+      color: var(--color-primary);
+      // font-style: italic;
+
+      :global(p) {
+        margin-bottom: 0;
+        @include typography.font("base", "2xl", "normal");
+      }
+
+
+      margin-bottom: spacing.space(2);
+    }
+
+    :global(ul) {
+      margin-bottom: spacing.space(3);
+      :global(li) {
+        margin-bottom: spacing.space(2);
+      }
+    }
+
+    // Code rendering
+    :global([data-code-wrapper]) {
+      margin-bottom: spacing.space(2);
+      margin-top: spacing.space(3);
+      border-top: solid 1px var(--color-primary);
+      border-bottom: solid 1px var(--color-primary);
+      padding-bottom: spacing.space(3);
+      padding-top: spacing.space(2);
+
+      :global(.copy-button-wrapper) {
+        margin-bottom: spacing.space(2);
+        display: flex;
+        justify-content: end;
+        width: 100%;
+      }
+    }
+
+    :global(code) {
+      font-family: var(--source-code-pro);
+    }
+
+    :global(p > code, li > code) {
+      // border: solid 1px var(--color-primary);
+      background: var(--color-primary-opaque);
+      color: var(--color-secondary);
+      border-radius: 4px;
+      padding: 0.2em 0.4em;
+      @include typography.font("sm", "base", "normal");
+    }
+
+    :global([data-toc-observe]) {
+      scroll-margin-top: calc(65px + spacing.space(4));
+    }
+
+    :global(p) {
+      @include typography.font("base", "2xl", "normal");
+      margin-bottom: spacing.space(2);
+    }
+
+    :global(h2) {
+      @include typography.font("xl", "sm", "bold");
+      margin-bottom: spacing.space(2);
+    }
+
+    :global(h3) {
+      @include typography.font("lg", "sm", "bold");
+      margin-bottom: spacing.space(2);
+    }
+
+    :global(h4) {
+      @include typography.font("base", "sm", "bold");
+      margin-bottom: spacing.space(1);
+      text-transform: uppercase;
+    }
+
+    :global(* + h1, h2, h3, h4) {
+      margin-top: spacing.space(5);
+    }
+
+    :global(a) {
+      text-decoration: none;
+      color: var(--color-accent);
+
+      display: inline-block;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &::after {
+        content: "";
+        text-decoration: none;
+        width: 18px;
+        height: 18px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 4px;
+        margin-right: 4px;
+
+        background-image: var(--icon-link);
+        image-rendering: pixelated;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% auto;
+      }
+    }
+
+    &.no-margin-on-last :global(:last-child) {
+      margin-bottom: spacing.space(0);
+    }
+
+    &.no-margin-on-first :global(:first-child) {
+      margin-top: spacing.space(0);
+    }
+  }
+
+  .content-style.full {
+    :global(> p:first-of-type) {
+      // font-style: italic;
+      @include typography.font("lg", "2xl", "normal");
+      margin-bottom: spacing.space(3);
+      // padding-left: spacing.space(2);
+      font-style: italic;
+      // border-bottom: solid 1px var(--color-primary);
+      // padding-bottom: spacing.space(2);
+      // border-top: solid 1px var(--color-primary);
+      // padding-top: spacing.space(2)
+    }
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    .content-style {
+      // Code rendering
+      :global([data-code-wrapper]) {
+        margin-bottom: spacing.space(3);
+        margin-top: spacing.space(3);
+        border-top: solid 1px var(--color-primary);
+        border-bottom: solid 1px var(--color-primary);
+        padding: 0 0 spacing.space(3) 0;
+
+        :global(.copy-button-wrapper) {
+          margin-bottom: spacing.space(0);
+          display: flex;
+          justify-content: end;
+          width: 100%;
+        }
+      }
+    }
+
+    .content-style.full {
+      :global(> p:first-of-type) {
+        font-style: italic;
+        @include typography.font("lg", "2xl", "normal");
+        margin-bottom: spacing.space(6);
+        border-bottom: solid 1px var(--color-primary);
+        padding-bottom: spacing.space(2);
+      }
+
+      :global(* + h1, h2, h3, h4) {
+        margin-top: spacing.space(6);
+      }
+    }
+
+    // Bigger headings for block variant
+    .content-style.block {
+      :global(h2) {
+        @include typography.font("4xl", "sm", "bold");
+        margin-bottom: spacing.space(3);
+      }
+
+      :global(h3) {
+        @include typography.font("3xl", "sm", "bold");
+        margin-bottom: spacing.space(3);
+      }
+
+      :global(h4) {
+        @include typography.font("2xl", "sm", "bold");
+        margin-bottom: spacing.space(1);
+        text-transform: uppercase;
+      }
+
+      :global(* + h1, h2, h3, h4) {
+        margin-top: 0;
+      }
+
+      :global(p) {
+        margin-bottom: spacing.space(4);
+        @include typography.font("lg", "2xl", "normal");
+      }
+    }
+  }
+</style>
+<script src="../../utils/codeCopy.ts"></script>

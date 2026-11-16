@@ -1,0 +1,18 @@
+---
+const { class: className, ...props} = Astro.props;
+---
+<button class:list={['icon-btn', className]} {...props}><slot /></button>
+<style>
+  .icon-btn {
+    all: unset;
+    display: block;
+    height: 48px;
+    width: 48px;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border-radius: 8px;
+    appearance: none;
+    text-align: center;
+    cursor: pointer;
+  }
+</style>

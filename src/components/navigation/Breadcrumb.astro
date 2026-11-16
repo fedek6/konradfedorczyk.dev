@@ -1,0 +1,85 @@
+---
+import { truncate } from "../../utils/content";
+import { renderingConfig } from "../../config/rendering";
+
+export type BreadcrumbItem = {
+  label: string;
+  href?: string;
+};
+
+type Props = {
+  items: BreadcrumbItem[];
+} & astroHTML.JSX.HTMLAttributes;
+
+const { items, ...props } = Astro.props;
+
+const last = items.length - 1;
+---
+
+<nav aria-label="Breadcrumb" {...props}>
+  <ol>
+    {
+      items.map((item, i) => (
+        <li>
+          {i === last ? (
+            <span aria-current="page">
+              {truncate(item.label, renderingConfig.truncateBreadCrumbTitle)}
+            </span>
+          ) : (
+            <a href={item.href}>
+              {truncate(item.label, renderingConfig.truncateBreadCrumbTitle)}
+            </a>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  nav {
+    // margin-bottom: spacing.space(3);
+  }
+
+  ol {
+    // display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @include typography.font("sm", "base");
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+
+    a {
+      @include typography.link;
+    }
+
+    > span {
+      // opacity: 0.5;
+      color: var(--color-primary);
+      text-decoration: underline;
+    }
+
+    &::before {
+      content: "/";
+      // margin: 0 spacing.space(1);
+      margin-right: spacing.space(1);
+      // opacity: 0.5;
+      color: var(--color-primary);
+    }
+  }
+</style>

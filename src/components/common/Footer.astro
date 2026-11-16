@@ -1,0 +1,250 @@
+---
+import Container from "../layout/Container.astro";
+import Grid from "../layout/Grid.astro";
+import CenterContent from "../layout/CenterContent.astro";
+import ContactMenu from "../navigation/ContactMenu.astro";
+import MiscMenu from "../navigation/MiscMenu.astro";
+import pkg from "../../../package.json";
+
+const { ...props } = Astro.props;
+---
+
+<footer {...props}>
+  <CenterContent>
+    <Container hasPadding>
+      <Grid class="footer-grid">
+        <div class="info" data-animate-on-hover>
+          <p>
+            <span class="icon-heart" aria-hidden="true"></span> Handcrafted using&nbsp;
+            <a href="https://astro.build/blog/astro-720/" target="_blank"
+              >Astro</a
+            >
+          </p>
+        </div>
+        <div class="contact footer-menu">
+          <ContactMenu />
+        </div>
+        <div class="misc footer-menu">
+          <MiscMenu />
+        </div>
+        <div class="version">
+          <span>v{pkg.version}</span>
+        </div>
+      </Grid>
+    </Container>
+  </CenterContent>
+</footer>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  footer {
+    padding-top: spacing.space(4);
+    // padding-bottom: spacing.space(4);
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+
+    height: spacing.$footer-height-mobile;
+  }
+
+  .footer-grid {
+    row-gap: spacing.space(2);
+  }
+
+  .info {
+    grid-column: span 12;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    order: 3;
+
+    @include typography.font("sm", "base");
+    // margin-bottom: spacing.space(6);
+
+    a {
+      text-decoration: none;
+      color: var(--color-secondary);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .version {
+    padding-top: spacing.space(2);
+    grid-column: span 12;
+    order: 4;
+    @include typography.font("xs", "base");
+    text-align: right;
+
+    display: flex;
+
+    justify-content: center;
+    width: 100%;
+
+    > span {
+      display: inline-block;
+      border: solid 1px var(--color-secondary);
+      border-radius: 8px;
+      padding: 4px spacing.space(2);
+    }
+  }
+
+  .animate {
+    .icon-heart {
+      animation: heartbeat 1.1s ease-in-out 1 both;
+    }
+  }
+
+  .icon-heart {
+    height: 24px;
+    width: 24px;
+    display: inline-block;
+    background-image: var(--icon-heart);
+    background-size: contain;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    vertical-align: middle;
+    margin: 0 0.1em;
+  }
+
+  .contact {
+    grid-column: span 12;
+
+    margin-bottom: spacing.space(2);
+    border-bottom: 1px solid var(--color-secondary);
+
+    order: 1;
+  }
+
+  .misc {
+    grid-column: span 12;
+
+    // border-top: 1px solid var(--color-secondary);
+    border-bottom: 1px solid var(--color-secondary);
+
+    order: 2;
+
+    margin-bottom: spacing.space(2);
+  }
+
+  .footer-menu {
+    :global(menu) {
+      list-style: none;
+      padding: 0 0;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: end;
+      width: 100%;
+    }
+
+    :global(menu li:not(:last-of-type)) {
+      display: block;
+      border-right: 1px solid var(--color-secondary);
+    }
+
+    :global(menu a) {
+      @include typography.link("--color-secondary");
+      @include typography.font("sm", "base");
+      display: block;
+      padding: spacing.space(1) spacing.space(2);
+    }
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    footer {
+      height: spacing.$footer-height-desktop;
+      padding-top: spacing.space(6);
+    }
+
+    .info {
+      grid-column: span 6;
+      margin: 0 0;
+      @include typography.font("sm", "base");
+      order: 0;
+      align-items: start;
+    }
+
+    .contact {
+      grid-column: span 6;
+      order: 1;
+    }
+
+    .misc {
+      order: 2;
+    }
+
+    .footer-menu {
+      :global(menu a) {
+        @include typography.font("sm", "base");
+      }
+    }
+
+    .version {
+      padding-top: 0;
+      grid-column: span 12;
+      order: 4;
+      @include typography.font("xs", "base");
+      text-align: right;
+
+      display: flex;
+
+      justify-content: flex-end
+    }
+  }
+
+  /* ==========================================
+   Animations
+  =========================================== */
+  @keyframes heartbeat {
+    0% {
+      transform: scale(1);
+      // filter: drop-shadow(0 0 0 rgba(255, 0, 0, 0));
+    }
+    14% {
+      transform: scale(1.3);
+      // filter: drop-shadow(0 0 24px rgba(255, 0, 0, 0.8));
+    }
+    28% {
+      transform: scale(1);
+      // filter: drop-shadow(0 0 0 rgba(255, 0, 0, 0));
+    }
+    42% {
+      transform: scale(1.18);
+      // filter: drop-shadow(0 0 16px rgba(255, 0, 0, 0.6));
+    }
+    70% {
+      transform: scale(1);
+      // filter: drop-shadow(0 0 0 rgba(255, 0, 0, 0));
+    }
+    100% {
+      transform: scale(1);
+      // filter: drop-shadow(0 0 0 rgba(255, 0, 0, 0));
+    }
+  }
+</style>
+<script>
+  const info = document.querySelector("[data-animate-on-hover]");
+  const icon = info?.querySelector(".icon-heart");
+
+  info?.addEventListener("mouseenter", () => {
+    if (info.classList.contains("animate")) return;
+    info.classList.add("animate");
+  });
+
+  icon?.addEventListener("animationend", () => {
+    info!.classList.remove("animate");
+  });
+</script>

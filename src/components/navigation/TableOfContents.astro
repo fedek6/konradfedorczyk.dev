@@ -1,0 +1,122 @@
+---
+export type TocEntry = {
+  title: string;
+  href: string;
+  depth?: number;
+};
+
+interface Props {
+  toc: TocEntry[];
+  tocTitle?: string;
+  tocSize?: "sm" | "md";
+}
+
+const { toc, tocTitle = "Table of contents", tocSize = "md", ...props } = Astro.props;
+
+const depths = toc
+  .map((entry) => entry.depth)
+  .filter((depth): depth is number => depth !== undefined);
+
+const minDepth = depths.length > 0 ? Math.min(...depths) : 0;
+
+const offset = (entry: TocEntry) =>
+  entry.depth !== undefined ? entry.depth - minDepth : 0;
+---
+
+<nav data-toc {...props}>
+  <h3 id="menu-title">{tocTitle}</h3>
+  <ul class:list={["size-" + tocSize]}>
+    {
+      toc.map((entry, i) => (
+        <li
+          data-current={i === 0 ? "true" : "false"}
+          data-depth={entry.depth}
+          style={`--toc-depth: ${offset(entry)};`}
+        >
+          <a
+            href={entry.href}
+            data-toc-scroll-to-content
+            aria-current={i === 0 ? "true" : "false"}
+          >
+            {entry.title}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+<style lang="scss">
+  @use "./TableOfContents.scss";
+</style>
+<script>
+  let observer: IntersectionObserver;
+
+  /*
+   * Scroll links delegation.
+   */
+  document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const link = event.target.closest<HTMLAnchorElement>(
+      "[data-toc-scroll-to-content]",
+    );
+    if (!link) return;
+
+    const url = new URL(link.href, document.baseURI);
+    if (!url.hash || url.origin !== window.location.origin) return;
+
+    event.preventDefault();
+
+    const id = url.hash.slice(1);
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
+
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+  });
+
+  document.addEventListener("astro:page-load", () => {
+    const toc = document.querySelector("[data-toc]");
+
+    if (toc) {
+      const entries =
+        document.querySelectorAll<HTMLElement>("[data-toc-observe]");
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              const id = entry.target.getAttribute("id");
+              const currentElement = toc.querySelector(`a[href='#${id}']`);
+              const otherElements = toc.querySelectorAll(
+                "[data-toc-scroll-to-content]",
+              );
+
+              if (currentElement) {
+                // Disable current state on all elements
+                otherElements.forEach((el) => {
+                  el.setAttribute("aria-current", "false");
+                  el.parentElement!.dataset.current = "false";
+                });
+
+                currentElement.setAttribute("aria-current", "true");
+                currentElement.parentElement!.dataset.current = "true";
+              }
+            }
+          }
+        },
+        { rootMargin: "-20px 0px -80% 0px", threshold: 0 },
+      );
+      entries.forEach((a) => observer.observe(a));
+    }
+  });
+
+  document.addEventListener("astro:before-swap", async () => {
+    observer?.disconnect();
+  });
+</script>

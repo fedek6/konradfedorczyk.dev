@@ -1,0 +1,82 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import CopyButton from "../buttons/CopyButton.astro";
+import ContentStyle from "../content/ContentStyle.astro";
+import ContentHeader from "../organisms/ContentHeader.astro";
+
+interface Props {
+  entry: CollectionEntry<"notes">;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const permalink = new URL(`/notes/${entry.id}`, Astro.url.origin).href;
+---
+
+<article>
+  <ContentHeader
+    title={entry.data.title}
+    date={new Date(entry.data.pubDate)}
+    href={permalink}
+  />
+  <section>
+    <ContentStyle>
+      <Content />
+    </ContentStyle>
+  </section>
+  <footer>
+    <CopyButton label="Copy permalink" textToCopy={permalink} />
+  </footer>
+</article>
+<style lang="scss">
+  @use "sass:map";
+  @use "../../styles/breakpoints" as breakpoints;
+  @use "../../styles/typography" as typography;
+  @use "../../styles/spacing" as spacing;
+
+  /* ==========================================
+   Global/Mobile
+  =========================================== */
+  article {
+    // border-radius: 8px;
+    border-left: solid 2px var(--color-primary);
+    padding: spacing.space(2) spacing.space(2) spacing.space(4) spacing.space(2);
+
+    section {
+      margin-bottom: spacing.space(4);
+    }
+    // transition: all 0.5s ease-in-out;
+  }
+
+  header {
+    margin-bottom: spacing.space(3);
+
+    :global(time) {
+      @include typography.font("sm", "base", "bold");
+      display: block;
+    }
+  }
+
+  footer {
+    margin-top: spacing.space(3);
+  }
+
+  /* ==========================================
+   Desktop
+  =========================================== */
+  @media (min-width: map.get(breakpoints.$breakpoints, "lg")) {
+    article {
+      border-radius: 8px;
+      border: solid 1px var(--color-primary);
+      padding: spacing.space(3) spacing.space(4) spacing.space(5)
+        spacing.space(4);
+    }
+
+    footer {
+      :global(button) {
+        min-width: 200px;
+        max-width: 33%;
+      }
+    }
+  }
+</style>

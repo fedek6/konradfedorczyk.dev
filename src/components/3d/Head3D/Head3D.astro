@@ -1,0 +1,53 @@
+---
+import head3DPreview from "../../../assets/head3d-preview.png";
+---
+
+<div id="head-3d">
+  <img
+    src={head3DPreview.src}
+    width={head3DPreview.width}
+    height={head3DPreview.height}
+    alt=""
+  />
+</div>
+<style>
+  #head-3d {
+    width: 100%;
+    aspect-ratio: 1;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+  #head-3d img {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<script>
+  // Safari/WebKit (and therefore every iOS browser) has no requestIdleCallback
+  const onIdle = (cb: () => void) =>
+    "requestIdleCallback" in window
+      ? window.requestIdleCallback(cb, { timeout: 2000 })
+      : setTimeout(cb, 1);
+
+  let headModule: typeof import("./head") | null = null;
+  let cancelled = false;
+
+  document.addEventListener("astro:page-load", () => {
+    if (!document.querySelector("#head-3d")) return;
+
+    cancelled = false;
+    onIdle(async () => {
+      if (cancelled) return; // user navigated away before idle fired
+      headModule ??= await import("./head");
+      if (cancelled) return;
+      headModule.initScene();
+    });
+  });
+
+  document.addEventListener("astro:before-swap", () => {
+    cancelled = true;
+    // Only call destroy if the module was ever loaded,
+    // so we don't download three.js just to tear it down
+    headModule?.destroyScene();
+  });
+</script>

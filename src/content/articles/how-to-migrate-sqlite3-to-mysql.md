@@ -7,7 +7,7 @@ categories: ["sqlite3", "mysql"]
 
 This article outlines a step-by-step process for migrating an SQLite3 database to MySQL. The technique described here has been successfully implemented for production-level data migrations.
 
-> Update! It looks like there's a special Python based tool for this task <a href="https://pypi.org/project/sqlite3-to-mysql/" target="_blank">here</a>. If you want to have a control over the process you can still follow my guide.
+> <strong>UPDATE:</strong><br /> It looks like there's a special Python based tool for this task <a href="https://pypi.org/project/sqlite3-to-mysql/" target="_blank">here</a>. If you want to have a control over the process you can still follow my guide.
 
 
 ## Prepare the schema file

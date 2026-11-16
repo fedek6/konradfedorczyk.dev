@@ -50,13 +50,14 @@ const {
       border-radius: 8px;
       padding: spacing.space(2) spacing.space(2);
       color: var(--color-primary);
-      font-style: italic;
+      // font-style: italic;
 
       :global(p) {
         margin-bottom: 0;
+        @include typography.font("base", "2xl", "normal");
       }
 
-      @include typography.font("base", "2xl", "normal");
+
       margin-bottom: spacing.space(2);
     }
 

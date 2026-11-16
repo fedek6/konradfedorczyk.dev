@@ -13,24 +13,25 @@ I needed a simple, blog-style page to track my progress. I wanted something I co
 
 ## Decisions
 
-- Framework: Astro<br />I chose Astro because it is an HTML-first ecosystem that is incredibly fast, while still allowing me to integrate frameworks like React or Sines in the future.
-- Content Generation: Static Site Generation (SSG)<br />Static files are dirt cheap to host, and this type of architecture is highly secure and virtually maintenance-free.
-- Coding Harness: Opencode<br />A great free option that allows me to connect directly to my local AI server.
-- Styling: Sass<br />I wanted to use plain CSS, but I still needed features like variables for media queries.
-- Local AI Model: qwen3.8:latest<br />Currently the best model for coding that fits entirely within the VRAM of my GPU.
-- Design Tool: Penpot<br />A free, open-source alternative to Figma that I can easily self-host.
+- Framework: <a href="https://astro.build/" target="_blank">Astro</a><br />I chose Astro because it is an HTML-first ecosystem that is incredibly fast, while still allowing me to integrate frameworks like React or Sines in the future.
+- Content Generation: <a href="https://en.wikipedia.org/wiki/Static_site_generator" target="_blank">Static Site Generation (SSG)</a><br />Static files are dirt cheap to host, and this type of architecture is highly secure and virtually maintenance-free.
+- Coding Harness: <a href="https://opencode.ai/" target="_blank">Opencode</a><br />A great free option that allows me to connect directly to my local AI server.
+- Styling: <a href="https://sass-lang.com/" target="_blank">Sass</a><br />I wanted to use plain CSS, but I still needed features like variables for media queries.
+- Local AI Model: <a href="https://ollama.com/library/qwen3.8" target="_blank">qwen3.8</a><br />Currently the best model for coding that fits entirely within the VRAM of my GPU.
+- Design Tool: <a href="https://penpot.app/" target="_blank">Penpot</a><br />A free, open-source alternative to Figma that I can easily self-host.
 
 ## Consequences
 
-- Zero-cost hosting: I can host the site for free on my OVH server, which was bundled with my domain purchase.
-- Near-perfect performance: I achieved 100% Lighthouse scores across most categories. The mobile homepage scored 98%—a tiny trade-off for the 3D model, because I really wanted some eye-candy!
-- Maintainability: Most of the code is plain HTML, CSS, and vanilla JavaScript. This means I can easily update or re-theme the site in a few years without a massive overhaul.
+- <strong>Zero-cost hosting</strong>: I can host the site for free on my OVH server, which was bundled with my domain purchase.
+- <strong>Near-perfect performance</strong>: I achieved 100% Lighthouse scores across most categories. The mobile homepage scored 98%—a tiny trade-off for the 3D model, because I really wanted some eye-candy!
+- <strong>Maintainability</strong>: Most of the code is plain HTML, CSS, and vanilla JavaScript. This means I can easily update or re-theme the site in a few years without a massive overhaul.
 
 ## TODO
 
 - Styles require some unification (layouts have different widths etc.).
 - Split content by taxonomies.
 - UX improvements.
+- More breakpoints.
 
 ## Summary
 

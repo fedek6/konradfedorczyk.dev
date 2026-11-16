@@ -1,0 +1,39 @@
+---
+title: "Building konradfedorczyk.dev: an architecture decision record (ADR)"
+description: A technical deep-dive into the architectural decisions and tech stack choices made during the development of konradfedorczyk.dev.
+pubDate: 2026-11-16T11:13:47
+finished: true
+---
+
+A technical deep-dive into the architectural decisions and tech stack choices made during the development of konradfedorczyk.dev.
+
+## Context
+
+I needed a simple, blog-style page to track my progress. I wanted something I could develop quickly without the need for specialized cloud hosting. My goal was to present mostly text-based content, supplemented by images and a few videos, while ensuring everything is presented in a clean, organized way.
+
+## Decisions
+
+- Framework: Astro<br />I chose Astro because it is an HTML-first ecosystem that is incredibly fast, while still allowing me to integrate frameworks like React or Sines in the future.
+- Content Generation: Static Site Generation (SSG)<br />Static files are dirt cheap to host, and this type of architecture is highly secure and virtually maintenance-free.
+- Coding Harness: Opencode<br />A great free option that allows me to connect directly to my local AI server.
+- Styling: Sass<br />I wanted to use plain CSS, but I still needed features like variables for media queries.
+- Local AI Model: qwen3.8:latest<br />Currently the best model for coding that fits entirely within the VRAM of my GPU.
+- Design Tool: Penpot<br />A free, open-source alternative to Figma that I can easily self-host.
+
+## Consequences
+
+- Zero-cost hosting: I can host the site for free on my OVH server, which was bundled with my domain purchase.
+- Near-perfect performance: I achieved 100% Lighthouse scores across most categories. The mobile homepage scored 98%—a tiny trade-off for the 3D model, because I really wanted some eye-candy!
+- Maintainability: Most of the code is plain HTML, CSS, and vanilla JavaScript. This means I can easily update or re-theme the site in a few years without a massive overhaul.
+
+## Summary
+
+After years of working with Gatsby, Next.js, and React, I’ve come to believe that modern web development has gone too far with its abstractions. While I recognize the advantages of a declarative approach, there are times when sticking to the basics is simply better.
+![I really love these Fireworks](./screenshot.jpg)
+Using plain HTML and CSS, supplemented by a little vanilla JavaScript, results in a site that is incredibly fast and free from the usual debugging headaches.
+
+From a security standpoint, this approach drastically reduces the attack surface; the only real vulnerability is the web server itself. Ultimately, this simplicity means I understand every line of code in my project, allowing me to maintain and optimize it with ease.
+
+“The ability to simplify means to eliminate the unnecessary so that the necessary may speak. ”
+― Hans Hofmann
+

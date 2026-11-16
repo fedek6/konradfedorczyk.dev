@@ -95,7 +95,7 @@ const { variant, renderTocButton = true, ...props } = Astro.props;
       padding: 0;
     }
 
-    div[data-side-toc-container][data-expanded="false"] {
+    div[data-side-toc-container][data-expanded="false"][data-variant="right"], div[data-side-toc-container][data-expanded="false"][data-variant="left"] {
       transform: translateX(0);
     }
 

@@ -155,6 +155,39 @@ const {
       }
     }
 
+    :global(table) {
+      width: 100%;
+      text-align: left;
+      border-collapse: collapse;
+      border-spacing: 0;
+      border-radius: 8px;
+      margin-bottom: spacing.space(2);
+    }
+
+    :global(th) {
+      @include typography.font("sm", "base", "bold");
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-primary);
+      padding: spacing.space(1);
+      border-bottom: solid 1px var(--color-primary);
+    }
+
+    :global(td) {
+      @include typography.font("sm", "base", "normal");
+      padding: spacing.space(1);
+      border-bottom: solid 1px var(--color-primary);
+    }
+
+    :global(tr:last-child td) {
+      border-bottom: none;
+    }
+
+    :global(tr:hover td) {
+      background: var(--color-primary);
+      color: var(--color-secondary);
+    }
+
     &.no-margin-on-last :global(:last-child) {
       margin-bottom: spacing.space(0);
     }

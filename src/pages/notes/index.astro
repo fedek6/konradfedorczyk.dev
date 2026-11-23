@@ -9,7 +9,7 @@ import { metaConfig } from "../../config/meta";
 import { getCollection } from "astro:content";
 import Masonry from "../../components/layout/Masonry.astro";
 import Note from "../../components/content/Note.astro";
-import { groupByYear } from "../../utils/content";
+import { groupByYear, sortByDateDesc } from "../../utils/content";
 import SideTocContainer from "../../components/layout/SideTocContainer.astro";
 import { collectionNode, graph } from "../../utils/schema";
 
@@ -57,7 +57,7 @@ const toc = notesGrouped.map(([year]) => ({
                 <div>
                   <Masonry>
                     <Fragment slot="items">
-                      {notes?.map((note) => (
+                      {sortByDateDesc(notes!).map((note) => (
                         <>
                           <Note entry={note} />
                         </>

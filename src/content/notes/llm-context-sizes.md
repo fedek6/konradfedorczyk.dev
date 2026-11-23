@@ -1,6 +1,6 @@
 ---
-title: LLM context sizes
-description: How to install CUDA on Arch Linux
+title: Popular LLM context sizes
+description: A list of popular LLM context sizes for Ollama and other LLM engines
 pubDate: 2026-11-23T11:23:24
 categories: ["llm", "ollama", "ai"]
 ---

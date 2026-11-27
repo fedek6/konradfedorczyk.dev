@@ -1,0 +1,80 @@
+---
+title: "Lessons learned: the OVH service fee I didn't see coming"
+description: Avoid unexpected OVH billing surprises. This post explains how unforeseen charges can occur even after disabling a server and provides tips for managing OVH services safely.
+pubDate: 2026-11-26T23:00:28
+categories: ["devops", "cloud"]
+---
+
+Avoid unexpected OVH billing surprises. This post explains how unforeseen charges can occur even after disabling a server and provides tips for managing OVH services safely.
+
+## What happened?
+
+I recently received a terrifying message from OVH: I owed a full year of VPS fees. The warning was clear—if I didn't settle the bill immediately, my debt would be handed over to the collection agency, Intrum. They even threatened me with possible legal action and additional fees.
+
+The funny thing is, I only bought this VPS for a single year. I never had any intention of using it for a day longer. I paid in advance and I disabled it some time ago.
+
+My logic was simple: I assumed that if I didn't pay for an OVH service, it would just be deleted. I’ve always paid for my domains in advance for a set period, and since I’ve used OVH for many years without any issues, I thought the VPS would behave the same way.
+
+## Timeline
+
+- `15 Jul 2024, 14:45` I've bought a VPS for a year. Paid 617.93 zł	and happily started using it.
+- `15 Jul 2025, 02:13` OVH automatically extended my contract for another year (no payment from my side, no interaction required from my side).
+- `26 Nov 2026, 18:18` I've got the final warning about my debt.
+
+## My opinion
+
+In the end, I was forced to pay a bill for a server I hadn't even used in a year because it was disabled. It turns out OVH had enabled automatic renewals without me realizing it. To make matters worse, they waited an entire year before even telling me that I owed them money!
+
+I cannot help but feel that this behavior is a <span style="text-decoration: underline">calculated tactic designed to extract money from unsuspecting customers</span>. My intention was to use this server for only one year; to be met with unexpected debt and a collection agency is, quite frankly, unacceptable.
+
+So, dear reader, approach OVH services with caution. <span style="text-decoration: underline">Always double-check your settings and ensure that automatic renewal is explicitly disabled to avoid similar surprises</span>.
+
+## Original emails
+
+This is original polish message that was sent to me (for SEO purposes):
+
+<blockquote lang="pl-PL">
+Droga Klientko, drogi Kliencie,
+
+Mimo wcześniejszych przypomnień nie odnotowaliśmy płatności faktury [redacted] opiewającej na kwotę 617.93 zł.
+Aby wyświetlić fakturę, kliknij link: [redacted]
+
+
+Aby uregulować swoją sytuację, masz dodatkowy termin ośmiu (8) dni na dokonanie płatności za powyżej wymienioną fakturę.
+
+Aby to zrobić, kliknij na poniższy link:
+ [redacted]
+
+W przypadku braku płatności w wyznaczonym terminie, Państwa faktura zostanie przekazana do naszej agencji windykacyjnej Intrum.
+
+Odpowiada ona za podjęcie wszelkich niezbędnych kroków w celu polubownego odzyskania należności.
+
+W przypadku niepowodzenia firma podejmie działania w celu odzyskania należności przed sądem.
+Zwracamy uwagę na fakt, że w przypadku wyroku skazującego poniosą Państwo wszelkie koszty związane z postępowaniem, zostaną one doliczone do początkowo wymaganej kwoty.
+
+Pozdrawiamy,
+Dział windykacji OVHcloud
+</blockquote>
+
+And its english translation:
+
+<blockquote>
+Dear Female Client, dear Male Client,
+
+Despite previous reminders, we have not recorded payment of invoice [redacted] amounting to the amount of 617.93 PLN.
+To view the invoice, click the link:[redacted]
+
+To settle your situation, you have an additional period of eight (8) days to make payment for the above-mentioned invoice.
+
+To do this, click on the link below: [redacted]
+
+In the event of lack of payment within the designated deadline, your invoice will be transferred to our collection agency Intrum.
+
+It is responsible for taking all necessary steps in order to amicably recover the receivables.
+
+In the event of failure, the company will take actions to recover the receivables before a court.
+We draw attention to the fact that in the event of a guilty verdict, you will bear all costs related to the proceedings; they will be added to the initially required amount.
+
+Regards,
+OVHcloud Debt Collection Department
+</blockquote>
